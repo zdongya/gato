@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yunjing.entity.AbstractUser" table="tb_mangment_user" abstract="true">
+        
+        <id name="id">
+            <generator class="uuid.hex"/>
+        </id>
+        
+        <discriminator column="type" type="string"/>
+        
+        <property name="username" unique="true"/>
+        
+        <property name="password"/>
+        
+        <property name="status"/>
+        
+        <property name="role"/>
+        
+		<property name="realName" />
+		
+		<property name="cellphone" />
+		
+		<property name="email"/>
+        
+        <property name="addDate"/>
+        
+    </class>
+</hibernate-mapping>

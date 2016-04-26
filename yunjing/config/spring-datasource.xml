@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+
+	<!-- DataSource -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc_driverClass}" />
+		<property name="jdbcUrl" value="${jdbc_url}" />
+		<property name="user" value="${jdbc_user}" />
+		<property name="password" value="${jdbc_password}" />
+		<property name="minPoolSize" value = "10" />
+      	<property name="maxPoolSize" value="30" />
+      <!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+     	<property name="initialPoolSize" value="20" />
+      <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+     	 <property name="maxIdleTime" value="60" />
+      <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+     	 <property name="acquireIncrement" value="5" />
+
+      <!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+     	 <property name="idleConnectionTestPeriod" value = "60" />
+      <!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+      <property name="acquireRetryAttempts" value="300" />
+      <property name="breakAfterAcquireFailure" value="true" />
+	</bean>
+	
+	<!-- jdbcTemplate -->
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:com/yunjing/entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate_dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate_showSql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="schemaUpdate" value="${hibernate_schemaUpdate}"/>
+	</bean>
+	
+	<bean id="transactionManagerHibernate" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManagerHibernate"/>
+
+	
+</beans>

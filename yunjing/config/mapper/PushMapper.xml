@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='com.yunjing.dao.PushDao'>
+    
+    <!-- 查询MQTT待推送的消息 -->
+	<select id="getToPushMsgs"  resultType="Push">
+		select * from tb_push  where pushservice=0 and istate=0
+    </select>
+	
+	<!-- 更新 -->
+	<update id="updatePushResult" parameterType='java.util.Map' >
+	       update tb_push set istate = #{istate},pushdate=#{pushDate} where  msgid=#{msgId} and istate=0
+	</update>
+	
+	<!-- 小米推送 -->
+	<select id="getXmToPushMsgs"  resultType="Push">
+		select t.*,u.xmappid as xmAppId from tb_push  t,tb_user u where t.topic=u.userid and t.pushservice=2 and t.istate=0
+    </select>
+</mapper>

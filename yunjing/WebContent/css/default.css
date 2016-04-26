@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0;padding:0;}
+body{font-size:13px; font-family:"宋体", "微软雅黑", Tahoma, Verdana;padding:20px 20px 0 20px;background:#FFF url(../images/topline.gif) repeat-x 0 top;}
+li{list-style:none;}
+img{border:0;}
+
+.dataList{width:100%; border-collapse:collapse;clear:both;}
+.dataList tr th{height:25px;background:url(../images/datalist_title.gif) repeat-x 0 -25px;}
+.dataList tr th em{width:175px;height:25px;line-height:25px;font-size:14px;color:#023797;font-style:normal;
+background:url(../images/datalist_title.gif) no-repeat left 0;text-align:left;padding:0 0 0 10px;float:left;}
+
+.dataList tr th ul{height:25px;font-style:normal;background:url(../images/datalist_title.gif) no-repeat right -50px;font-weight:normal;padding:0 10px 0 0;float:right;}
+.dataList tr th ul li{height:25px;line-height:23px;background:url(../images/datalist_btn.gif) no-repeat right 0;float:left;}
+.dataList tr th ul li a{height:23px;line-height:23px;font-size:13px;white-space:nowrap;background:url(../images/datalist_btn.gif) no-repeat left -25px;padding:2px 10px 0 10px;float:left;}
+
+.dataList tr th a:link{color:#333;text-decoration:none;}
+.dataList tr th a:active{color:#333;text-decoration:none;}
+.dataList tr th a:hover{color:#FF0000;text-decoration:underline;}
+.dataList tr th a:visited{color:#333;text-decoration:none;}
+.dataList tr td{height:24px;line-height:24px;padding:0 5px;border:#d0d0d0 1px solid;}
+
+.dataList tr.title td{background-color:#e8f1f4;color:#2869b3;}
+.dataList tr.page td{background-color:#F1F1F1;}
+.dataList tr td input{vertical-align:middle;margin:0 5px 0 0;}
+.dataList tr td label{padding:0 10px 0 0;}
+.dataList tr td input.ipt{border:#a8b9c3 1px solid; vertical-align:middle;margin:0 5px 0 0;}
+.dataList tr td textarea{border:#a8b9c3 1px solid;margin:5px 0;}
+
+.sch{width:auto;overflow:auto;padding:0 0 10px 0;clear:both;}
+.sch li{height:25px;padding:0 5px 0 0;float:left;}
+.sch li em{height:25px;line-height:25px;font-style:normal;padding:0 5px 0 0;float:left;}
+.sch li input.ipt{height:18px;border:#a8b9c3 1px solid; vertical-align:middle;margin:2px 5px 0 0;}
+.sch li.schBtn2{}
+.sch li.schBtn2 input{margin:0 5px 0 0;}
+
+div.footer{width:auto;height:30px;line-height:30px;text-align:center;padding:20px 0;}
+div.footer input{width:70px;height:22px;margin:0 2px;}
+
+
+
+.searchTable{width:100%; border-collapse:collapse;clear:both;}
+.searchTable tr th{height:60px;background:url(../images/datalist_title.gif) repeat-x 0 -50px;}

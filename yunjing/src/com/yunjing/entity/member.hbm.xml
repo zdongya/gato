@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yunjing.entity.Member" table="tb_user">
+        
+        <id name="userId">
+            <generator class="uuid.hex"/>
+        </id>
+        <property name="password"/>
+        <property name="mobileNo"/>
+        <property name="wechatId"/>
+        <property name="email"/>
+        <property name="itype"/>
+        <property name="istate"/>
+        <property name="registerDate"/>
+        <property name="token"/>
+        <property name="overTime"/>
+        <property name="userName"/>
+        <property name="icoin"/>
+        <property name="nickName"/>
+        <property name="xmAppId"/>
+        <property name="memo"/>
+        
+    </class>
+</hibernate-mapping>

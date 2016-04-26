@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="filterChain" class="org.springframework.security.util.FilterChainProxy">
+		<property name="filterInvocationDefinitionSource">	
+			<!-- 责任链 -->
+			<!-- httpSessionContextIntegrationFilter 验证是否已登陆(Session已存在) -->
+			<!-- authenticationProcessingFilter 登陆信息验证 -->
+			<!-- exceptionTranslationFilter 登陆信息错误转跳 -->
+			<!-- filterSecurityInterceptor 登陆权限验证 -->
+			<!-- ANT风格 -->
+			<value>
+				PATTERN_TYPE_APACHE_ANT
+				/**=httpSessionContextIntegrationFilter,authenticationProcessingFilterForm,exceptionTranslationFilter,filterSecurityInterceptor,logoutFilter
+			</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 验证是否已登陆(Session已存在) -->
+	<bean id="httpSessionContextIntegrationFilter" class="org.springframework.security.context.HttpSessionContextIntegrationFilter">
+		<!-- 是否允许Session持久,默认为true -->
+		<property name="allowSessionCreation" value="false" />
+	</bean>
+	
+	
+	
+
+	<!-- 登陆信息验证,表单验证入口 -->
+	<bean id="authenticationProcessingFilterForm" class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter">
+		<!-- 表单验证入口(登陆页面的Action地址) -->
+		<!-- 此URL必须是符合web.xml拦截规则的url -->
+		<property name="filterProcessesUrl" value="/login.html" />
+		<!-- 登陆后的默认首页(如果当前没有定位到资源) -->
+		<property name="defaultTargetUrl" value="/index.html" />
+		<!-- 登陆失败后的转跳页面 -->
+		<property name="authenticationFailureUrl" value="/login_index.html" />
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<!-- 登陆信息来源入口,表单验证入 -->
+	<bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+		<property name="loginFormUrl" value="/login_index.html" />
+	</bean>
+	
+	<!-- 登陆信息验证器 -->
+	<bean id="authenticationManager" class="org.springframework.security.providers.ProviderManager">
+		<!-- 登陆信息验证数据来源 -->
+		<property name="providers">
+			<list>
+				<!-- 登陆信息验证器-内存(XML)数据 -->
+				<ref bean="daoAuthenticationProviderXML" />
+				<ref bean="daoAuthenticationProviderDB" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 登陆信息验证器来源  -->
+	<bean id="daoAuthenticationProviderDB" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<!-- 登陆信息验证器-数据库数据 -->
+		<property name="userDetailsService" ref="userDetailsServiceDB" />
+	</bean>
+
+	<!-- 登陆信息验证器来源  -->
+	<bean id="daoAuthenticationProviderXML" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+		<!-- 登陆信息验证器-内存(XML)数据 -->
+		<property name="userDetailsService" ref="userDetailsServiceXML" />
+	</bean>
+
+	<!-- 登陆信息验证器-内存(XML)数据 -->
+	<bean id="userDetailsServiceXML" class="org.springframework.security.userdetails.memory.InMemoryDaoImpl">
+		<!-- 用户信息 -->
+		<property name="userMap">
+			<value>admin=admin,USER_ADMIN</value>
+		</property>
+	</bean>
+
+	<!-- 登陆信息错误转跳 -->
+	<bean id="exceptionTranslationFilter" class="org.springframework.security.ui.ExceptionTranslationFilter">
+		<!-- 未登陆时的页面入口 -->
+		<property name="authenticationEntryPoint">
+			<ref bean="authenticationProcessingFilterEntryPoint" />
+		</property>
+	</bean>
+
+	<!-- 登陆权限验证 -->
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+		<!-- 注入登陆信息验证器 -->
+		<property name="authenticationManager" ref="authenticationManager" />
+		<!-- 注入登陆权限验证器 -->
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<!-- 需要拦截的资源 -->
+		<property name="objectDefinitionSource">
+			<!-- ANT风格 -->
+			<value>
+			PATTERN_TYPE_APACHE_ANT 
+			/**/managerment/**=USER_ADMIN
+			<!-- /**/member/**=USER_MEMBER -->
+			</value>
+		</property>
+	</bean>
+
+	<!-- 登陆权限验证 -->
+	<bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+		<property name="decisionVoters">
+			<list>
+				<!-- 参与投票者 -->
+				<ref bean="roleVoter" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 参与投票者 -->
+	<bean id="roleVoter" class="org.springframework.security.vote.RoleVoter">
+		<!--必须以rolePrefix设定的标识开头才会进行投票,否则为弃权-->
+		<property name="rolePrefix" value="USER_" />
+	</bean>
+	
+	<!-- 注销登陆拦截器 -->
+	<bean id="logoutFilter" class="org.springframework.security.ui.logout.LogoutFilter">
+		<!-- 注销后转跳的地址 -->
+		<constructor-arg value="/index.html" />
+		<constructor-arg>
+		<list>
+			<!-- 删除信息 -->
+			<bean class="org.springframework.security.ui.logout.SecurityContextLogoutHandler" />
+		</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/logout.html" />
+	</bean>
+</beans>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	
+	<bean id="userDao" class="com.yunjing.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="imageDao" class="com.yunjing.dao.image.ImageDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="userDetailsServiceDB" class="com.yunjing.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	
+	<bean id="baseDao" class="com.yunjing.dao.BaseDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="deviceDao" class="com.yunjing.dao.impl.DeviceDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="zoneDao" class="com.yunjing.dao.impl.ZoneDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="memberDao" class="com.yunjing.dao.impl.MemberDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="operatorLogDao" class="com.yunjing.dao.impl.OperatorLogDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="warnIngInfoDao" class="com.yunjing.dao.impl.WarningInfoDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="retroactionDao" class="com.yunjing.dao.impl.RetroactionDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="deviceService" class="com.yunjing.service.impl.DeviceServiceImpl">	
+		<property name="deviceDao" ref="deviceDao" />
+	</bean>
+	<bean id="zoneService" class="com.yunjing.service.impl.ZoneServiceImpl">	
+		<property name="zoneDao" ref="zoneDao" />
+	</bean>
+	
+	<bean id="memberService" class="com.yunjing.service.impl.MemberServiceImpl">	
+		<property name="memberDao" ref="memberDao" />
+	</bean>
+	
+	<bean id="operatorLogService" class="com.yunjing.service.impl.OperatorLogServiceImpl">	
+		<property name="operatorLogDao" ref="operatorLogDao" />
+	</bean>
+	
+	<bean id="warningInfoService" class="com.yunjing.service.impl.WarningInfoServiceImpl">	
+		<property name="warnIngInfoDao" ref="warnIngInfoDao" />
+	</bean>
+	
+	
+	<bean id="retroactionService" class="com.yunjing.service.impl.RetroactionServiceImpl">	
+		<property name="retroactionDao" ref="retroactionDao" />
+	</bean>
+	
+	
+</beans>

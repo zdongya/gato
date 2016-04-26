@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yunjing.entity.Retroaction" table="tb_retroaction" >
+        <id name="id">
+             <generator class="assigned" />
+        </id>
+        
+        <property name="contents"/>
+        
+        <property name="contact"/>
+        
+        <property name="addDate"/>
+        
+        <many-to-one name="user" column="userId" class="com.yunjing.entity.Member" fetch="select"/>
+        
+		<property name="memo"/>
+    </class>
+</hibernate-mapping>

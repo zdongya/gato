@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	
+	<bean id="indexAction" class="com.yunjing.action.IndexAction"  scope="prototype">
+	</bean>
+	
+	<bean id="layoutAction" class="com.yunjing.action.LayoutAction"  scope="prototype">
+	</bean>
+	
+	
+	<bean id="loginAction" class="com.yunjing.action.LoginAction"  scope="prototype">
+	</bean>
+	
+	<bean id="deviceAction" class="com.yunjing.action.DeviceAction"  scope="prototype">
+		<property name="deviceService" ref="deviceService" />
+		<property name="zoneService" ref="zoneService" />
+	</bean>
+	
+	<bean id="imageAction" class="com.yunjing.action.image.ImageAction"  scope="prototype" >
+		<property name="imageDao" ref="imageDao"/>
+	</bean>
+	
+	<bean id="zoneAction" class="com.yunjing.action.ZoneAction"  scope="prototype">
+		<property name="zoneService" ref="zoneService" />
+	</bean>
+	
+	<bean id="memberAction" class="com.yunjing.action.MemberAction"  scope="prototype">
+		<property name="memberService" ref="memberService" />
+	</bean>
+	
+	<bean id="operatorLogAction" class="com.yunjing.action.OperatorLogAction"  scope="prototype">
+		<property name="operatorLogService" ref="operatorLogService" />
+	</bean>
+	
+	<bean id="warningInfoAction" class="com.yunjing.action.WarningInfoAction"  scope="prototype">
+		<property name="warningInfoService" ref="warningInfoService" />
+	</bean>
+	
+	<bean id="retroactionAction" class="com.yunjing.action.RetroactionAction"  scope="prototype">
+		<property name="retroactionService" ref="retroactionService" />
+	</bean>
+
+</beans>

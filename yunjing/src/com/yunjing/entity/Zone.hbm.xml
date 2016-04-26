@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yunjing.entity.Zone" table="tb_zone" >
+        
+        <id name="zoneNo">
+            <generator class="assigned" />
+        </id>
+        <property name="zoneName" />
+        <property name="zoneState"/>
+        <property name="operator" />
+        <property name="zoneDesc" />
+        <property name="zoneContactor" />
+        <property name="zonePhone" />
+        <property name="zoneLoc"/>
+        <property name="addDate"/>
+		<many-to-one name="device" column="deviceNo" class="com.yunjing.entity.Device" fetch="select"/>  
+   		<property name="zoneType"/>
+   		<property name="zoneVmp"/>
+   		<property name="zoneStrain"/>
+   		<property name="zoneStrainVpt"/>
+   		<property name="zoneOnline"/>
+    </class>
+</hibernate-mapping>

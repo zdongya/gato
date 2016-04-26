@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+ "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.objectFactory" value="spring"/>
+    <constant name="struts.multipart.maxSize" value="120000000"/>
+    <constant name="struts.action.extension" value="html"/>
+    
+    <package name="Mydefault" namespace="/defult" extends="struts-default">
+        <interceptors>
+            <interceptor-stack name="mydefault">
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="mydefault"/>
+		<global-results>
+			<result name="error" type="redirect">/error</result>
+		</global-results>
+
+    </package>
+    
+    <package name="layout" extends="Mydefault">
+        <action name="layout_*" method="{1}" class="layoutAction">
+            <result name="top">
+                /layout/top.jsp
+            </result>
+            <result name="left">
+                /layout/left.jsp
+            </result>
+			<result name="adminIndexMain" type="redirect"><!-- 设备列表 -->
+                /device/device_index.html
+            </result>
+            <!-- 
+            <result name="adminIndexMain" > 
+                 /WEB-INF/jsp/device/deviceList.jsp
+            </result>
+			 -->
+            <result name="indexMain" > <!-- 登录页面 -->
+                /WEB-INF/jsp/login.jsp
+            </result>
+        </action>
+    </package>
+    
+    <package name="Index" extends="Mydefault">
+        <action name="index" class="indexAction">
+            <result name="toIndex" >
+               /WEB-INF/jsp/index.jsp
+            </result>
+        </action>
+        
+    </package>
+    
+    
+    <package name="login" extends="Mydefault">
+        <action name="login_*" method="{1}" class="loginAction">
+            <result name="toLogin">
+                /WEB-INF/jsp/login.jsp
+            </result>
+            <result name="success" type="redirect">
+                /index.html
+            </result>
+        </action>
+    </package>
+	
+	
+	<package name="image" extends="Mydefault">
+        <action name="imageAction_*" class="imageAction" method="{1}" >
+            <result name="success" >
+               /WEB-INF/jsp/imageTest.jsp
+            </result>
+			<result name="view" >
+               /WEB-INF/jsp/imageTest.jsp
+            </result>
+        </action>
+    </package>
+    
+	
+	<package name="device" extends="Mydefault" namespace="/device">
+        <action name="device_*" method="{1}" class="deviceAction">
+            <result name="index">
+                /WEB-INF/jsp/device/deviceList.jsp
+            </result>
+            <result name="search">
+                /WEB-INF/jsp/device/deviceQueryList.jsp
+            </result>
+            <result name="deviceZones">
+                /WEB-INF/jsp/device/deviceZones.jsp
+            </result>
+        </action>
+    </package>
+    
+	<package name="zone" extends="Mydefault" namespace="/zone">
+        <action name="zone_*" method="{1}" class="zoneAction">
+            <result name="index">
+                /WEB-INF/jsp/zone/zoneList.jsp
+            </result>
+        </action>
+    </package>
+    
+	<package name="member" extends="Mydefault" namespace="/member">
+        <action name="member_*" method="{1}" class="memberAction">
+            <result name="index">
+                /WEB-INF/jsp/member/memberList.jsp
+            </result>
+        </action>
+    </package>
+    
+	<package name="log" extends="Mydefault" namespace="/log">
+        <action name="log_*" method="{1}" class="operatorLogAction">
+            <result name="index">
+                /WEB-INF/jsp/log/logList.jsp
+            </result>
+            <result name="search">
+                /WEB-INF/jsp/log/logQueryList.jsp
+            </result>
+        </action>
+    </package>
+	
+    <package name="warn" extends="Mydefault" namespace="/warn">
+        <action name="warn_*" method="{1}" class="warningInfoAction">
+            <result name="index">
+                /WEB-INF/jsp/warn/warnList.jsp
+            </result>
+        </action>
+    </package>
+    
+    <package name="fk" extends="Mydefault" namespace="/fk">
+        <action name="fk_*" method="{1}" class="retroactionAction">
+            <result name="index">
+                /WEB-INF/jsp/fk/fkList.jsp
+            </result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yunjing.entity.Device" table="tb_device" >
+        
+        <id name="deviceNo">
+            <generator class="assigned" />
+        </id>
+        <property name="deviceName" />
+        <property name="deviceUserName" />
+        <property name="devicePwd" />
+        <property name="deviceLocal"/>
+        <property name="version"/>
+		<property name="contactPerson" />
+		<property name="cellphone" />
+        <property name="address"/>
+        <property name="addDate"/>
+        <property name="groupId"/>
+    </class>
+</hibernate-mapping>

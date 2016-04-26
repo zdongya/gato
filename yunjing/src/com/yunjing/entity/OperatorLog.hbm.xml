@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.yunjing.entity.OperatorLog" table="tb_log" >
+        <id name="id">
+             <generator class="assigned" />
+        </id>
+        
+        <property name="memo"/>
+        
+        <property name="operatorType"/>
+        
+        <property name="createTime"/>
+        
+        <property name="ipAddr"/>
+        
+        <many-to-one name="device" column="deviceNo" class="com.yunjing.entity.Device" fetch="select"/>
+        <many-to-one name="zone" column="zoneNo" class="com.yunjing.entity.Zone" fetch="select"/> 
+        
+        <many-to-one name="operator" column="memberId" class="com.yunjing.entity.Member" fetch="select"/>
+        
+
+    </class>
+</hibernate-mapping>
