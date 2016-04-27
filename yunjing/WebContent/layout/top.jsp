@@ -33,6 +33,34 @@ font-style:normal;text-align:center;float:right; margin-top: 75px;}
 .menu ul li a:hover{color:#FFF; text-decoration:none;}
 .menu ul li a:visited{color:#FFF; text-decoration:none;}
 </style>
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" >
+function modifyPwd(){
+	var newPwd = window.prompt("请输入新密码","");
+	if (null != newPwd && ''!=newPwd){			 
+			 $.ajax({  
+				 url :"<%=request.getContextPath()%>/login_updatePwd.html?newPwd=" + newPwd,  //后台处理程序  
+				 type:"post",    //数据发送方式  
+				 async:false,  
+				 dataType:"json",   //接受数据格式             
+				 error: function(){  
+				 alert("服务器没有返回数据，可能服务器忙，请重试");  
+				 },  
+
+				success: function(json){
+					var code = json.code;
+					if (code == '0000'){
+						alert('修改密码成功,请重新登录');
+						window.location.href="<%=request.getContextPath()%>/logout.html";
+					} else {
+						alert(json.desc);
+					}
+				}
+				});          
+
+		}
+}
+</script>
 </head>
 
 <body>
@@ -45,7 +73,8 @@ font-style:normal;text-align:center;float:right; margin-top: 75px;}
     	-->
     	<s:if test="loginFlag==true">
     	|欢迎您：<authz:authentication property="name"/>
-    		<a href="<%=request.getContextPath()%>/logout.html" target="_parent" >注销</a>  
+    		<a href="<%=request.getContextPath()%>/logout.html" target="_parent" >注销</a>
+    	&nbsp;&nbsp;<a href="#" onclick="javascript:modifyPwd();"  >修改密码</a>  
     	</s:if>
     	<s:else>
     	|欢迎您：游客

@@ -10,6 +10,7 @@
 	
 	
 	<bean id="loginAction" class="com.yunjing.action.LoginAction"  scope="prototype">
+	    <property name="customerService" ref="customerService" />
 	</bean>
 	
 	<bean id="deviceAction" class="com.yunjing.action.DeviceAction"  scope="prototype">

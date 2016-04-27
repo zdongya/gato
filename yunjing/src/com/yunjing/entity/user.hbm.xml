@@ -27,5 +27,7 @@
         
         <property name="addDate"/>
         
+        <subclass name="com.yunjing.entity.Customer" discriminator-value="Admin"/>
+        
     </class>
 </hibernate-mapping>

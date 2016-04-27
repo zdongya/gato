@@ -42,6 +42,10 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<bean id="customerDao" class="com.yunjing.dao.impl.CustomerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 	<bean id="deviceService" class="com.yunjing.service.impl.DeviceServiceImpl">	
 		<property name="deviceDao" ref="deviceDao" />
 	</bean>
@@ -66,5 +70,8 @@
 		<property name="retroactionDao" ref="retroactionDao" />
 	</bean>
 	
+	<bean id="customerService" class="com.yunjing.service.impl.CustomerServiceImpl">	
+		<property name="customerDao" ref="customerDao" />
+	</bean>
 	
 </beans>

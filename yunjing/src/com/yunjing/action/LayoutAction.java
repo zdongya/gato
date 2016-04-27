@@ -3,6 +3,8 @@ package com.yunjing.action;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContextHolder;
 
+import com.yunjing.util.CheckUtil;
+
 public class LayoutAction extends BaseAction {
 	
 	public String top(){
@@ -17,9 +19,9 @@ public class LayoutAction extends BaseAction {
 		String result = "indexMain";
 		try {		
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();SecurityContextHolder.getContext().getAuthentication();
-			if("admin".equals(authentication.getName()))
-				result = "adminIndexMain";
-		} catch (Exception e) {		
+			System.out.println(authentication.toString());
+			result = "adminIndexMain";
+		} catch (Exception e) {
 			System.out.println("尚未登录!");
 		}
 		return result;
