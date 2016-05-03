@@ -96,7 +96,7 @@
 	<bean id="userDetailsServiceXML" class="org.springframework.security.userdetails.memory.InMemoryDaoImpl">
 		<!-- 用户信息 -->
 		<property name="userMap">
-			<value>admin=admin,USER_ADMIN</value>
+			<value>admin=dongya,USER_ADMIN</value>
 		</property>
 	</bean>
 

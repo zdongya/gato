@@ -10,6 +10,7 @@ import com.yunjing.model.Device;
 import com.yunjing.model.Zone;
 import com.yunjing.service.PageService;
 import com.yunjing.service.QueryService;
+import com.yunjing.util.CheckUtil;
 import com.yunjing.util.Pagination;
 
 @Service(value="queryService")
@@ -69,6 +70,23 @@ public class QeuryServiceImpl implements QueryService{
 	@Override
 	public List<?> queryDeviceZones(String deviceNo) {
 		return queryDao.queryZonesByDeviceNo(deviceNo);
+	}
+
+	@Override
+	public Pagination queryZones(String userId, String deviceName, String zoneName, int pn) {
+		if (pn <= 0){
+			pn = 1;
+		}
+		StringBuilder builder = new StringBuilder("SELECT t.*,d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE cuserid='" + userId + "') ");
+		if (!CheckUtil.isNullString(deviceName)){
+			builder.append(" and d.devicename='" + deviceName + "'");
+		}
+		if (!CheckUtil.isNullString(zoneName)){
+			builder.append(" and t.zonename='" + zoneName + "'");
+		}
+		
+		builder.append(" order by t.adddate desc");
+		return pageService.queryForPage(builder.toString(), pn);
 	}
 
 }

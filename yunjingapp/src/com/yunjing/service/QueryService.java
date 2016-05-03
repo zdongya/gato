@@ -63,4 +63,7 @@ public interface QueryService {
 	 */
 	public List<?> queryDeviceZones(String deviceNo);
 
+
+	public Pagination queryZones(String userId, String deviceName, String zoneName, int pn);
+
 }

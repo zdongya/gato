@@ -33,8 +33,6 @@ import com.yunjing.util.Utils;
 @Controller
 public class QueryController {
 	private static Logger logger = Logger.getLogger(QueryController.class);
-	@Autowired
-	private PageService pageService;
 	
 	@Autowired
 	private QueryService queryService;
@@ -202,6 +200,26 @@ public class QueryController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 查询设备的防区列表
+	 * @param deviceNo
+	 * @return
+	 */
+	@RequestMapping(value="/queryZones")
+	public @ResponseBody QueryResult queryZones(@RequestParam(value="userId") String userId, @RequestParam(value="pn", required=false) int pn,@RequestParam(value="zoneName", required=false) String zoneName,@RequestParam(value="deviceName", required=false) String deviceName){
+		QueryResult result = new QueryResult();
+		try {
+			Pagination page = queryService.queryZones(userId, deviceName, zoneName, pn);
+			result.setPage(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-1000");
+			result.setDesc("系统异常");
+		}
+		return result;
+	}
+	
 	
 	
 }
