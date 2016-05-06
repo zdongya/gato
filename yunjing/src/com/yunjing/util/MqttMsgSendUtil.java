@@ -21,7 +21,7 @@ public class MqttMsgSendUtil {
 	private static Log log =  LogFactory.getLog("MqttMsgSendUtil");
 	
 	// tcp 地址     
-	public static final String BROKER_URL = "tcp://115.159.217.124:61616";
+	public static final String BROKER_URL = "tcp://115.159.44.248:61616";
 	
 	/**
 	 * 

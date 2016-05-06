@@ -2,6 +2,8 @@ package com.yunjing.model;
 
 import java.sql.Timestamp;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 import com.yunjing.util.CheckUtil;
 import com.yunjing.util.DateUtil;
 
@@ -105,6 +107,10 @@ public class Device extends BaseModel{
 	}
 	public void setCollectId(String collectId) {
 		this.collectId = collectId;
+	}
+	
+	public String toString(){
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 }

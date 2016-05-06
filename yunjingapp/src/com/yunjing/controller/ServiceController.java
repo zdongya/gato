@@ -47,7 +47,7 @@ public class ServiceController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value="/service/addCollects")
+	@RequestMapping(value="/service/addCollectsLogin")
 	public @ResponseBody CallResult addCollects(@RequestParam(value="deviceNo") String deviceNo, @RequestParam(value="userId") String userId){
 		CallResult callResult = new CallResult();
 		try {
@@ -64,6 +64,7 @@ public class ServiceController {
 	public @ResponseBody CallResult addDevice(@ModelAttribute Device device){
 		CallResult callResult = new CallResult();
 		try {
+			logger.info("绑定设备----------------------------------->device---:" + device);
 			callResult = businessService.bindDevice(device);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -169,6 +170,7 @@ public class ServiceController {
 	public @ResponseBody CallResult editDeviceName(@RequestParam(value="userId") String userId,@RequestParam(value="deviceNo") String deviceNo, @RequestParam(value="deviceName") String deviceName){
 		CallResult callResult = new CallResult();
 		try {
+			logger.info("------------------------------->修改设备名称，deviceName---:" + deviceName);
 			callResult = businessService.editDeviceName(userId, deviceNo, deviceName);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

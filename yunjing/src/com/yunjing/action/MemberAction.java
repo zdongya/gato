@@ -57,6 +57,7 @@ public class MemberAction extends BaseAction{
 		HttpServletResponse response = ServletActionContext.getResponse();
 		try {
 			String memo  = URLDecoder.decode(member.getMemo(),"UTF-8");
+			System.out.println("memo---:" + memo);
 			memberService.alterMemberMemo(member.getUserId(), memo);
 			result.setDesc("重置密码成功");
 		} catch (Exception e) {

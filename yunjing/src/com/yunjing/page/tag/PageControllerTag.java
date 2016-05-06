@@ -1,6 +1,7 @@
 package com.yunjing.page.tag;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,8 +123,8 @@ public class PageControllerTag implements SimpleTag {
 		if (pageController != null)
 		{
 			//填充分页数据
-			Map datas = this.createDatas(pageController,formUri,request.getMethod(), attributes,contextPath);	
-			
+			Map datas = this.createDatas(pageController,formUri,request.getMethod(), attributes,contextPath);
+			Writer writer = jspContext.getOut();
 			FreeMarkerUtils.merge(PageControllerTag.TEMPLATE_NAME, datas, jspContext.getOut());
 		}
 	}

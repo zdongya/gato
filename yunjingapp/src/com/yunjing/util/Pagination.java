@@ -7,7 +7,7 @@ public class Pagination {
 
 	public static final int NUMBERS_PER_PAGE = 15;
 	// 一页显示的记录数
-	private int numPerPage = 2;
+	private int numPerPage = 10;
 	// 记录总数
 	private int totalRows;
 	// 总页数

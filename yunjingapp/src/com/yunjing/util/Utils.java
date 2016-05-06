@@ -26,10 +26,9 @@ public class Utils {
 	public static final String KEY = "YUNJINGAPP";
 	public static final int OVERTIME_DAY = 7; //token过期时间为7天
 	private static Logger logger = Logger.getLogger(Utils.class);
-	public static final String UPLOAD_IMG_DIR = "F:\\upload\\img\\"; //测试环境
-//	public static final String UPLOAD_IMG_DIR = "C:\\software\\upload\\img\\"; //正式环境
-	public static final String ANDROID_UPGRADE = "D:\\upload\\file\\config\\android_upgrade.xml";
-	public static final String IOS_UPGRADE = "D:\\upload\\file\\config\\android_ios.xml";
+	public static final String UPLOAD_IMG_DIR = "/opt/export/upload/img"; //正式环境
+	public static final String ANDROID_UPGRADE = "/opt/export/upload/file/config/android_upgrade.xml";
+	public static final String IOS_UPGRADE = "opt/export/upload/file/config/android_ios.xml";
 	public static final String INTERKEY = "yunjing";
 
 	public static String getUUID() {

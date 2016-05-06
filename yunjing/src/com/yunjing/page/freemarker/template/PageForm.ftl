@@ -1,4 +1,5 @@
-﻿<form id="_hrkpi_pageController_form" action="${requestUri}" <#if requestMethod == 'post'>method="post"</#if>>
+﻿<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<form id="_hrkpi_pageController_form" action="${requestUri}" <#if requestMethod == 'post'>method="post"</#if>>
 <#if requestMethod != 'post' || requestMethod != 'get'>
 <input type="hidden" name="_method" value="${requestMethod}"/>
 </#if>

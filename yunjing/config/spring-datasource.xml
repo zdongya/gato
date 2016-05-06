@@ -12,7 +12,7 @@
 	<!-- DataSource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="${jdbc_driverClass}" />
-		<property name="jdbcUrl" value="${jdbc_url}" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/yunjing?useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="user" value="${jdbc_user}" />
 		<property name="password" value="${jdbc_password}" />
 		<property name="minPoolSize" value = "10" />
