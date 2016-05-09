@@ -202,7 +202,7 @@ public class QueryController {
 	}
 	
 	/**
-	 * 查询设备的防区列表
+	 * 查询用户防区列表
 	 * @param deviceNo
 	 * @return
 	 */

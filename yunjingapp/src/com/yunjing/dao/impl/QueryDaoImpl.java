@@ -172,7 +172,7 @@ public class QueryDaoImpl implements QueryDao {
 	@Override
 	public List<?> queryZonesByDeviceNo(String deviceNo) {
 		try {
-			String sql = "select * from tb_zone where deviceno=?";
+			String sql = "select * from tb_zone where deviceno=? order by adddate desc";
 			return jdbcTemplate.query(sql,new Object[]{deviceNo},new BeanPropertyRowMapper(Zone.class));
 		} catch (DataAccessException e) {
 			return null;

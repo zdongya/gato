@@ -4,6 +4,7 @@ package com.yunjing.entity;
  * @author  2011-12-29
  */
 public class Customer extends AbstractUser {
+	
 
 	private Integer status = AbstractUser.Status.AVAILABLE.ordinal();
 

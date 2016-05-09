@@ -5,7 +5,6 @@ import java.util.List;
 import com.yunjing.entity.Customer;
 
 public interface CustomerDao {
-
 	public abstract void save(Customer customer);
 
 	public abstract void update(Customer customer);

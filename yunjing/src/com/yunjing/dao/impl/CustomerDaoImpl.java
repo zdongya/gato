@@ -12,7 +12,6 @@ import com.yunjing.entity.Customer;
  * @version time：2011-12-13 上午10:35:50
  */
 public class CustomerDaoImpl extends HibernateTemplate implements CustomerDao {
-
 	@Override
 	public void delete(String id) {
 		Customer customer = this.getById(id);

@@ -19,7 +19,6 @@ public class CustomerServiceImpl implements CustomerService {
 		this.customerDao = customerDao;
 	}
 
-
 	public Customer getById(String userId) {
 		return this.customerDao.getById(userId);
 	}
