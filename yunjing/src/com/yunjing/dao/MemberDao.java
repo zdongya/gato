@@ -16,4 +16,6 @@ public interface MemberDao {
 	public abstract void updateMemberInfo(Member member);
 	
 	public abstract List<?> getAll(MemberDto member);
+
+	public abstract List<Member> getByDeviceNo(String deviceNo);
 }

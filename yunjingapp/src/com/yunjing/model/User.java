@@ -12,7 +12,13 @@ public class User extends BaseModel{
 	private int istate = 1; //1正常用户 0无效用户
 	private String registerDate; //用户注册时间
 	private String overTime; //token过期时间
-	
+	private String loginDate; //登录时间
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
 	public String getPassword() {
 		return password;
 	}

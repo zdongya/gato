@@ -12,8 +12,8 @@
         <property name="warnType" />
         <property name="memo" />
         <property name="istate"/>
-        <property name="zoneNo"/>
-		<property name="handler" />
+        <many-to-one name="zone" column="zoneNo" class="com.yunjing.entity.Zone" fetch="select"/> 
+        <many-to-one name="operator" column="handler" class="com.yunjing.entity.Member" fetch="select"/>
 		<property name="handleDate" />
     </class>
 </hibernate-mapping>

@@ -59,7 +59,7 @@ public interface UserDao {
      * @param token
      * @param overTime
      */
-    public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId);
+    public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId, String loginDate);
     
     
     /**

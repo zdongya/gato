@@ -20,8 +20,8 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void saveUser(User user) {
-		String sqlStr = "insert into tb_user(userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid) values(?,?,?,?,?,?,?,now(),?,?,?,?,?,?)";
-		Object[] params = new Object[] {user.getUserId(), user.getPassword(), user.getMobileNo(), user.getWechatId(),user.getEmail(),user.getItype(),user.getIstate(),user.getToken(), DateUtil.getTimestampByString(user.getOverTime()),user.getUserName(),user.getIcoin(),user.getNickName(),user.getXmAppId()};
+		String sqlStr = "insert into tb_user(userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid,logindate) values(?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?)";
+		Object[] params = new Object[] {user.getUserId(), user.getPassword(), user.getMobileNo(), user.getWechatId(),user.getEmail(),user.getItype(),user.getIstate(),user.getToken(), DateUtil.getTimestampByString(user.getOverTime()),user.getUserName(),user.getIcoin(),user.getNickName(),user.getXmAppId(), user.getLoginDate()};
 		jdbcTemplate.update(sqlStr, params);
 	}
 
@@ -86,9 +86,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId) {
-		String sqlStr = "update tb_user set token=?,overtime=?,xmappid=? where userid=?";
-		Object[] params = new Object[] {token, DateUtil.getTimestampByString(overTime), xmAppId, userId};
+	public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId, String loginDate) {
+		String sqlStr = "update tb_user set token=?,overtime=?,xmappid=?,logindate=? where userid=?";
+		Object[] params = new Object[] {token, DateUtil.getTimestampByString(overTime), xmAppId, userId, loginDate};
 		jdbcTemplate.update(sqlStr, params);
 	}
 

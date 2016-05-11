@@ -66,7 +66,7 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="9">
+    <th colspan="10">
     <em>报警信息列表</em>
     
     </th>
@@ -74,12 +74,14 @@
   <tr class="title">
 
 	<td>报警编号 </td>
+	<td>设备名称 </td>
+	<td>设备版本信息 </td>
 	<td>防区编号</td>
 	<td>报警时间</td>
     <td>处理结果</td>
     <td>报警类型</td>
-    <td>解决人</td>
-    <td>解决时间</td>
+    <td>处理人</td>
+    <td>处理时间</td>
     <td>备注</td>
   </tr>
 	 
@@ -87,11 +89,13 @@
  <s:iterator value="warnings" id="warn">
   <tr>
     <td>${warn.warningId}</td>
-    <td>${warn.zoneNo}</td>
+    <td>${warn.zone.device.deviceName}</td>
+    <td>${warn.zone.device.version}</td>
+    <td>${warn.zone.zoneNo}</td>
     <td>${warn.warnDate}</td>
     <td>${warn.stateName}</td>
     <td>${warn.warnTypeName}</td>
-    <td>${warn.handler}</td>
+    <td>${warn.operator.nickName}</td>
     <td>${warn.handleDate}</td>
     <td>${warn.memo}</td>
   </tr>
@@ -99,7 +103,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="8">&nbsp;</td>
+    <td colspan="10">&nbsp;</td>
   </tr>
 </table>
 </form>

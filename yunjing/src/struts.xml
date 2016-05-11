@@ -90,6 +90,9 @@
             <result name="deviceZones">
                 /WEB-INF/jsp/device/deviceZones.jsp
             </result>
+            <result name="deviceUsers">
+                /WEB-INF/jsp/device/deviceUsers.jsp
+            </result>
         </action>
     </package>
     

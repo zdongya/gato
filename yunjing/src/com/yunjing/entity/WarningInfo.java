@@ -2,24 +2,26 @@ package com.yunjing.entity;
 
 public class WarningInfo {
 	private String warningId;
-	private String zoneNo;
 	private String warnDate = "";
 	private String istate = ""; //警报状态0 未解决  1已解决  2误报
-	private String handleDate;
+	private String handleDate = "";
 	private String memo;
 	private String warnType; //报警类型
-	private String handler;
-	public String getWarningId() {
-		return warningId;
-	}
-	public void setWarningId(String warningId) {
-		this.warningId = warningId;
-	}
+	private Member operator = new Member(); //操作人
+	private Zone zone = new Zone();
+	
+	private String zoneNo; //接口使用
 	public String getZoneNo() {
 		return zoneNo;
 	}
 	public void setZoneNo(String zoneNo) {
 		this.zoneNo = zoneNo;
+	}
+	public String getWarningId() {
+		return warningId;
+	}
+	public void setWarningId(String warningId) {
+		this.warningId = warningId;
 	}
 	public String getWarnDate() {
 		return warnDate;
@@ -74,10 +76,16 @@ public class WarningInfo {
 		}
 	}
 	
-	public String getHandler() {
-		return handler;
+	public Member getOperator() {
+		return operator;
 	}
-	public void setHandler(String handler) {
-		this.handler = handler;
+	public void setOperator(Member operator) {
+		this.operator = operator;
+	}
+	public Zone getZone() {
+		return zone;
+	}
+	public void setZone(Zone zone) {
+		this.zone = zone;
 	}
 }

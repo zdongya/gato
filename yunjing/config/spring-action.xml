@@ -16,6 +16,7 @@
 	<bean id="deviceAction" class="com.yunjing.action.DeviceAction"  scope="prototype">
 		<property name="deviceService" ref="deviceService" />
 		<property name="zoneService" ref="zoneService" />
+		<property name="memberService" ref="memberService" />
 	</bean>
 	
 	<bean id="imageAction" class="com.yunjing.action.image.ImageAction"  scope="prototype" >

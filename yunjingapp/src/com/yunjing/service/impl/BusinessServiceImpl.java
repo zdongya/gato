@@ -237,10 +237,10 @@ public class BusinessServiceImpl implements BusinessService {
 				businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getZoneNo(), push.getItype()); //删除无效信息
 				
 				String pushZoneState = "1"; //推送防区要进行的布撤防操作 默认要防区布防
-				String operatorType = "1";
+				String operatorType = "2";
 				if (istate.equals("1")){ //app为撤防中
 					pushZoneState = "0";
-					operatorType = "2"; //撤防操作
+					operatorType = "3"; //撤防操作
 				}
 				
 				PushDto dto = new PushDto();
@@ -259,7 +259,7 @@ public class BusinessServiceImpl implements BusinessService {
 				log.setIpAddr(ipAddr);
 				log.setMemberId(userId);
 				log.setMemo("用户进行" + (istate.equals("1")?"撤防":"布防") + "操作" );
-				log.setOperatorType(operatorType); //报警处理
+				log.setOperatorType(operatorType); //操作类型
 				log.setZoneNo(zoneNo);
 				saveOperatorLog(log);
 			}

@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 
 import com.yunjing.entity.DeviceDto;
+import com.yunjing.entity.Member;
 import com.yunjing.entity.Zone;
 import com.yunjing.service.DeviceService;
+import com.yunjing.service.MemberService;
 import com.yunjing.service.ZoneService;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.ExcelUtils;
@@ -23,6 +25,8 @@ public class DeviceAction extends BaseAction{
 	private List<Zone> zones;
 	private String deviceNo;
 	private String deviceName;
+	private MemberService memberService;
+	private List<Member> members;
 	
 	/**
 	 * 查询所有设备
@@ -69,7 +73,22 @@ public class DeviceAction extends BaseAction{
 			e.printStackTrace();
 			return "error";
 		}
-		
+	}
+	
+	/**
+	 * 查询设备的用户
+	 * @return
+	 */
+	public String queryUsers(){
+		try {
+			deviceName = URLDecoder.decode(deviceName,"UTF-8");
+			System.out.println("deviceName:" + deviceName);
+			members = memberService.getByDeviceNo(deviceNo);
+			return "deviceUsers";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
 	}
 	
 	public void exportExcel(){
@@ -145,6 +164,18 @@ public class DeviceAction extends BaseAction{
 
 	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
+	}
+
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
+	}
+
+	public List<Member> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<Member> members) {
+		this.members = members;
 	}
 	
 }

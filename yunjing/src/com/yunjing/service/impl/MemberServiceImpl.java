@@ -54,4 +54,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.getAll(member);
 	}
 
+	@Override
+	public List<Member> getByDeviceNo(String deviceNo) {
+		return memberDao.getByDeviceNo(deviceNo);
+	}
+
 }

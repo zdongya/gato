@@ -2,6 +2,9 @@ package com.yunjing.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import com.yunjing.dao.BaseDao;
 import com.yunjing.dao.MemberDao;
 import com.yunjing.entity.Member;
@@ -71,6 +74,15 @@ public class MemberDaoImpl extends BaseDao implements MemberDao {
 	@Override
 	public void updateMemberInfo(Member member) {
 		super.update(member);
+	}
+
+	@Override
+	public List<Member> getByDeviceNo(String deviceNo) {
+		String sql = "select * from tb_user where userid in (select cuserid from tb_user_device_map where deviceno='" + deviceNo + "' and istate=1)";
+		
+		Session session = this.getSessionFactory().getCurrentSession();
+		Query query = session.createSQLQuery(sql).addEntity(Member.class);
+		return query.list();
 	}
 
 }

@@ -109,10 +109,11 @@
 	<td>用户昵称 </td>
 	<td>用户备注</td>
 	<td>用户手机号</td>
-	<td>用户微信号</td>
+	<td>用户微信昵称</td>
     <td>用户类型</td>
     <td>用户邮箱</td>
     <td>用户注册时间</td>
+    <td>最后登录时间</td>
     <td>操作</td>
   </tr>
  <s:if test="null!=members&&members.size()>0">
@@ -121,10 +122,11 @@
     <td>${model.nickName}</td>
     <td>${model.memo}</td>
     <td>${model.mobileNo}</td>
-    <td>${model.wechatId}</td>
+    <td>${model.nickName}</td>
     <td>${model.typeName}</td>
     <td>${model.email}</td>
     <td>${model.registerDate}</td>
+    <td>${model.loginDate}</td>
     <td>
     <!-- 
     <a href="javascript:updatePwd('${model.userId}');">重置密码</a>

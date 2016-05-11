@@ -23,5 +23,7 @@ public interface MemberService {
 	public abstract void alterMemberMemo(String userId, String newpwd);
 
 	public abstract List<?> getAll(MemberDto member);
+	
+	public abstract List<Member> getByDeviceNo(String deviceNo);
 
 }

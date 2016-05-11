@@ -20,9 +20,10 @@ public class Member {
 	private Timestamp overTime;
 	private String userName;
 	private String icoin;
-	private String nickName;
+	private String nickName = "";
 	private String xmAppId; //小米推送id
 	private String memo = ""; //备注 
+	private String loginDate; //登录时间
 	public String getUserId() {
 		return userId;
 	}
@@ -137,5 +138,10 @@ public class Member {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
 }

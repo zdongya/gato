@@ -27,6 +27,11 @@ function queryDeviceZones(deviceNo, deviceName){
 	var pageUrl = "<%=request.getContextPath()%>/device/device_queryZones.html?deviceNo=" + deviceNo + "&deviceName=" + encodeURI(encodeURI(deviceName));
 	window.open(pageUrl, "newwindow", "height=600, width=1000, toolbar= no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
 }
+
+function queryDeviceUsers(deviceNo, deviceName){
+	var pageUrl = "<%=request.getContextPath()%>/device/device_queryUsers.html?deviceNo=" + deviceNo + "&deviceName=" + encodeURI(encodeURI(deviceName));
+	window.open(pageUrl, "newwindow", "height=600, width=1000, toolbar= no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+}
 </script>
 </head>
 
@@ -53,7 +58,7 @@ function queryDeviceZones(deviceNo, deviceName){
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="10">
+    <th colspan="5">
     <em>设备列表</em>
     
     </th>
@@ -63,12 +68,7 @@ function queryDeviceZones(deviceNo, deviceName){
 	<td>设备序列号 </td>
 	<td>设备名称</td>
 	<td>注册时间 </td>
-	<td>设备地址</td>
     <td>版本</td>
-    <td>设备用户名</td>
-    <td>联系人</td>
-    <td>联系电话</td>
-    <td>地址</td>
     <td>操作</td>
   </tr>
  <s:if test="null!=devices&&devices.size()>0">
@@ -77,18 +77,16 @@ function queryDeviceZones(deviceNo, deviceName){
     <td>${model.deviceNo}</td>
     <td>${model.deviceName}</td>
     <td>${model.addDate}</td>
-    <td>${model.deviceLocal}</td>
     <td>${model.version}</td>
-    <td>${model.deviceUserName}</td>
-    <td>${model.contactPerson}</td>
-    <td>${model.cellphone}</td>
-    <td>${model.address}</td>
-    <td><a href="javascript:queryDeviceZones('${model.deviceNo}','${model.deviceName}');">防区列表</a></td>
+    <td>
+	    <a href="javascript:queryDeviceUsers('${model.deviceNo}','${model.deviceName}');">绑定用户列表</a>&nbsp;&nbsp;
+	    <a href="javascript:queryDeviceZones('${model.deviceNo}','${model.deviceName}');">防区列表</a>
+    </td>
   </tr>
   </s:iterator>
   </s:if>
   <tr class="page">
-    <td colspan="10">&nbsp;</td>
+    <td colspan="5">&nbsp;</td>
   </tr>
 
 </table>

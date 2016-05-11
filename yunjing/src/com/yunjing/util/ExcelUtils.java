@@ -81,17 +81,25 @@ public class ExcelUtils {
 				ws.addCell(new Label(5, 0, "解决人"));
 				ws.addCell(new Label(6, 0, "解决时间"));
 				ws.addCell(new Label(7, 0, "备注"));
+				ws.addCell(new Label(8, 0, "设备名称"));
+				ws.addCell(new Label(9, 0, "设备版本信息"));
 				for (int i = 0; i < datas.size(); i++){
 					WarningInfo warningInfo = (WarningInfo)datas.get(i);
 					if (i < 65535) {
 						ws.addCell(new Label(0, i + 1, warningInfo.getWarningId()));
-						ws.addCell(new Label(1, i + 1, warningInfo.getZoneNo()));
+						ws.addCell(new Label(1, i + 1, warningInfo.getZone().getZoneNo()));
 						ws.addCell(new Label(2, i + 1, warningInfo.getWarnDate()));
 						ws.addCell(new Label(3, i + 1, warningInfo.getStateName()));
 						ws.addCell(new Label(4, i + 1, warningInfo.getWarnTypeName()));
-						ws.addCell(new Label(5, i + 1, warningInfo.getHandler()));
+						String nickName = "";
+						if (null != warningInfo.getOperator()){
+							nickName = warningInfo.getOperator().getNickName();
+						}
+						ws.addCell(new Label(5, i + 1, nickName));
 						ws.addCell(new Label(6, i + 1, warningInfo.getHandleDate()));
 						ws.addCell(new Label(7, i + 1, warningInfo.getMemo()));
+						ws.addCell(new Label(8, i + 1, warningInfo.getZone().getDevice().getDeviceName()));
+						ws.addCell(new Label(9, i + 1, warningInfo.getZone().getDevice().getVersion()));
 					}
 				}
 				

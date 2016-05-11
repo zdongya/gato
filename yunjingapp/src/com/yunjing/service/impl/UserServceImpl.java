@@ -11,6 +11,7 @@ import com.yunjing.model.User;
 import com.yunjing.service.UserService;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.CheckUtil;
+import com.yunjing.util.DateUtil;
 import com.yunjing.util.Utils;
 import com.yunjing.util.WechatUser;
 @Service(value = "userService")
@@ -77,6 +78,7 @@ public class UserServceImpl implements UserService {
 	@Override
 	@Transactional
 	public CallResult loginByWechat(WechatUser wechatUser) {
+		String loginDate = DateUtil.getNowDateTime();
 		CallResult result = new CallResult();
 		User user = userDao.findUserByWechat(wechatUser.getUnionid());
 		if (null == user){ //不存在
@@ -85,6 +87,8 @@ public class UserServceImpl implements UserService {
 			user.setNickName(wechatUser.getNickname());
 			user.setIcoin(wechatUser.getHeadimgurl());
 			user.setXmAppId(wechatUser.getXmAppId());
+			user.setLoginDate(loginDate);
+			
 			result = register(user);
 			if (result.getCode().equals("10000")){
 				result.setDesc("登录成功");
@@ -95,7 +99,7 @@ public class UserServceImpl implements UserService {
 			String token = Utils.createToken(user.getAppId(), user.getUserId());
 			String overTime = Utils.getTokenOverTime();
 			String xmAppId = wechatUser.getXmAppId();
-			userDao.updateTokenAfterLogin(user.getUserId(), token, overTime, xmAppId);
+			userDao.updateTokenAfterLogin(user.getUserId(), token, overTime, xmAppId, loginDate);
 			result.setToken(token);
 			result.setUserId(user.getUserId());
 			logger.info("微信用户【userid:" + user.getUserId() + ",nickname:" + user.getNickName() + "】登录成功" );
