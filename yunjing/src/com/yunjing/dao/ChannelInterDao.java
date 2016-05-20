@@ -41,6 +41,8 @@ public interface ChannelInterDao {
 	public void updateZone(ZoneDto zone);
 	public void updateZoneState(ZoneDto zone);
 	public void deleteZone(String zoneNo);
+	public void cleanWarningInfo(String zoneNo);
+	public void cleanLog(String zoneNo);
 	
 	
 

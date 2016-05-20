@@ -209,6 +209,8 @@ public class ChannelInterService {
 							channelInterDao.updateZone(zone);
 						}
 					} else if (zone.getUploadType().equals("1")) { //删除防区
+						channelInterDao.cleanWarningInfo(zone.getZoneNo()); //清除关联关系
+						channelInterDao.cleanLog(zone.getZoneNo());
 						channelInterDao.deleteZone(zone.getZoneNo());
 					} else {
 						channelInterDao.updateZoneState(zone);

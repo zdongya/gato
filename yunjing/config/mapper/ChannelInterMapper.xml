@@ -4,12 +4,12 @@
 <mapper namespace='com.yunjing.dao.ChannelInterDao'>
     
     <insert id="saveDevice" parameterType="Device" >
-	    insert into tb_device (deviceno,version,deviceusername,devicepwd,adddate)
-	    values (#{deviceNo,jdbcType=VARCHAR},#{deviceVersion,jdbcType=VARCHAR},#{deviceUserName,jdbcType=VARCHAR},#{devicePwd,jdbcType=VARCHAR},now())
+	    insert into tb_device (deviceno,version,deviceusername,devicepwd,adddate,updateDate)
+	    values (#{deviceNo,jdbcType=VARCHAR},#{deviceVersion,jdbcType=VARCHAR},#{deviceUserName,jdbcType=VARCHAR},#{devicePwd,jdbcType=VARCHAR},now(),now())
 	</insert>
 	
      <insert id="updateDevice" parameterType="Device" >
-	    update tb_device set version=#{deviceVersion},deviceusername=#{deviceUserName},devicepwd=#{devicePwd} where deviceno=#{deviceNo}
+	    update tb_device set version=#{deviceVersion},deviceusername=#{deviceUserName},devicepwd=#{devicePwd},updateDate=now()  where deviceno=#{deviceNo}
 	</insert>     
 	
     <insert id="saveZone" parameterType="Zone" >
@@ -66,6 +66,15 @@
 	<insert id="savePushMsg" parameterType="Push" >
 	    insert into tb_push(msgid,msgtext,topic,adddate,istate,pushservice,zoneno,itype) 
 	    values(#{msgId,jdbcType=VARCHAR}, #{msgText,jdbcType=VARCHAR},#{topic,jdbcType=VARCHAR},#{addDate,jdbcType=VARCHAR},#{istate,jdbcType=VARCHAR},#{pushService,jdbcType=VARCHAR},#{zoneNo,jdbcType=VARCHAR},#{itype,jdbcType=VARCHAR})
+	</insert>
+	
+	
+	<insert id="cleanWarningInfo" parameterType='java.lang.String' >
+		update tb_warning_info set zoneno=null where zoneno=#{0,jdbcType=VARCHAR}
+	</insert>
+	
+	<insert id="cleanLog" parameterType='java.lang.String' >
+		update tb_log set zoneno=null where zoneno=#{0,jdbcType=VARCHAR}
 	</insert>
 	
 	

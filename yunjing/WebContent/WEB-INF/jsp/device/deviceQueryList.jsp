@@ -58,7 +58,7 @@ function queryDeviceUsers(deviceNo, deviceName){
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="5">
+    <th colspan="6">
     <em>设备列表</em>
     
     </th>
@@ -69,6 +69,7 @@ function queryDeviceUsers(deviceNo, deviceName){
 	<td>设备名称</td>
 	<td>注册时间 </td>
     <td>版本</td>
+    <td>最后登记时间 </td>
     <td>操作</td>
   </tr>
  <s:if test="null!=devices&&devices.size()>0">
@@ -78,6 +79,7 @@ function queryDeviceUsers(deviceNo, deviceName){
     <td>${model.deviceName}</td>
     <td>${model.addDate}</td>
     <td>${model.version}</td>
+    <td>${model.updateDate}</td>
     <td>
 	    <a href="javascript:queryDeviceUsers('${model.deviceNo}','${model.deviceName}');">绑定用户列表</a>&nbsp;&nbsp;
 	    <a href="javascript:queryDeviceZones('${model.deviceNo}','${model.deviceName}');">防区列表</a>
@@ -86,7 +88,7 @@ function queryDeviceUsers(deviceNo, deviceName){
   </s:iterator>
   </s:if>
   <tr class="page">
-    <td colspan="5">&nbsp;</td>
+    <td colspan="6">&nbsp;</td>
   </tr>
 
 </table>

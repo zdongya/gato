@@ -58,6 +58,7 @@ public class ExcelUtils {
 				ws.addCell(new Label(5, 0, "联系人"));
 				ws.addCell(new Label(6, 0, "联系电话"));
 				ws.addCell(new Label(7, 0, "地址"));
+				ws.addCell(new Label(8, 0, "最后登记时间"));
 				for (int i = 0; i < datas.size(); i++){
 					Device device = (Device)datas.get(i);
 					if (i < 65535) {
@@ -69,6 +70,7 @@ public class ExcelUtils {
 						ws.addCell(new Label(5, i + 1, device.getContactPerson()));
 						ws.addCell(new Label(6, i + 1, device.getCellphone()));
 						ws.addCell(new Label(7, i + 1, device.getAddress()));
+						ws.addCell(new Label(8, i + 1, DateUtil.sqlTimeStatmpToString(device.getUpdateDate())));
 					}
 				}
 			} else if (type == 2){ //导出报警信息列表

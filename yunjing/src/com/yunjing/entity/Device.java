@@ -17,6 +17,7 @@ public class Device{
 	private String cellphone;
 	private String address;
 	private Timestamp addDate;
+	private Timestamp updateDate; //最后登记时间
 	
 	private String groupId; //组编号
 	public String getDeviceNo() {
@@ -84,6 +85,12 @@ public class Device{
 	}
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
+	}
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
 	}
 	
 	

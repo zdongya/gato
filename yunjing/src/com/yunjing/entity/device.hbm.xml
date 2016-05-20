@@ -18,5 +18,6 @@
         <property name="address"/>
         <property name="addDate"/>
         <property name="groupId"/>
+        <property name="updateDate"/>
     </class>
 </hibernate-mapping>
