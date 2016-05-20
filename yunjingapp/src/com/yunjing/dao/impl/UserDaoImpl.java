@@ -88,7 +88,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId, String loginDate) {
 		String sqlStr = "update tb_user set token=?,overtime=?,xmappid=?,logindate=? where userid=?";
-		Object[] params = new Object[] {token, DateUtil.getTimestampByString(overTime), xmAppId, userId, loginDate};
+		Object[] params = new Object[] {token, DateUtil.getTimestampByString(overTime), xmAppId, loginDate, userId};
 		jdbcTemplate.update(sqlStr, params);
 	}
 

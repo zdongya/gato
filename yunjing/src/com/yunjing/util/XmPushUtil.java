@@ -32,7 +32,7 @@ public class XmPushUtil {
 	public static void main(String[] args){
 		Push push = new Push();
 		push.setMsgText("测试消息推送");
-		push.setXmAppId("vAgYf9ErE4tpkkuX12JptIDmXmrwDJftsnelpLhhq/Q=");
+		push.setXmAppId("pYZoNfrdcxUQeuav1UmphZSdM1wsXOMXEyVtqtEk1K8=");
 		sendMessage(push);
 		
 	}

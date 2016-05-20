@@ -100,7 +100,7 @@
        
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="8">
+    <th colspan="9">
     <em>用户列表</em>
     </th>
     
@@ -138,7 +138,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="8">&nbsp;</td>
+    <td colspan="9">&nbsp;</td>
   </tr>
 </table>
 </form>

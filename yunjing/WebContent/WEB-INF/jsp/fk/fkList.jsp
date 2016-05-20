@@ -64,10 +64,9 @@
      </tbody>
 </table>
 
-
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="9">
+    <th colspan="6">
     <em>用户反馈列表</em>
     
     </th>
@@ -75,7 +74,6 @@
   <tr class="title">
 
 	<td>用户昵称 </td>
-	<td>用户微信号</td>
 	<td>反馈时间</td>
     <td>反馈内容</td>
     <td>联系方式</td>
@@ -87,7 +85,6 @@
  <s:iterator value="retroactions" id="retroaction">
   <tr>
     <td>${retroaction.user.nickName}</td>
-    <td>${retroaction.user.wechatId}</td>
     <td>${retroaction.addDate}</td>
     <td>${retroaction.contents}</td>
     <td>${retroaction.contact}</td>
@@ -98,7 +95,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="8">&nbsp;</td>
+    <td colspan="6">&nbsp;</td>
   </tr>
 </table>
 </form>
