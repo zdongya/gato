@@ -58,7 +58,7 @@ function queryDeviceUsers(deviceNo, deviceName){
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="6">
+    <th colspan="7">
     <em>设备列表</em>
     
     </th>
@@ -67,6 +67,7 @@ function queryDeviceUsers(deviceNo, deviceName){
 
 	<td>设备序列号 </td>
 	<td>设备名称</td>
+	<td>设备上线状态</td>
 	<td>注册时间 </td>
     <td>版本</td>
     <td>最后登记时间 </td>
@@ -77,6 +78,7 @@ function queryDeviceUsers(deviceNo, deviceName){
   <tr>
     <td>${model.deviceNo}</td>
     <td>${model.deviceName}</td>
+    <td>${model.onlineState}</td>
     <td>${model.addDate}</td>
     <td>${model.version}</td>
     <td>${model.updateDate}</td>
@@ -88,7 +90,7 @@ function queryDeviceUsers(deviceNo, deviceName){
   </s:iterator>
   </s:if>
   <tr class="page">
-    <td colspan="6">&nbsp;</td>
+    <td colspan="7">&nbsp;</td>
   </tr>
 
 </table>

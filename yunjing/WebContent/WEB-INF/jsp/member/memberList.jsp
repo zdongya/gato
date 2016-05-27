@@ -100,7 +100,7 @@
        
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="9">
+    <th colspan="8">
     <em>用户列表</em>
     </th>
     
@@ -109,7 +109,6 @@
 	<td>用户昵称 </td>
 	<td>用户备注</td>
 	<td>用户手机号</td>
-	<td>用户微信昵称</td>
     <td>用户类型</td>
     <td>用户邮箱</td>
     <td>用户注册时间</td>
@@ -122,7 +121,6 @@
     <td>${model.nickName}</td>
     <td>${model.memo}</td>
     <td>${model.mobileNo}</td>
-    <td>${model.nickName}</td>
     <td>${model.typeName}</td>
     <td>${model.email}</td>
     <td>${model.registerDate}</td>
@@ -138,7 +136,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="9">&nbsp;</td>
+    <td colspan="8">&nbsp;</td>
   </tr>
 </table>
 </form>

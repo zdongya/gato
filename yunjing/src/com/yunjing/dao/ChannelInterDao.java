@@ -6,6 +6,7 @@ import java.util.Map;
 import com.yunjing.dto.DeviceDto;
 import com.yunjing.dto.ZoneDto;
 import com.yunjing.entity.Device;
+import com.yunjing.entity.DevicePing;
 import com.yunjing.entity.Push;
 import com.yunjing.entity.WarningInfo;
 import com.yunjing.entity.Zone;
@@ -44,6 +45,13 @@ public interface ChannelInterDao {
 	public void cleanWarningInfo(String zoneNo);
 	public void cleanLog(String zoneNo);
 	
-	
-
+	/**
+	 * 查询初始化防区时不存在减少的防区
+	 * @param deviceNo
+	 * @return
+	 */
+	public List<String> getInitNotExsitZones(Map<String, Object> parmMap);
+	public void saveOrUploadDevicePing(DevicePing devicePing);
+	public DeviceDto getDeviceByNo(String deviceNo);
+	public List<String> getDeviceZones(String deviceNo);
 }

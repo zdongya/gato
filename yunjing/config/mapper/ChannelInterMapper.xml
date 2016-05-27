@@ -4,12 +4,12 @@
 <mapper namespace='com.yunjing.dao.ChannelInterDao'>
     
     <insert id="saveDevice" parameterType="Device" >
-	    insert into tb_device (deviceno,version,deviceusername,devicepwd,adddate,updateDate)
-	    values (#{deviceNo,jdbcType=VARCHAR},#{deviceVersion,jdbcType=VARCHAR},#{deviceUserName,jdbcType=VARCHAR},#{devicePwd,jdbcType=VARCHAR},now(),now())
+	    insert into tb_device (deviceno,version,deviceusername,devicepwd,adddate,updateDate,online)
+	    values (#{deviceNo,jdbcType=VARCHAR},#{deviceVersion,jdbcType=VARCHAR},#{deviceUserName,jdbcType=VARCHAR},#{devicePwd,jdbcType=VARCHAR},now(),now(),'1')
 	</insert>
 	
      <insert id="updateDevice" parameterType="Device" >
-	    update tb_device set version=#{deviceVersion},deviceusername=#{deviceUserName},devicepwd=#{devicePwd},updateDate=now()  where deviceno=#{deviceNo}
+	    update tb_device set version=#{deviceVersion},deviceusername=#{deviceUserName},devicepwd=#{devicePwd},updateDate=now(),online='1'  where deviceno=#{deviceNo}
 	</insert>     
 	
     <insert id="saveZone" parameterType="Zone" >
@@ -77,7 +77,37 @@
 		update tb_log set zoneno=null where zoneno=#{0,jdbcType=VARCHAR}
 	</insert>
 	
-	
-	
-	
+	<select id="getInitNotExsitZones" resultType="java.lang.String">
+         select zoneno
+         from tb_zone where deviceno=#{deviceNo} and zoneno not in
+          <foreach collection="zones" item="zoneNo"
+                    index="index" open="(" close=")" separator=",">
+                    #{zoneNo}
+          </foreach>
+ 	 </select> 
+  
+  
+  
+   <insert id='saveOrUploadDevicePing' parameterType='DevicePing'>
+        <selectKey keyProperty="ccount" resultType="int" order="BEFORE">
+            select count(*) from tb_device_ping where deviceno=#{deviceNo}
+        </selectKey>
+        <if test=" ccount > 0">
+            update tb_device_ping set ipaddress=#{ipAddress},pingdate=now() where deviceno=#{deviceNo}
+        </if>
+        <if test="ccount == 0">
+            INSERT INTO tb_device_ping(deviceno,ipaddress,pingdate) values(#{deviceNo,jdbcType=VARCHAR},#{ipAddress,jdbcType=VARCHAR},now())
+        </if>
+    </insert>
+    
+    
+     <!-- 查询防区名称 -->
+	<select id="getDeviceByNo" parameterType="java.lang.String" resultType="Device">
+		select deviceno,online from tb_device where deviceno = #{0,jdbcType=VARCHAR}
+    </select>
+    
+    <!-- 查询防区关联的用户 -->
+	<select id="getDeviceZones" parameterType="java.lang.String"  resultType="java.lang.String">
+		SELECT zoneno FROM tb_zone WHERE deviceno=#{0,jdbcType=VARCHAR}
+    </select>
 </mapper>

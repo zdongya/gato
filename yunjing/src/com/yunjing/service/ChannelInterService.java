@@ -1,7 +1,7 @@
 package com.yunjing.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +14,7 @@ import com.yunjing.dao.ChannelInterDao;
 import com.yunjing.dto.DeviceDto;
 import com.yunjing.dto.UploadZone;
 import com.yunjing.dto.ZoneDto;
+import com.yunjing.entity.DevicePing;
 import com.yunjing.entity.Push;
 import com.yunjing.entity.WarningInfo;
 import com.yunjing.util.CallResult;
@@ -139,49 +140,22 @@ public class ChannelInterService {
 
 
 
-	public static void main(String[] args) {
-//		DeviceDto deviceDto = new DeviceDto();
-//		deviceDto.setDeviceNo("abc");
-//		deviceDto.setDeviceName("哈哈哈");
-//		deviceDto.setDeviceUserName("测试");
-//		deviceDto.setDevicePwd("aaa");
-//		List<Zone> zones = new ArrayList<Zone>();
-//		Zone zone1 = new Zone();
-//		zone1.setZoneNo("zone1");
-//		zone1.setZoneName("第一防区");
-//		zone1.setZoneDesc("前门防区");
-//		zone1.setZoneContactor("dongya");
-//		zone1.setZonePhone("123456");
-//		zone1.setZoneLoc("解放路123号");
-//		
-//		Zone zone2 = new Zone();
-//		zone2.setZoneNo("zone2");
-//		zone2.setZoneName("第二防区");
-//		zone2.setZoneDesc("后门防区");
-//		zone2.setZoneContactor("zhangsan");
-//		zone2.setZonePhone("789654");
-//		zone2.setZoneLoc("风光路123号");
-//		zones.add(zone1);
-//		zones.add(zone2);
-//		deviceDto.setZoneList(zones);
-//		ChannelInterService service = new ChannelInterService();
-//		CallResult result = service.deviceActive(deviceDto);
-//		System.out.println("code:" + result.getCode() + ";desc:" + result.getDesc());
-//		String jsonString = JSON.toJSONString(zones);
-//		System.out.println(jsonString);
-//		WarningInfo info = new WarningInfo();
-//		info.setWarningId("1");
-//		info.setWarnDate("2016-03-25 14:27:00");
-//		info.setZoneNo("zone1");
-//		service.saveWarningInfo(info);
-		HashSet<String> ids = new HashSet<String>();
-		for (int i=0;i<100;i++){
-			String id = Utils.getUUID();
-			System.out.println(id);
-			ids.add(id);
-		}
-		System.out.println("size---:" + ids.size());
+	public static void main(String[] args)  throws Exception{
+		SqlSession session = MyBatisFactory.getInstance().openSession();
+		ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
+//		Map<String,Object> map = new HashMap<String, Object>(2);
+//		map.put("deviceNo", "Mk2008");
+//		List<String> zoneNos = new ArrayList<String>();
+//		zoneNos.add("zone1");
+//		zoneNos.add("zone3");
+//		zoneNos.add("zone9");
+//		zoneNos.add("zone5");
+//		zoneNos.add("zone7");
 		
+//		map.put("zones", zoneNos);
+		List<String> deleteZones = channelInterDao.getDeviceZones("Mk2008");
+		System.out.println(deleteZones);
+			
 	}
 
 
@@ -192,40 +166,136 @@ public class ChannelInterService {
 		try {
 			session = MyBatisFactory.getInstance().openSession();
 			ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
-			List<?> zoneList = uploadZone.getZoneList();
-			for (Object obj:zoneList){
-				ZoneDto zone = (ZoneDto) obj;
-				zone.setDeviceNo(uploadZone.getDeviceNo());
-				if(CheckUtil.isNullString(zone.getUploadType()) || "0,1,2".indexOf(zone.getUploadType()) == -1){
-					callResult.setCode("-1000");
-					callResult.setDesc("通道uploadType不正确，不能上传");
-					break;
+			DeviceDto device = channelInterDao.getDeviceByNo(uploadZone.getDeviceNo());
+			log.info("deviceNo:" + device.getDeviceNo() + ";online:" + device.getOnline());
+			if (device.getOnline().equals("0")){ //设备是下线状态不允许上传防区信息
+				callResult.setCode("-6666");
+				callResult.setDesc("你所上传防区所在的设备是下线状态，不能上传防区");
+				log.error("设备【" + uploadZone.getDeviceNo() + "】，状态为下线，不允许上传防区");
+			} else {
+				if (uploadZone.getbInit().equals("0")){
+					uploadZone(uploadZone, callResult, channelInterDao);
 				} else {
-					if (zone.getUploadType().equals("0")){ //添加或修改防区
-						int count = channelInterDao.getCountByZoneNo(zone.getZoneNo());
-						if (count == 0){
-							channelInterDao.saveZone(zone);
-						} else {
-							channelInterDao.updateZone(zone);
-						}
-					} else if (zone.getUploadType().equals("1")) { //删除防区
-						channelInterDao.cleanWarningInfo(zone.getZoneNo()); //清除关联关系
-						channelInterDao.cleanLog(zone.getZoneNo());
-						channelInterDao.deleteZone(zone.getZoneNo());
-					} else {
-						channelInterDao.updateZoneState(zone);
-					}
+					initZone(uploadZone, callResult, channelInterDao);
+				}
+				if (callResult.getCode().equals("0000")){
+					session.commit();
+					log.info("上传防区信息成功");
+				} else {
+					session.rollback();
 				}
 			}
+			
+		} catch (Exception e) {
+			log.error("上传防区信息异常");
+			log.error(e.getMessage(), e);
+			callResult.setCode("-6000");
+			callResult.setDesc("系统异常");
+			session.rollback();
+		} finally {
+			if (null != session){
+				session.close();
+			}
+		}
+		return callResult;
+	}
+
+
+	
+	/**
+	 * 防区初始化防区存在则修改，不存在则添加  减少则删除
+	 * @param uploadZone
+	 * @param callResult
+	 * @param channelInterDao
+	 */
+	private void initZone(UploadZone uploadZone, CallResult callResult, ChannelInterDao channelInterDao) {
+		List<?> zones = uploadZone.getZoneList();
+		List<String> zoneIds = new ArrayList<String>();
+		List<String> deleteZones = null;
+		if (null == zones || zones.size() < 1){ //删除所有防区
+			deleteZones = channelInterDao.getDeviceZones(uploadZone.getDeviceNo());
+		} else {
+			for (Object obj:zones){
+				ZoneDto zone = (ZoneDto) obj;
+				zone.setDeviceNo(uploadZone.getDeviceNo());
+				int num = channelInterDao.getCountByZoneNo(zone.getZoneNo());
+				if (num == 0){
+					channelInterDao.saveZone(zone);
+				} else {
+					channelInterDao.updateZone(zone);
+				}
+				zoneIds.add(zone.getZoneNo());
+			}
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("deviceNo", uploadZone.getDeviceNo());
+			map.put("zones", zoneIds);
+			deleteZones = channelInterDao.getInitNotExsitZones(map);
+		}
+		
+		if (null != deleteZones && deleteZones.size() > 0){ //删除防区
+			for (String zoneNo:deleteZones){
+				channelInterDao.cleanWarningInfo(zoneNo); //清除关联关系
+				channelInterDao.cleanLog(zoneNo);
+				channelInterDao.deleteZone(zoneNo);
+			}
+		}
+		
+	}
+
+
+
+	private void uploadZone(UploadZone uploadZone, CallResult callResult, ChannelInterDao channelInterDao) {
+		List<?> zoneList = uploadZone.getZoneList();
+		for (Object obj:zoneList){
+			ZoneDto zone = (ZoneDto) obj;
+			zone.setDeviceNo(uploadZone.getDeviceNo());
+			if(CheckUtil.isNullString(zone.getUploadType()) || "0,1,2".indexOf(zone.getUploadType()) == -1){
+				callResult.setCode("-1000");
+				callResult.setDesc("通道uploadType不正确，不能上传");
+				break;
+			} else {
+				if (zone.getUploadType().equals("0")){ //添加或修改防区
+					int count = channelInterDao.getCountByZoneNo(zone.getZoneNo());
+					if (count == 0){
+						channelInterDao.saveZone(zone);
+					} else {
+						channelInterDao.updateZone(zone);
+					}
+				} else if (zone.getUploadType().equals("1")) { //删除防区
+					channelInterDao.cleanWarningInfo(zone.getZoneNo()); //清除关联关系
+					channelInterDao.cleanLog(zone.getZoneNo());
+					channelInterDao.deleteZone(zone.getZoneNo());
+				} else { //更新防区状态
+					channelInterDao.updateZoneState(zone);
+				}
+			}
+		}
+	}
+
+	public CallResult devicePing(DevicePing devicePing){
+		
+		SqlSession session = null;
+		CallResult callResult = new CallResult();
+		try {
+			session = MyBatisFactory.getInstance().openSession();
+			ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
+			int count = channelInterDao.getCountByDeviceNo(devicePing.getDeviceNo());
+			if (count == 0){
+				callResult.setCode("-2000");
+				callResult.setDesc("错误的防区编号:" + devicePing.getDeviceNo());
+			} else {
+				channelInterDao.saveOrUploadDevicePing(devicePing);
+			}
+			
 			if (callResult.getCode().equals("0000")){
 				session.commit();
-				log.info("上传防区信息成功");
+				log.info("设备【" + devicePing.getDeviceNo() + "】和服务器之间心跳正常");
 			} else {
 				session.rollback();
 			}
 			
 		} catch (Exception e) {
-			log.error("上传防区信息异常");
+			log.error("调用心跳接口异常");
 			log.error(e.getMessage(), e);
 			callResult.setCode("-6000");
 			callResult.setDesc("系统异常");

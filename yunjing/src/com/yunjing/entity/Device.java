@@ -1,5 +1,7 @@
 package com.yunjing.entity;
 import java.sql.Timestamp;
+
+import com.yunjing.util.CheckUtil;
 /**
  * 设备表
  * @author DONGYA
@@ -18,6 +20,7 @@ public class Device{
 	private String address;
 	private Timestamp addDate;
 	private Timestamp updateDate; //最后登记时间
+	private String online; //设备在线状态  0掉线 1在线
 	
 	private String groupId; //组编号
 	public String getDeviceNo() {
@@ -92,8 +95,23 @@ public class Device{
 	public void setUpdateDate(Timestamp updateDate) {
 		this.updateDate = updateDate;
 	}
+	public String getOnline() {
+		return online;
+	}
+	public void setOnline(String online) {
+		this.online = online;
+	}
 	
 	
-	
-
+	public String getOnlineState(){
+		if (CheckUtil.isNullString(online)){
+			return "状态未知";
+		} else {
+			if ("0".equals(online)){
+				return "掉线";
+			} else {
+				return "上线";
+			}
+		}
+	}
 }

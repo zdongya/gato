@@ -19,5 +19,6 @@
         <property name="addDate"/>
         <property name="groupId"/>
         <property name="updateDate"/>
+        <property name="online"/>
     </class>
 </hibernate-mapping>

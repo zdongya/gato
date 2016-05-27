@@ -59,6 +59,7 @@ public class ExcelUtils {
 				ws.addCell(new Label(6, 0, "联系电话"));
 				ws.addCell(new Label(7, 0, "地址"));
 				ws.addCell(new Label(8, 0, "最后登记时间"));
+				ws.addCell(new Label(9, 0, "设备状态"));
 				for (int i = 0; i < datas.size(); i++){
 					Device device = (Device)datas.get(i);
 					if (i < 65535) {
@@ -71,6 +72,7 @@ public class ExcelUtils {
 						ws.addCell(new Label(6, i + 1, device.getCellphone()));
 						ws.addCell(new Label(7, i + 1, device.getAddress()));
 						ws.addCell(new Label(8, i + 1, DateUtil.sqlTimeStatmpToString(device.getUpdateDate())));
+						ws.addCell(new Label(9, i + 1, device.getOnlineState()));
 					}
 				}
 			} else if (type == 2){ //导出报警信息列表
@@ -89,7 +91,15 @@ public class ExcelUtils {
 					WarningInfo warningInfo = (WarningInfo)datas.get(i);
 					if (i < 65535) {
 						ws.addCell(new Label(0, i + 1, warningInfo.getWarningId()));
-						ws.addCell(new Label(1, i + 1, warningInfo.getZone().getZoneNo()));
+						String zoneNo = "";
+						String deviceName = "";
+						String deviceVersion = "";
+						if (null != warningInfo.getZone() && CheckUtil.isNullString(warningInfo.getZone().getZoneNo())){
+							zoneNo = warningInfo.getZone().getZoneNo();
+							deviceName = warningInfo.getZone().getDevice().getDeviceName();
+							deviceVersion = warningInfo.getZone().getDevice().getVersion();
+						}
+						ws.addCell(new Label(1, i + 1, zoneNo));
 						ws.addCell(new Label(2, i + 1, warningInfo.getWarnDate()));
 						ws.addCell(new Label(3, i + 1, warningInfo.getStateName()));
 						ws.addCell(new Label(4, i + 1, warningInfo.getWarnTypeName()));
@@ -100,8 +110,8 @@ public class ExcelUtils {
 						ws.addCell(new Label(5, i + 1, nickName));
 						ws.addCell(new Label(6, i + 1, warningInfo.getHandleDate()));
 						ws.addCell(new Label(7, i + 1, warningInfo.getMemo()));
-						ws.addCell(new Label(8, i + 1, warningInfo.getZone().getDevice().getDeviceName()));
-						ws.addCell(new Label(9, i + 1, warningInfo.getZone().getDevice().getVersion()));
+						ws.addCell(new Label(8, i + 1, deviceName));
+						ws.addCell(new Label(9, i + 1, deviceVersion));
 					}
 				}
 				
@@ -116,11 +126,15 @@ public class ExcelUtils {
 				for (int i = 0; i < datas.size(); i++){
 					OperatorLog log = (OperatorLog)datas.get(i);
 					if (i < 65535) {
+						String zoneName = "";
+						if (null != log.getZone()){
+							zoneName = log.getZone().getZoneName();
+						}
 						ws.addCell(new Label(0, i + 1, DateUtil.sqlTimeStatmpToString(log.getCreateTime())));
 						ws.addCell(new Label(1, i + 1, log.getOperator().getNickName()));
 						ws.addCell(new Label(2, i + 1, log.getIpAddr()));
 						ws.addCell(new Label(3, i + 1, log.getDevice().getDeviceName()));
-						ws.addCell(new Label(4, i + 1, log.getZone().getZoneName()));
+						ws.addCell(new Label(4, i + 1, zoneName));
 						ws.addCell(new Label(5, i + 1, log.getMemo()));
 						ws.addCell(new Label(6, i + 1, log.getTypeName()));
 					}

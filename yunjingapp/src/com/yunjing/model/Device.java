@@ -23,6 +23,7 @@ public class Device extends BaseModel{
 	private String groupId;
 	
 	private String collectId; 
+	private String online = "0";
 	
 	public String getDeviceNo() {
 		return deviceNo;
@@ -111,6 +112,19 @@ public class Device extends BaseModel{
 	
 	public String toString(){
 		return ReflectionToStringBuilder.toString(this);
+	}
+	public String getOnline() {
+		return online;
+	}
+	public void setOnline(String online) {
+		this.online = online;
+	}
+	public String getOnlineState(){
+		if (online.equals("1")){
+			return "上线";
+		} else {
+			return "下线";
+		}
 	}
 
 }

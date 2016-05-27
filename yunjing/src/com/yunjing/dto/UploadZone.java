@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UploadZone {
+	private String bInit = "0";
 	private String deviceNo = ""; //设备编号
 	private List<?> zoneList = new ArrayList();
 	public String getDeviceNo() {
@@ -17,6 +18,12 @@ public class UploadZone {
 	}
 	public void setZoneList(List<?> zoneList) {
 		this.zoneList = zoneList;
+	}
+	public String getbInit() {
+		return bInit;
+	}
+	public void setbInit(String bInit) {
+		this.bInit = bInit;
 	}
 	
 }

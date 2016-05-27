@@ -164,6 +164,7 @@ public class BusinessServiceImpl implements BusinessService {
 	@Transactional
 	public CallResult editZone(Zone zone) {
 		CallResult result = new CallResult();
+		
 		int count = queryDao.checkOwnZone(zone);
 		if (count != 1){
 			result.setCode("-1000");

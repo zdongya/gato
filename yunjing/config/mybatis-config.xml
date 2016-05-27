@@ -7,6 +7,7 @@
         <typeAlias alias="Zone" type="com.yunjing.dto.ZoneDto"/>
         <typeAlias alias="WarningInfo" type="com.yunjing.entity.WarningInfo"/>
         <typeAlias alias="Push" type="com.yunjing.entity.Push"/>
+        <typeAlias alias="DevicePing" type="com.yunjing.entity.DevicePing"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -28,5 +29,6 @@
     <mappers>
         <mapper resource="mapper/ChannelInterMapper.xml"/>
         <mapper resource="mapper/PushMapper.xml"/>
+        <mapper resource="mapper/DevicePingMapper.xml"/>
     </mappers>
 </configuration>
