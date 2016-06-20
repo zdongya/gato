@@ -9,21 +9,9 @@ import java.util.regex.Pattern;
 public class Test {
 	
 	public static void main(String[] args) throws Exception{
-//		ApplicationContext ac = new ClassPathXmlApplicationContext(new String[]{"applicationContext.xml","aaa.xml"});
-//		ac.getBean("tet");
-		
-		
-//		String xml = " 页次 1/  4  共47条记录";
-//		String page = xml.split("/")[1].split("共")[0];
-//		System.out.println(page);
-//		System.out.println(Integer.parseInt(page.trim()));
-		
-//		String payDate = "20140909afafea";
-//		System.out.println(URLEncoder.encode(payDate, "utf-8"));
-		
-//		System.out.println(getDateBefore());
-		String str = "\n	\t\t\n	\t\t\n	\t\t操作出错!\n	\t\t\n	\t\t验证码错误";
-		System.out.println(str.replaceAll("[\b\r\n\t]*", ""));
+		String tdEles = " 2015/11/24";
+		String s = tdEles.replaceAll("/", "").trim();
+		System.out.println(s);
 	}
 	
 	public static String testBlack(String str){

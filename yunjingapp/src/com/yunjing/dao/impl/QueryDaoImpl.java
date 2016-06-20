@@ -74,7 +74,7 @@ public class QueryDaoImpl implements QueryDao {
 	@Override
 	public List<WarningInfo> queryWarning(int istate, String userId) {
 		try {
-			String sql = "select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where t.istate=? and z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid=?) order by t.istate asc, t.warndate desc";
+			String sql = "select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where t.istate=? and z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1) order by t.istate asc, t.warndate desc";
 			return jdbcTemplate.query(sql, new Object[]{istate, userId},new BeanPropertyRowMapper(WarningInfo.class));
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class QueryDaoImpl implements QueryDao {
 	@Override
 	public List<WarningInfo> queryWarning(String userId) {
 		try {
-			String sql = "select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid=?) order by t.istate asc, t.warndate desc";
+			String sql = "select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1) order by t.istate asc, t.warndate desc";
 			return jdbcTemplate.query(sql,new Object[]{userId},new BeanPropertyRowMapper(WarningInfo.class));
 		} catch (DataAccessException e) {
 			e.printStackTrace();

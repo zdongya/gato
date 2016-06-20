@@ -13,8 +13,8 @@
 	</insert>     
 	
     <insert id="saveZone" parameterType="Zone" >
-	    insert into tb_zone (ZONENO,ZONETYPE,ZONEONLINE,ZONESTATE,ZONEVMP,ZONESTRAIN,ZONESTRAINVPT,ADDDATE, DEVICENO)
-	    values (#{zoneNo},#{zoneType},#{zoneOnline},#{zoneState},#{zoneVmp}, #{zoneStrain},#{zoneStrainVpt}, now(), #{deviceNo})
+	    insert into tb_zone (ZONENO,ZONENAME,ZONETYPE,ZONEONLINE,ZONESTATE,ZONEVMP,ZONESTRAIN,ZONESTRAINVPT,ADDDATE, DEVICENO)
+	    values (#{zoneNo},#{zoneName},#{zoneType},#{zoneOnline},#{zoneState},#{zoneVmp}, #{zoneStrain},#{zoneStrainVpt}, now(), #{deviceNo})
 	</insert>
 	
     <!-- 更新这些字段 -->

@@ -2,6 +2,7 @@ package com.yunjing.dto;
 
 public class ZoneDto {
 	private String zoneNo = ""; //防区编号
+	private String zoneName = "";
 	private String zoneType = ""; //1脉冲电子围栏 2触网脉冲电子围栏 3张力围栏 4泄露电缆 5振动光纤 6地址码
 	private String zoneOnline = ""; //0未上线  1已上线
 	private String zoneState = ""; //布撤防状态   空为未上传   1 撤防中  2布防中  3已撤防  4已布防  
@@ -64,6 +65,12 @@ public class ZoneDto {
 	}
 	public void setDeviceNo(String deviceNo) {
 		this.deviceNo = deviceNo;
+	}
+	public String getZoneName() {
+		return zoneName;
+	}
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
 	}
 	
 }

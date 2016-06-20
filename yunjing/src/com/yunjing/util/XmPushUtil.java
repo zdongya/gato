@@ -7,13 +7,13 @@ import com.yunjing.entity.Push;
 
 public class XmPushUtil {
 	public static final String packageName = "com.gato.security";
-	public static final String appSecret = "d7c4X1oyAQpQjQx9EXNTGw==";
+	public static final String appSecret = "xks8BxoLm2kJmqr3YGYU3Q==";
 	public static boolean sendMessage(Push push){
 		 try {
 			Constants.useOfficial();
 			 Sender sender = new Sender(appSecret);
 			 String title = "广拓云周界";
-			 String description = "收到防区报警信息";
+			 String description = "收到防区报警信息aaa";
 			 Message message = new Message.Builder()
 			            .title(title)
 			            .description(description).payload(push.getMsgText())
@@ -31,8 +31,8 @@ public class XmPushUtil {
 	
 	public static void main(String[] args){
 		Push push = new Push();
-		push.setMsgText("测试消息推送");
-		push.setXmAppId("pYZoNfrdcxUQeuav1UmphZSdM1wsXOMXEyVtqtEk1K8=");
+		push.setMsgText("测试消息推送bbb");
+		push.setXmAppId("SE04aKUVkLVUPwJUzbnzhhrdFtMqpNFchvd9d3hz5Y0=");
 		sendMessage(push);
 		
 	}

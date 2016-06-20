@@ -94,7 +94,7 @@ public class ExcelUtils {
 						String zoneNo = "";
 						String deviceName = "";
 						String deviceVersion = "";
-						if (null != warningInfo.getZone() && CheckUtil.isNullString(warningInfo.getZone().getZoneNo())){
+						if (null != warningInfo.getZone() && !CheckUtil.isNullString(warningInfo.getZone().getZoneNo())){
 							zoneNo = warningInfo.getZone().getZoneNo();
 							deviceName = warningInfo.getZone().getDevice().getDeviceName();
 							deviceVersion = warningInfo.getZone().getDevice().getVersion();

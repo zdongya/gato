@@ -141,8 +141,8 @@ public class ChannelInterService {
 
 
 	public static void main(String[] args)  throws Exception{
-		SqlSession session = MyBatisFactory.getInstance().openSession();
-		ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
+//		SqlSession session = MyBatisFactory.getInstance().openSession();
+//		ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
 //		Map<String,Object> map = new HashMap<String, Object>(2);
 //		map.put("deviceNo", "Mk2008");
 //		List<String> zoneNos = new ArrayList<String>();
@@ -153,8 +153,13 @@ public class ChannelInterService {
 //		zoneNos.add("zone7");
 		
 //		map.put("zones", zoneNos);
-		List<String> deleteZones = channelInterDao.getDeviceZones("Mk2008");
-		System.out.println(deleteZones);
+//		?List<String> deleteZones = channelInterDao.getDeviceZones("Mk2008");
+		String zoneNo = "20006d78b181c002";
+
+			
+		zoneNo = zoneNo.substring(zoneNo.length()-3, zoneNo.length());
+
+		System.out.println(zoneNo);
 			
 	}
 
@@ -218,6 +223,11 @@ public class ChannelInterService {
 			for (Object obj:zones){
 				ZoneDto zone = (ZoneDto) obj;
 				zone.setDeviceNo(uploadZone.getDeviceNo());
+				if (CheckUtil.isNullString(zone.getZoneName())){
+					String str = zone.getZoneNo();
+					String zoneName = str.substring(str.length()-3, str.length());
+					zone.setZoneName(zoneName);
+				}
 				int num = channelInterDao.getCountByZoneNo(zone.getZoneNo());
 				if (num == 0){
 					channelInterDao.saveZone(zone);
@@ -249,6 +259,12 @@ public class ChannelInterService {
 		for (Object obj:zoneList){
 			ZoneDto zone = (ZoneDto) obj;
 			zone.setDeviceNo(uploadZone.getDeviceNo());
+			if (CheckUtil.isNullString(zone.getZoneName())){
+				String str = zone.getZoneNo();
+				String zoneName = str.substring(str.length()-3, str.length());
+				zone.setZoneName(zoneName);
+			}
+			
 			if(CheckUtil.isNullString(zone.getUploadType()) || "0,1,2".indexOf(zone.getUploadType()) == -1){
 				callResult.setCode("-1000");
 				callResult.setDesc("通道uploadType不正确，不能上传");
@@ -307,5 +323,6 @@ public class ChannelInterService {
 		}
 		return callResult;
 	}
+	
 
 }
