@@ -88,6 +88,11 @@ public class UserServceImpl implements UserService {
 			user.setIcoin(wechatUser.getHeadimgurl());
 			user.setXmAppId(wechatUser.getXmAppId());
 			user.setLoginDate(loginDate);
+			user.setAppType(wechatUser.getAppType());
+			
+//			user.setPhoneModel(wechatUser.getPhoneModel());
+//			user.setPhoneSystem(wechatUser.getPhoneSystem());
+//			user.setPhoneBrand(wechatUser.getPhoneBrand());
 			
 			result = register(user);
 			if (result.getCode().equals("10000")){

@@ -28,7 +28,7 @@ public class Utils {
 	private static Logger logger = Logger.getLogger(Utils.class);
 	public static final String UPLOAD_IMG_DIR = "/opt/export/upload/img"; //正式环境
 	public static final String ANDROID_UPGRADE = "/opt/export/upload/file/config/android_upgrade.xml";
-	public static final String IOS_UPGRADE = "opt/export/upload/file/config/android_ios.xml";
+	public static final String IOS_UPGRADE = "opt/export/upload/file/config/ios_upgrade.xml";
 	public static final String INTERKEY = "yunjing";
 
 	public static String getUUID() {

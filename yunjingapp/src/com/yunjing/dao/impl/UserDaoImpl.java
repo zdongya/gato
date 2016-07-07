@@ -20,8 +20,8 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void saveUser(User user) {
-		String sqlStr = "insert into tb_user(userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid,logindate) values(?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?)";
-		Object[] params = new Object[] {user.getUserId(), user.getPassword(), user.getMobileNo(), user.getWechatId(),user.getEmail(),user.getItype(),user.getIstate(),user.getToken(), DateUtil.getTimestampByString(user.getOverTime()),user.getUserName(),user.getIcoin(),user.getNickName(),user.getXmAppId(), user.getLoginDate()};
+		String sqlStr = "insert into tb_user(userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid,logindate,apptype) values(?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?,?)";
+		Object[] params = new Object[] {user.getUserId(), user.getPassword(), user.getMobileNo(), user.getWechatId(),user.getEmail(),user.getItype(),user.getIstate(),user.getToken(), DateUtil.getTimestampByString(user.getOverTime()),user.getUserName(),user.getIcoin(),user.getNickName(),user.getXmAppId(), user.getLoginDate(),user.getAppType()};
 		jdbcTemplate.update(sqlStr, params);
 	}
 
