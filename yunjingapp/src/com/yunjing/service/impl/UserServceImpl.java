@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yunjing.dao.UserDao;
-import com.yunjing.model.Device;
 import com.yunjing.model.User;
 import com.yunjing.service.UserService;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.CheckUtil;
 import com.yunjing.util.DateUtil;
+import com.yunjing.util.Md5Util;
 import com.yunjing.util.Utils;
 import com.yunjing.util.WechatUser;
 @Service(value = "userService")
@@ -124,5 +124,23 @@ public class UserServceImpl implements UserService {
 	public boolean checkToken(String token, String userId) {
 		User user = userDao.findUserByTokenAndUserId(token, userId);
 		return null == user?false:true;
+	}
+
+	@Override
+	public CallResult loginByMobile(String mobileNo, String password) {
+		CallResult result = new CallResult();
+		String passWord = Md5Util.getMD5Str(password + md5Key); //加密结果
+		boolean flag = userDao.checkUserMobile(mobileNo);
+		if (flag){
+			int count = userDao.getMobLoginUser(mobileNo, passWord);
+			if (count == 0){
+				result.setCode("-2000");
+				result.setDesc("密码错误");
+			}
+		} else {
+			result.setCode("-1000");
+			result.setDesc("您的手机号还未注册");
+		}
+		return result;
 	}
 }

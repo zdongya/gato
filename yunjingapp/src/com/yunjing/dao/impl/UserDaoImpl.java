@@ -111,4 +111,14 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public boolean checkUserMobile(String mobileNo) {
+		return false;
+	}
+
+	@Override
+	public int getMobLoginUser(String mobileNo, String passWord) {
+		return 0;
+	}
+
 }

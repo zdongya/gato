@@ -70,4 +70,8 @@ public interface UserDao {
 
 	public User findUserByTokenAndUserId(String token, String userId);
 
+	public boolean checkUserMobile(String mobileNo);
+
+	public int getMobLoginUser(String mobileNo, String passWord);
+
 }

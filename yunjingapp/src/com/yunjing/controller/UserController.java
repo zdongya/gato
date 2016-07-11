@@ -77,5 +77,15 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	
+	
+	@RequestMapping(value = "/user/mobLogin")
+	public @ResponseBody CallResult mobLogin(@RequestParam(value = "mobileNo") String mobileNo, @RequestParam(value = "pwd") String pwd) {
+		logger.info("手机用户:" + mobileNo + "正在登录。。。");
+		
+		return userService.loginByMobile(mobileNo, pwd);
+	}
+	
 
 }
