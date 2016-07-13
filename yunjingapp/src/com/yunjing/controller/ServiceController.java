@@ -30,6 +30,7 @@ public class ServiceController {
 	public @ResponseBody CallResult handleWaring(HttpSession session, @ModelAttribute WarningInfo warningInfo){
 		CallResult callResult = new CallResult();
 		try {
+			
 			String ipAddr = (String)session.getAttribute("visitIp");
 			warningInfo.setIpAddr(ipAddr);
 			callResult = businessService.handleWarnings(warningInfo);

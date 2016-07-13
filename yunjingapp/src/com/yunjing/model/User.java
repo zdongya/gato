@@ -1,18 +1,19 @@
 package com.yunjing.model;
 
 public class User extends BaseModel{
-	private String userName; //用户名
-	private String icoin; //头像地址
+	private String userName = ""; //用户名
+	private String icoin = ""; //头像地址
 	private String nickName; 
-	private String password;
-	private String mobileNo;
-	private String wechatId;
+	private String password = "";
+	private String mobileNo = "";
+	private String wechatId = "";
 	private String email;
 	private int itype = 1; //0手机 1微信
 	private int istate = 1; //1正常用户 0无效用户
 	private String registerDate; //用户注册时间
 	private String overTime; //token过期时间
 	private String loginDate; //登录时间
+
 	public String getLoginDate() {
 		return loginDate;
 	}

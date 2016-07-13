@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
@@ -149,6 +151,30 @@ public class Utils {
 		String value = JSONObject.toJSONString(map);
 		return value;
 		
+	}
+	
+	
+	/**
+	 * 邮箱地址验证
+	 * @author xhs
+	 * @return boolean
+	 */
+	public static boolean isEmail(String email) {
+		String str = "^([a-z0-9A-Z]+[-_|.]*)+[a-z0-9A-Z]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?.)+[a-zA-Z]{2,}$";
+		Pattern p = Pattern.compile(str);
+		Matcher m = p.matcher(email);
+		return m.matches();
+	}
+	
+	/**
+	 * 手机号码验证
+	 * @author xhs
+	 * @return boolean
+	 */
+	public static boolean isMobilephone(String mobiles){
+		Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(14[0-9])|(17[0-9]))\\d{8}$");
+		Matcher m = p.matcher(mobiles);
+		return m.matches();
 	}
 	
 	

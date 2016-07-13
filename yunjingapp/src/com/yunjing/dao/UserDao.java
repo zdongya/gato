@@ -72,6 +72,25 @@ public interface UserDao {
 
 	public boolean checkUserMobile(String mobileNo);
 
-	public int getMobLoginUser(String mobileNo, String passWord);
+	public User getMobLoginUser(String mobileNo, String passWord);
+	
+	/**
+	 * 发送短信
+	 * @param mobileNo:手机号
+	 * @param yzm:验证码
+	 * @param smsContent:短信内容
+	 * @param service:短信服务商
+	 * @param type:短信类型
+	 */
+	public void addSms(String mobileNo, String yzm, String smsContent, String service, int type);
+
+	/**
+	 * 校验短信验证码
+	 * @param mobileNo
+	 * @param yzm
+	 * @param type:短信类型 0注册  1忘记密码
+	 * @return
+	 */
+	public boolean checkYzm(String mobileNo, String yzm, int type);
 
 }

@@ -113,12 +113,43 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean checkUserMobile(String mobileNo) {
-		return false;
+		String sqlStr = "select count(*) from tb_user where mobileno=?";
+		int num = jdbcTemplate.queryForInt(sqlStr, new Object[]{mobileNo});
+		if (num == 1){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public int getMobLoginUser(String mobileNo, String passWord) {
-		return 0;
+	public User getMobLoginUser(String mobileNo, String passWord) {
+		try {
+			String sqlStr = "select * from tb_user where mobileno=? and password=?";
+			User user = (User)jdbcTemplate.queryForObject(sqlStr, new Object[]{mobileNo, passWord}, new UserRowMapper());
+			return user;
+		} catch (DataAccessException e) {
+			logger.info("UserServiceImpl[getMobLoginUser] 获取到用户为空，mobileNo:" + mobileNo);
+			return null;
+		}
+	}
+
+	@Override
+	public void addSms(String mobileNo, String yzm, String smsContent, String service, int type) {
+		String sqlStr = "insert into tb_sms(mobileNo,smsContent,addDate,service,smsType) values(?,?,now(),?,?)";
+		Object[] params = new Object[] {mobileNo, smsContent, service, type};
+		jdbcTemplate.update(sqlStr, params);
+	}
+
+	@Override
+	public boolean checkYzm(String mobileNo, String yzm, int type) {
+		String sqlStr = "select count(*) from (SELECT * FROM tb_sms ORDER BY addDate DESC LIMIT 0,1) a where a.mobileNo=? and a.randomCode=? and a.smsType=?";
+		int num = jdbcTemplate.queryForInt(sqlStr, new Object[]{mobileNo, yzm, type});
+		if (num == 1){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
