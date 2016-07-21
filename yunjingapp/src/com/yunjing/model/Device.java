@@ -8,7 +8,7 @@ import com.yunjing.util.CheckUtil;
 import com.yunjing.util.DateUtil;
 
 public class Device extends BaseModel{
-	
+	private String userType = ""; //用户类型 0管理员   1操作员 若未传则为老版本
 	private String deviceNo;
 	private String deviceName;
 	private String deviceUserName;
@@ -125,6 +125,12 @@ public class Device extends BaseModel{
 		} else {
 			return "下线";
 		}
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 }

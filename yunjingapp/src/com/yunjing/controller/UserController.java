@@ -79,12 +79,20 @@ public class UserController {
 	@RequestMapping(value = "/user/mobLogin")
 	public @ResponseBody CallResult mobLogin(@RequestParam(value = "mobileNo") String mobileNo, @RequestParam(value = "password") String password, 
 			@RequestParam(value = "xmAppId", required=false ) String xmAppId) {
-		logger.info("手机用户:" + mobileNo + "正在登录。。。");
-		if (CheckUtil.isNullString(xmAppId)){
-			xmAppId = "";
+		CallResult result = new CallResult();
+		try{
+			logger.info("手机用户:" + mobileNo + "正在登录。。。");
+			if (CheckUtil.isNullString(xmAppId)){
+				xmAppId = "";
+			}
+			String[] appIds = new String[]{xmAppId};
+			result = userService.loginByMobile(mobileNo, password, appIds);
+		} catch (Exception e){
+			logger.error(e.getMessage(), e);
+			result.setCode("-10000");
+			result.setDesc("系统异常");
 		}
-		String[] appIds = new String[]{xmAppId};
-		return userService.loginByMobile(mobileNo, password, appIds);
+		return result;
 	}
 	
 	
@@ -96,12 +104,18 @@ public class UserController {
 	@RequestMapping(value = "/user/sendYzm")
 	public @ResponseBody CallResult sendYzm(@RequestParam(value = "mobileNo") String mobileNo, @RequestParam(value = "type") int type) {
 		CallResult result = new CallResult();
-		logger.info("手机用户:" + mobileNo + "获取验证码中。。。");
-		if (Utils.isMobilephone(mobileNo)){
-			result = userService.addSms(mobileNo, type);
-		} else {
-			result.setCode("-1000");
-			result.setDesc("手机格式不正确");
+		try {
+			logger.info("手机用户:" + mobileNo + "获取验证码中。。。");
+			if (Utils.isMobilephone(mobileNo)){
+				result = userService.addSms(mobileNo, type);
+			} else {
+				result.setCode("-1000");
+				result.setDesc("手机格式不正确");
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-10000");
+			result.setDesc("系统异常");
 		}
 		return result;
 	}
@@ -110,18 +124,25 @@ public class UserController {
 	@RequestMapping(value = "/user/mobRegister")
 	public @ResponseBody CallResult mobRegister(@ModelAttribute User user, @RequestParam(value = "yzm") String yzm) {
 		CallResult result = new CallResult();
-		logger.info("手机用户:" + user.getMobileNo() + "注册中。。。,xmAppId:" + user.getXmAppId());
-		if (CheckUtil.isNullString(user.getMobileNo()) || CheckUtil.isNullString(user.getPassword()) || CheckUtil.isNullString(user.getAppType()) || CheckUtil.isNullString(yzm)){
-			result.setCode("-1000");
-			result.setDesc("参数错误");
-		} else {
-			if (CheckUtil.isNullString(user.getXmAppId())){
-				user.setXmAppId("");
+		try {
+			logger.info("手机用户:" + user.getMobileNo() + "注册中。。。,xmAppId:" + user.getXmAppId());
+			if (CheckUtil.isNullString(user.getMobileNo()) || CheckUtil.isNullString(user.getPassword()) || CheckUtil.isNullString(user.getAppType()) || CheckUtil.isNullString(yzm)){
+				result.setCode("-1000");
+				result.setDesc("参数错误");
+			} else {
+				if (CheckUtil.isNullString(user.getXmAppId())){
+					user.setXmAppId("");
+				}
+				String[] appIds = new String[]{user.getXmAppId()};
+				result = userService.registerMobileUser(user.getMobileNo(), user.getPassword(), yzm, appIds, user.getAppType());
 			}
-			String[] appIds = new String[]{user.getXmAppId()};
-			result = userService.registerMobileUser(user.getMobileNo(), user.getPassword(), yzm, appIds);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-10000");
+			result.setDesc("系统异常");
 		}
 		return result;
+		
 	}
 	
 	

@@ -140,10 +140,9 @@ public class UserServceImpl implements UserService {
 	public CallResult loginByMobile(String mobileNo, String password, String ... appIds) {
 		String loginDate = DateUtil.getNowDateTime();
 		CallResult result = new CallResult();
-		String passWord = Md5Util.getMD5Str(password + md5Key); //加密结果
 		boolean flag = userDao.checkUserMobile(mobileNo);
 		if (flag){
-			User user = userDao.getMobLoginUser(mobileNo, passWord);
+			User user = userDao.getMobLoginUser(mobileNo, password);
 			if (null == user){
 				result.setCode("-6666");
 				result.setDesc("密码错误");
@@ -182,18 +181,20 @@ public class UserServceImpl implements UserService {
 	}
 
 	@Override
-	public CallResult registerMobileUser(String mobileNo, String pwd, String yzm, String[] appIds) {
+	public CallResult registerMobileUser(String mobileNo, String pwd, String yzm, String[] appIds, String appType) {
 		CallResult result = new CallResult();
 		boolean isRightYzm = userDao.checkYzm(mobileNo, yzm, 0);
 		if (isRightYzm){
 			User user = new User();
 			user.setItype(0);
 			user.setMobileNo(mobileNo);
-			user.setPassword(pwd);
+			String passWord = Md5Util.getMD5Str(pwd + md5Key); //加密结果
+			user.setPassword(passWord);
 			user.setXmAppId(appIds[0]);
+			user.setAppType(appType);
 			result = register(user);
 			if (result.getCode().equals("10000")){ //注册成功
-				result = loginByMobile(mobileNo, pwd, appIds);
+				result = loginByMobile(mobileNo, passWord, appIds);
 			}
 		} else {
 			result.setCode("-1001");

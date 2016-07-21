@@ -1,6 +1,8 @@
 package com.yunjing.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -140,8 +142,25 @@ public class QueryDaoImpl implements QueryDao {
 
 	@Override
 	public boolean bindDeviceCheck(Device device) {
+		String type = device.getUserType();
+		boolean newVersion = true;
 		String sql = "select count(1) from tb_device where deviceno=? and deviceusername=? and devicepwd=?";
-		int count = jdbcTemplate.queryForInt(sql,new Object[]{device.getDeviceNo(), device.getDeviceUserName(), device.getDevicePwd()});
+		if (type.equals("0")){ //新版管理员
+			sql = "select count(1) from tb_device where deviceno=? and devicepwd=?";
+		} else if (type.equals("1")){ //新版操作员
+			device.setDevicePwd("%" + device.getDevicePwd() + ",%");
+			sql = "select count(1) from tb_device where deviceno=? and memberpwd like ? ";
+		} else { //旧版
+			newVersion = false;
+		}
+		int count;
+		if (newVersion){
+			count = jdbcTemplate.queryForInt(sql,new Object[]{device.getDeviceNo(), device.getDevicePwd()});
+			
+		} else {
+			count = jdbcTemplate.queryForInt(sql,new Object[]{device.getDeviceNo(), device.getDeviceUserName(), device.getDevicePwd()});
+		}
+		
 		if (count > 0){
 			return true;
 		} 
@@ -226,6 +245,21 @@ public class QueryDaoImpl implements QueryDao {
 		} else {
 			return false;
 		}
+	}
+
+
+	@Override
+	public Map<String, String> countUserDeviceAndZones(String userId) {
+		Map<String, String> map = new HashMap<String, String>();
+		String userDeviceCountSql = "select count(1) from tb_user_device_map where cuserid=? and istate=1";
+		String userZoneCountSql = "select count(1) from tb_zone where deviceno in (select deviceno from tb_user_device_map where cuserid=? AND istate=1)";
+		int userDeviceCount = jdbcTemplate.queryForInt(userDeviceCountSql,new Object[]{userId});
+		int userZoneCount = jdbcTemplate.queryForInt(userZoneCountSql,new Object[]{userId});
+		map.put("deviceCount", String.valueOf(userDeviceCount));
+		map.put("zoneCount", String.valueOf(userZoneCount));
+		map.put("code", "10000");
+		map.put("desc", "查询成功");
+		return map;
 	}
 	
 }

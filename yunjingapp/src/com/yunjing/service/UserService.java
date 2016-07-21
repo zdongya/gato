@@ -77,7 +77,7 @@ public interface UserService {
 	 * @param appIds:推送设备编号  0小米推送编号
 	 * @return
 	 */
-	public CallResult registerMobileUser(String mobileNo, String pwd, String yzm, String[] appIds);
+	public CallResult registerMobileUser(String mobileNo, String pwd, String yzm, String[] appIds, String appType);
 	
 	
 	

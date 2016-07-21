@@ -136,8 +136,8 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void addSms(String mobileNo, String yzm, String smsContent, String service, int type) {
-		String sqlStr = "insert into tb_sms(mobileNo,smsContent,addDate,service,smsType) values(?,?,now(),?,?)";
-		Object[] params = new Object[] {mobileNo, smsContent, service, type};
+		String sqlStr = "insert into tb_sms(mobileNo,smsContent,addDate,service,smsType,randomCode) values(?,?,now(),?,?,?)";
+		Object[] params = new Object[] {mobileNo, smsContent, service, type, yzm};
 		jdbcTemplate.update(sqlStr, params);
 	}
 

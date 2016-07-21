@@ -1,6 +1,7 @@
 package com.yunjing.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,11 @@ public class QeuryServiceImpl implements QueryService{
 		
 		builder.append(" order by t.adddate desc");
 		return pageService.queryForPage(builder.toString(), pn);
+	}
+
+	@Override
+	public Map<String, String> queryBannerCount(String userId) {
+		return queryDao.countUserDeviceAndZones(userId);
 	}
 
 }

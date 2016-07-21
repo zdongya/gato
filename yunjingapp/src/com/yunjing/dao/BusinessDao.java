@@ -24,7 +24,7 @@ public interface BusinessDao {
 	 * @param userId
 	 * @param deviceNo
 	 */
-	public void saveUserDevice(String userId, String deviceNo);
+	public void saveUserDevice(String userId, String deviceNo, int itype);
 	
 	public void deleteCollect(String collectId);
 
@@ -58,7 +58,7 @@ public interface BusinessDao {
 
 	public void editDeviceName(String deviceNo, String deviceName);
 
-	public void bindDevice(String userId, String deviceNo);
+	public void bindDevice(String userId, String deviceNo, int itype);
 	
 	public void addOperatorLog(OperatorLog log);
 

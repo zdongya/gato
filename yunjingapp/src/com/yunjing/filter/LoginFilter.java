@@ -25,6 +25,7 @@ import com.yunjing.service.UserService;
  *
  */
 public class LoginFilter implements Filter{
+//	private static String notShouldLoginUrl = "Login,login,start,sendYzm,Register";
 	
 	private UserService userService;
 
@@ -38,7 +39,9 @@ public class LoginFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)res;
 		String requestUri = request.getRequestURI();
-		if (requestUri.indexOf("Login")==-1 && requestUri.indexOf("login") == -1 && requestUri.indexOf("start") == -1 && requestUri.indexOf("sendYzm") == -1){ //排除登录接口和启动接口
+		if (requestUri.indexOf("Login")==-1 && requestUri.indexOf("login") == -1 
+				&& requestUri.indexOf("start") == -1 && requestUri.indexOf("sendYzm") == -1 && requestUri.indexOf("Register") == -1
+				){ //排除登录接口和启动接口
 			//文件上传接口无法获取参数
 			String token = request.getParameter("token");
 			String userId = request.getParameter("userId");

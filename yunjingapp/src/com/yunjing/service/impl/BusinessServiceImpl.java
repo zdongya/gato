@@ -112,7 +112,7 @@ public class BusinessServiceImpl implements BusinessService {
 	@Transactional
 	public CallResult bindDevice(Device device) {
 		CallResult result = new CallResult();
-		if (CheckUtil.isNullString(device.getDeviceNo()) || CheckUtil.isNullString(device.getDeviceUserName()) || CheckUtil.isNullString(device.getDevicePwd())){
+		if (CheckUtil.isNullString(device.getDeviceNo()) || CheckUtil.isNullString(device.getDevicePwd())){
 			result.setCode("-1000");
 			result.setDesc("参数错误。");
 		} else {
@@ -127,10 +127,14 @@ public class BusinessServiceImpl implements BusinessService {
 				} else {
 					boolean bindCheck = queryDao.bindDeviceCheck(device); //信息正确
 					if (bindCheck){
-						if (queryDao.haveBindDataCheck(device.getUserId(), device.getDeviceNo())){
-							businessDao.bindDevice(device.getUserId(), device.getDeviceNo());
-						} else {
-							businessDao.saveUserDevice(device.getUserId(), device.getDeviceNo());
+						String itype = device.getUserType();
+						if (CheckUtil.isNullString(itype)){
+							itype = "0";
+						}
+						if (queryDao.haveBindDataCheck(device.getUserId(), device.getDeviceNo())){ //曾经绑定过
+							businessDao.bindDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype));
+						} else { //未绑定过
+							businessDao.saveUserDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype));
 						}
 						if (!CheckUtil.isNullString(device.getDeviceName())){
 							businessDao.editDeviceName(device.getDeviceNo(), device.getDeviceName());

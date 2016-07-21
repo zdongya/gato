@@ -84,5 +84,7 @@ public class CheckUtil {
 	public static void main(String[] args){
 		System.out.println(CheckUserName("我的用户名"));
 		System.out.println(isEmail("3-_.d.-7.7110p@1.com"));
+		
+		System.out.println(isNullString(""));
 	}
 }

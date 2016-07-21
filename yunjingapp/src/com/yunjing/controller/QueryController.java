@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yunjing.model.Device;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
-import com.yunjing.service.PageService;
 import com.yunjing.service.QueryService;
 import com.yunjing.util.Pagination;
 import com.yunjing.util.QueryResult;
@@ -220,6 +219,19 @@ public class QueryController {
 		return result;
 	}
 	
+	
+	@RequestMapping(value="/queryBannerCount")
+	public @ResponseBody Map<String,String> queryBannerCount(@RequestParam(value="userId") String userId){
+		Map<String,String> object = new HashMap<String,String>();
+		try {
+			object = queryService.queryBannerCount(userId);
+		} catch (Exception e) {
+			object.put("code", "-1");
+			object.put("desc", "查询数据异常");
+			logger.error("查询banner统计数据异常");
+		}
+		return object;
+	}
 	
 	
 }

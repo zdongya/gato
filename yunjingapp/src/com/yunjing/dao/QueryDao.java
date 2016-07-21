@@ -1,6 +1,7 @@
 package com.yunjing.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yunjing.model.Collect;
 import com.yunjing.model.Device;
@@ -69,5 +70,12 @@ public interface QueryDao {
 	public boolean checkIsBindDevice(String userId, String deviceNo);
 	
 	public boolean haveBindDataCheck(String userId, String deviceNo);
+
+	/**
+	 * 统计用户绑定设备以及防区数
+	 * @param userId
+	 * @return
+	 */
+	public Map<String, String> countUserDeviceAndZones(String userId);
 	
 }

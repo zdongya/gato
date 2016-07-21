@@ -1,6 +1,7 @@
 package com.yunjing.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yunjing.model.Device;
 import com.yunjing.model.Zone;
@@ -65,5 +66,13 @@ public interface QueryService {
 
 
 	public Pagination queryZones(String userId, String deviceName, String zoneName, int pn);
+
+
+	/**
+	 * 获取首页展示的banner数据
+	 * @param userId
+	 * @return
+	 */
+	public Map<String, String> queryBannerCount(String userId);
 
 }
