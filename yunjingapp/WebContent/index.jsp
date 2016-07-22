@@ -8,8 +8,8 @@
 </head>
 <body>
 	<form action="<%=request.getContextPath() %>/user/uploadHeadImg.do" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="userId" value="0692ab9753fd433c9e43de65f99d0e8c"/>
-		<input type="hidden" name="token" value="3b89aa990f5eac16d34781170a7aca88"/>
+		<input type="hidden" name="userId" value="fcd12deb56014c6987c2e257b0fbf90b"/>
+		<input type="hidden" name="token" value="294bf0668b6fd"/>
 		<input type="file" name="file" /> <input type="submit" value="Submit" />
 	</form>
 </body>

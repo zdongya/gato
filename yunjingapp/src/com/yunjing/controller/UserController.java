@@ -56,17 +56,23 @@ public class UserController {
 		logger.info("开始上传图像。。。");
 		CallResult result = new CallResult();
 		try {
-			String fileName = file.getOriginalFilename();
-			String path = Utils.UPLOAD_IMG_DIR;
-			File targetFile = new File(path, fileName);
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
+			boolean loginFlag = userService.checkToken(token, userId);
+			if (!loginFlag){
+				result.setCode("-6666");
+				result.setDesc("未登录");
+			} else {
+				String fileName = file.getOriginalFilename();
+				String path = Utils.UPLOAD_IMG_DIR;
+				File targetFile = new File(path, fileName);
+				if (!targetFile.exists()) {
+					targetFile.mkdirs();
+				}
+				// 保存图片
+		
+				file.transferTo(targetFile);
+				result = userService.uploadImg(userId, fileName);
+				logger.info("上传头像成功");
 			}
-			// 保存图片
-	
-			file.transferTo(targetFile);
-			result = userService.uploadImg(userId, fileName);
-			logger.info("上传头像成功");
 		}catch (Exception e) {
 			result.setCode("-1000");
 			result.setDesc("系统错误，请稍后再试");
