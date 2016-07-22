@@ -10,8 +10,6 @@ import com.yunjing.util.WechatUser;
  */
 public interface UserService {
 	
-	public static final String md5Key = "gato_mobile";
-	
 	
 	/**
 	 * 注册
@@ -78,6 +76,16 @@ public interface UserService {
 	 * @return
 	 */
 	public CallResult registerMobileUser(String mobileNo, String pwd, String yzm, String[] appIds, String appType);
+
+
+	/**
+	 * 忘记密码重设密码
+	 * @param mobileNo
+	 * @param yzm
+	 * @param password
+	 * @return
+	 */
+	public CallResult forgetSetPwd(String mobileNo, String yzm, String password, String[] appIds);
 	
 	
 	

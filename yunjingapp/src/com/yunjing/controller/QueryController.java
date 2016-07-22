@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yunjing.model.Device;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
 import com.yunjing.service.QueryService;
+import com.yunjing.util.BannerImg;
 import com.yunjing.util.Pagination;
 import com.yunjing.util.QueryResult;
 import com.yunjing.util.Utils;
@@ -44,12 +46,12 @@ public class QueryController {
 	 * @return
 	 */
 	@RequestMapping(value="/start")
-	public @ResponseBody Map<String,String> start(@RequestParam(value = "appType", required=false ) Integer appType, @RequestParam(value = "appVersion") String appVersion){
+	public @ResponseBody JSONObject start(@RequestParam(value = "appType", required=false ) Integer appType, @RequestParam(value = "appVersion") String appVersion){
 		return startApp(appType, appVersion);
 	}
 
-	private static Map<String,String> startApp(Integer appType, String appVersion) {
-		Map<String,String> object = new HashMap<String,String>();
+	private static JSONObject startApp(Integer appType, String appVersion) {
+		JSONObject object = new JSONObject();
 		try {
 			logger.info("appType:" + appType + ";appVersion:" + appVersion);
 			if (appType == null){
@@ -77,6 +79,8 @@ public class QueryController {
 				object.put("desc", "无需升级");
 			}
 			
+			wrapBannerImg(object);
+			
 		} catch (Exception e) {
 			object.put("code", "-1");
 			object.put("desc", "解析升级文件异常");
@@ -84,6 +88,22 @@ public class QueryController {
 			
 		}
 		return object;
+	}
+
+	private static void wrapBannerImg(JSONObject object) throws Exception{
+		List<BannerImg> bannerImgs = new ArrayList<BannerImg>();
+		String fileName = Utils.BANNER_VERSION;
+		SAXReader reader = new SAXReader();
+		Document document = reader.read(new File(fileName));
+		Element config = document.getRootElement();
+		String bversion = config.element("version").getText();
+		@SuppressWarnings("unchecked")
+		List<Element> banners = config.elements("bannerImg");
+		for (Element element:banners){
+			bannerImgs.add(new BannerImg(element.attributeValue("img"), element.attributeValue("url")));
+		}
+		object.put("bverison", bversion);
+		object.put("banners", bannerImgs);
 	}
 
 	@RequestMapping(value="/queryDevice")
@@ -232,6 +252,4 @@ public class QueryController {
 		}
 		return object;
 	}
-	
-	
 }

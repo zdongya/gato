@@ -15,6 +15,8 @@ import com.yunjing.model.User;
 import com.yunjing.service.UserService;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.CheckUtil;
+import com.yunjing.util.Constants;
+import com.yunjing.util.Md5Util;
 import com.yunjing.util.Utils;
 import com.yunjing.util.WechatUser;
 
@@ -75,7 +77,7 @@ public class UserController {
 	}
 	
 	
-	
+	//手机号登录接口
 	@RequestMapping(value = "/user/mobLogin")
 	public @ResponseBody CallResult mobLogin(@RequestParam(value = "mobileNo") String mobileNo, @RequestParam(value = "password") String password, 
 			@RequestParam(value = "xmAppId", required=false ) String xmAppId) {
@@ -86,7 +88,8 @@ public class UserController {
 				xmAppId = "";
 			}
 			String[] appIds = new String[]{xmAppId};
-			result = userService.loginByMobile(mobileNo, password, appIds);
+			String passWord = Md5Util.getMD5Str(password + Constants.md5Key); //加密结果
+			result = userService.loginByMobile(mobileNo, passWord, appIds);
 		} catch (Exception e){
 			logger.error(e.getMessage(), e);
 			result.setCode("-10000");
@@ -145,6 +148,34 @@ public class UserController {
 		
 	}
 	
+	
+	/**
+	 * @param 忘记密码重设密码接口，设置完成后直接登录
+	 * @return
+	 */
+	@RequestMapping(value = "/user/forgeSetPwd")
+	public @ResponseBody CallResult forgeSetPwd(@ModelAttribute User user, @RequestParam(value = "yzm") String yzm) {
+		CallResult result = new CallResult();
+		try {
+			if (CheckUtil.isNullString(user.getMobileNo()) || CheckUtil.isNullString(user.getPassword()) || CheckUtil.isNullString(yzm)){
+				result.setCode("-1000");
+				result.setDesc("参数错误");
+			} else {
+				logger.info("手机用户:" + user.getMobileNo() + "忘记密码开始重设密码");
+				if (CheckUtil.isNullString(user.getXmAppId())){
+					user.setXmAppId("");
+				}
+				String[] appIds = new String[]{user.getXmAppId()};
+				result = userService.forgetSetPwd(user.getMobileNo(), yzm, user.getPassword(), appIds);
+			}
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-10000");
+			result.setDesc("系统异常");
+		}
+		return result;
+	}
 	
 
 }

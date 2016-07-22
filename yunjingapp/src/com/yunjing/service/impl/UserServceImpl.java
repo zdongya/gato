@@ -144,7 +144,7 @@ public class UserServceImpl implements UserService {
 		if (flag){
 			User user = userDao.getMobLoginUser(mobileNo, password);
 			if (null == user){
-				result.setCode("-6666");
+				result.setCode("-8888");
 				result.setDesc("密码错误");
 			} else {
 				result.setDesc("登录成功");
@@ -181,6 +181,7 @@ public class UserServceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public CallResult registerMobileUser(String mobileNo, String pwd, String yzm, String[] appIds, String appType) {
 		CallResult result = new CallResult();
 		boolean isRightYzm = userDao.checkYzm(mobileNo, yzm, 0);
@@ -188,7 +189,7 @@ public class UserServceImpl implements UserService {
 			User user = new User();
 			user.setItype(0);
 			user.setMobileNo(mobileNo);
-			String passWord = Md5Util.getMD5Str(pwd + md5Key); //加密结果
+			String passWord = Md5Util.getMD5Str(pwd + Constants.md5Key); //加密结果
 			user.setPassword(passWord);
 			user.setXmAppId(appIds[0]);
 			user.setAppType(appType);
@@ -202,22 +203,22 @@ public class UserServceImpl implements UserService {
 		}
 		return result;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	@Transactional
+	public CallResult forgetSetPwd(String mobileNo, String yzm, String password, String[] appIds) {
+		CallResult result = new CallResult();
+		boolean isRightYzm = userDao.checkYzm(mobileNo, yzm, 1);
+		if (isRightYzm){ //验证码正确
+			String pwd = Md5Util.getMD5Str(password + Constants.md5Key); //密码加密
+			userDao.updatePwd(mobileNo,pwd);
+			result = loginByMobile(mobileNo, pwd, appIds);
+		} else {
+			result.setCode("-1000");
+			result.setDesc("验证码不正确");
+		}
+		return result;
+	}
 	
 	
 	

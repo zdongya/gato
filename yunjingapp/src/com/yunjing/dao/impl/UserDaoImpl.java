@@ -152,4 +152,16 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public void updatePwd(String mobileNo, String pwd) {
+		String sqlStr = "update tb_user set password=? where mobileno=?";
+		jdbcTemplate.update(sqlStr, new Object[]{pwd, mobileNo});
+	}
+
+	@Override
+	public void updatePwd(String mobileNo, String oldPwd, String pwd) {
+		String sqlStr = "update tb_user set password=? where mobileno=? and password=?";
+		jdbcTemplate.update(sqlStr, new Object[]{pwd, mobileNo, oldPwd});
+	}
+
 }

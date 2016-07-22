@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Constants {
+	public static final String md5Key = "gato_mobile";
 	private static Map<Integer, String> smsTypeMap = new HashMap<Integer,String>();
 	private static final String SERVICE = "yunxin";
 	static {

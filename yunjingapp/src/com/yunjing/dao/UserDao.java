@@ -93,4 +93,20 @@ public interface UserDao {
 	 */
 	public boolean checkYzm(String mobileNo, String yzm, int type);
 
+	/**
+	 * 更新用户密码(忘记密码)
+	 * @param mobileNo
+	 * @param pwd
+	 */
+	public void updatePwd(String mobileNo, String pwd);
+	
+	
+	/**
+	 * 更新用户密码(重置密码)
+	 * @param mobileNo
+	 * @param pwd
+	 */
+	public void updatePwd(String mobileNo,String oldPwd, String pwd);
+	
+
 }
