@@ -24,7 +24,14 @@ public class Device extends BaseModel{
 	
 	private String collectId; 
 	private String online = "0";
+	private int zoneCount;
 	
+	public int getZoneCount() {
+		return zoneCount;
+	}
+	public void setZoneCount(int zoneCount) {
+		this.zoneCount = zoneCount;
+	}
 	public String getDeviceNo() {
 		return deviceNo;
 	}

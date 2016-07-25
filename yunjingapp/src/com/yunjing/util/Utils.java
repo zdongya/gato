@@ -33,6 +33,7 @@ public class Utils {
 	public static final String IOS_UPGRADE = "/opt/export/upload/file/config/ios_upgrade.xml";
 	public static final String BANNER_VERSION = "/opt/export/upload/file/config/banner_upgrade.xml";
 	public static final String INTERKEY = "yunjing";
+	public static final String IMG_URL = "http://115.159.44.248:8085/";
 
 	public static String getUUID() {
 		String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");

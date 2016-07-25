@@ -72,10 +72,10 @@ public interface QueryDao {
 	public boolean haveBindDataCheck(String userId, String deviceNo);
 
 	/**
-	 * 统计用户绑定设备以及防区数
+	 * 获取首页数据
 	 * @param userId
 	 * @return
 	 */
-	public Map<String, String> countUserDeviceAndZones(String userId);
+	public Map<String, String> queryIndexData(String userId);
 	
 }

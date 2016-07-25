@@ -91,8 +91,8 @@ public class QeuryServiceImpl implements QueryService{
 	}
 
 	@Override
-	public Map<String, String> queryBannerCount(String userId) {
-		return queryDao.countUserDeviceAndZones(userId);
+	public Map<String, String> queryIndexData(String userId) {
+		return queryDao.queryIndexData(userId);
 	}
 
 }

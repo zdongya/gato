@@ -6,6 +6,7 @@ public class DeviceDto{
 	private String deviceUserName = ""; //设备用户名
 	private String devicePwd = ""; //设备密码
 	private String online = "";
+	private String memberPwd = ""; //操作员密码
 	public String getDeviceNo() {
 		return deviceNo;
 	}
@@ -35,6 +36,12 @@ public class DeviceDto{
 	}
 	public void setOnline(String online) {
 		this.online = online;
+	}
+	public String getMemberPwd() {
+		return memberPwd;
+	}
+	public void setMemberPwd(String memberPwd) {
+		this.memberPwd = memberPwd;
 	}
 	
 

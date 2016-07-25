@@ -2,7 +2,6 @@ package com.yunjing.servlet;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -20,14 +19,11 @@ import com.yunjing.dto.DeviceDto;
 import com.yunjing.dto.UploadZone;
 import com.yunjing.entity.DevicePing;
 import com.yunjing.entity.WarningInfo;
-import com.yunjing.entity.Zone;
 import com.yunjing.service.ChannelInterService;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.CheckUtil;
 import com.yunjing.util.JsonUtil;
 import com.yunjing.util.Utils;
-
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 /**
  * 通道接口servlet
@@ -207,10 +203,17 @@ public class ChannelInterServlet extends HttpServlet{
 			String deviceUserName = req.getParameter("deviceUserName");
 			String devicePwd = req.getParameter("devicePwd");
 			String deviceVersion = req.getParameter("deviceVersion");
+			String memberPwd = req.getParameter("memberPwd"); //管理员密码
 			if (CheckUtil.isNullString(deviceNo)){
 				result.setCode("-6666");
 				result.setDesc("设备编号不能为空");
 				return ;
+			}
+			if(!CheckUtil.isNullString(memberPwd)){
+				logger.info("上传了操作员密码");
+				memberPwd = memberPwd + ",";
+			} else {
+				logger.info("旧版本设备激活");
 			}
 			
 			DeviceDto dto = new DeviceDto();
@@ -218,6 +221,7 @@ public class ChannelInterServlet extends HttpServlet{
 			dto.setDeviceVersion(deviceVersion);
 			dto.setDeviceUserName(deviceUserName);
 			dto.setDevicePwd(devicePwd);
+			dto.setMemberPwd(memberPwd);
 			result = channelInterService.deviceActive(dto);
 		} catch (Exception e) {
 			e.printStackTrace();

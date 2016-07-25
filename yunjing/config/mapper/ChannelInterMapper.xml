@@ -4,12 +4,12 @@
 <mapper namespace='com.yunjing.dao.ChannelInterDao'>
     
     <insert id="saveDevice" parameterType="Device" >
-	    insert into tb_device (deviceno,version,deviceusername,devicepwd,adddate,updateDate,online)
-	    values (#{deviceNo,jdbcType=VARCHAR},#{deviceVersion,jdbcType=VARCHAR},#{deviceUserName,jdbcType=VARCHAR},#{devicePwd,jdbcType=VARCHAR},now(),now(),'1')
+	    insert into tb_device (deviceno,version,deviceusername,devicepwd,adddate,updateDate,online, memberPwd)
+	    values (#{deviceNo,jdbcType=VARCHAR},#{deviceVersion,jdbcType=VARCHAR},#{deviceUserName,jdbcType=VARCHAR},#{devicePwd,jdbcType=VARCHAR},now(),now(),'1',#{memberPwd,jdbcType=VARCHAR})
 	</insert>
 	
      <insert id="updateDevice" parameterType="Device" >
-	    update tb_device set version=#{deviceVersion},deviceusername=#{deviceUserName},devicepwd=#{devicePwd},updateDate=now(),online='1'  where deviceno=#{deviceNo}
+	    update tb_device set version=#{deviceVersion},deviceusername=#{deviceUserName},devicepwd=#{devicePwd},updateDate=now(),online='1',memberPwd=#{memberPwd}  where deviceno=#{deviceNo}
 	</insert>     
 	
     <insert id="saveZone" parameterType="Zone" >

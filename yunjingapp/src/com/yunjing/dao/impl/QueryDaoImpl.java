@@ -53,7 +53,7 @@ public class QueryDaoImpl implements QueryDao {
 	public List<?> queryUserDevices(String userId) {
 //		String sql = "select * from tb_device where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1)";
 //		String sql = "select t.*,c.collectid as collectId from (select * from tb_device  where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1) )t left join tb_collect c on c.deviceNo=t.deviceNo and c.userid=?";
-		String sql = "SELECT t.*,c.collectid FROM (SELECT t.*,a.itype as userType FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo)  "
+		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.*,a.itype as userType FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo)  "
 				+ " t LEFT JOIN tb_collect c ON c.deviceNo=t.deviceNo AND c.userid=?";
 		return jdbcTemplate.query(sql, new Object[]{userId, userId},new BeanPropertyRowMapper(Device.class));
 	}
@@ -251,15 +251,19 @@ public class QueryDaoImpl implements QueryDao {
 
 
 	@Override
-	public Map<String, String> countUserDeviceAndZones(String userId) {
+	public Map<String, String> queryIndexData(String userId) {
 		Map<String, String> map = new HashMap<String, String>();
 		String userDeviceCountSql = "select count(1) from tb_user_device_map where cuserid=? and istate=1";
 		String userZoneCountSql = "select count(1) from tb_zone where deviceno in (select deviceno from tb_user_device_map where cuserid=? AND istate=1)";
+		String queryImgSql = "select icoin as headImg from tb_user where userid=?";
 		int userDeviceCount = jdbcTemplate.queryForInt(userDeviceCountSql,new Object[]{userId});
 		int userZoneCount = jdbcTemplate.queryForInt(userZoneCountSql,new Object[]{userId});
+		@SuppressWarnings("unchecked")
+		String headImg = (String)jdbcTemplate.queryForObject(queryImgSql, new Object[]{userId}, String.class);
 		map.put("deviceCount", String.valueOf(userDeviceCount));
 		map.put("zoneCount", String.valueOf(userZoneCount));
 		map.put("code", "10000");
+		map.put("headImg", headImg);
 		map.put("desc", "查询成功");
 		return map;
 	}

@@ -1,6 +1,8 @@
 package com.yunjing.controller;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +54,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/uploadHeadImg")
-	public @ResponseBody CallResult uploadHeadImg(@RequestParam(value = "file") MultipartFile file, @RequestParam(value="userId") String userId,@RequestParam(value="token") String token) {
+	public @ResponseBody Map<String,String> uploadHeadImg(@RequestParam(value = "file") MultipartFile file, @RequestParam(value="userId") String userId,@RequestParam(value="token") String token) {
 		logger.info("开始上传图像。。。");
+		Map<String, String> map = new HashMap<String, String>();
 		CallResult result = new CallResult();
 		try {
 			boolean loginFlag = userService.checkToken(token, userId);
@@ -62,6 +65,9 @@ public class UserController {
 				result.setDesc("未登录");
 			} else {
 				String fileName = file.getOriginalFilename();
+				logger.info("上传头像中，文件名：" + fileName);
+				
+				fileName = userId + "." + fileName.split("\\.")[1];
 				String path = Utils.UPLOAD_IMG_DIR;
 				File targetFile = new File(path, fileName);
 				if (!targetFile.exists()) {
@@ -70,8 +76,10 @@ public class UserController {
 				// 保存图片
 		
 				file.transferTo(targetFile);
-				result = userService.uploadImg(userId, fileName);
+				result = userService.uploadImg(userId, Utils.IMG_URL + fileName);
 				logger.info("上传头像成功");
+				result.setDesc("上传头像成功");
+				map.put("headImg", Utils.IMG_URL + fileName);
 			}
 		}catch (Exception e) {
 			result.setCode("-1000");
@@ -79,7 +87,9 @@ public class UserController {
 			logger.error(e.getMessage(), e);
 			
 		}
-		return result;
+		map.put("code", result.getCode());
+		map.put("desc", result.getDesc());
+		return map;
 	}
 	
 	
@@ -183,5 +193,4 @@ public class UserController {
 		return result;
 	}
 	
-
 }

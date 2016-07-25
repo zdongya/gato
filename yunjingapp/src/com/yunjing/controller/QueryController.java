@@ -82,6 +82,7 @@ public class QueryController {
 			wrapBannerImg(object);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			object.put("code", "-1");
 			object.put("desc", "解析升级文件异常");
 			logger.error("解析升级文件异常");
@@ -240,11 +241,11 @@ public class QueryController {
 	}
 	
 	
-	@RequestMapping(value="/queryBannerCount")
-	public @ResponseBody Map<String,String> queryBannerCount(@RequestParam(value="userId") String userId){
+	@RequestMapping(value="/queryIndexData")
+	public @ResponseBody Map<String,String> queryIndexData(@RequestParam(value="userId") String userId){
 		Map<String,String> object = new HashMap<String,String>();
 		try {
-			object = queryService.queryBannerCount(userId);
+			object = queryService.queryIndexData(userId);
 		} catch (Exception e) {
 			object.put("code", "-1");
 			object.put("desc", "查询数据异常");

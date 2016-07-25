@@ -73,6 +73,6 @@ public interface QueryService {
 	 * @param userId
 	 * @return
 	 */
-	public Map<String, String> queryBannerCount(String userId);
+	public Map<String, String> queryIndexData(String userId);
 
 }
