@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yunjing.dao.QueryDao;
 import com.yunjing.model.Device;
+import com.yunjing.model.Sms;
 import com.yunjing.model.Zone;
 import com.yunjing.service.PageService;
 import com.yunjing.service.QueryService;
@@ -95,4 +96,34 @@ public class QeuryServiceImpl implements QueryService{
 		return queryDao.queryIndexData(userId);
 	}
 
+	@Override
+	public List<Sms> getNotSendSms(String service) {
+		return queryDao.getNotSendSms(service);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

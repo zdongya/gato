@@ -14,6 +14,7 @@ import com.yunjing.dao.QueryDao;
 import com.yunjing.model.Collect;
 import com.yunjing.model.Device;
 import com.yunjing.model.DeviceGroup;
+import com.yunjing.model.Sms;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
 import com.yunjing.util.CheckUtil;
@@ -266,6 +267,18 @@ public class QueryDaoImpl implements QueryDao {
 		map.put("headImg", headImg);
 		map.put("desc", "查询成功");
 		return map;
+	}
+
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<Sms> getNotSendSms(String service) {
+		try {
+			String queryString = "select * from tb_sms where flag=0 and service = ? order by addDate asc";
+			return jdbcTemplate.query(queryString,new Object[]{service},new BeanPropertyRowMapper(Sms.class));
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 	
 }

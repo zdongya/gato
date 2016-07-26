@@ -6,6 +6,7 @@ import java.util.Map;
 import com.yunjing.model.Collect;
 import com.yunjing.model.Device;
 import com.yunjing.model.DeviceGroup;
+import com.yunjing.model.Sms;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
 
@@ -77,5 +78,7 @@ public interface QueryDao {
 	 * @return
 	 */
 	public Map<String, String> queryIndexData(String userId);
+
+	public List<Sms> getNotSendSms(String service);
 	
 }

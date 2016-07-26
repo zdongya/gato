@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yunjing.model.Device;
+import com.yunjing.model.Sms;
 import com.yunjing.model.Zone;
 import com.yunjing.util.Pagination;
 /**
@@ -74,5 +75,15 @@ public interface QueryService {
 	 * @return
 	 */
 	public Map<String, String> queryIndexData(String userId);
+	
+	
+	/**
+	 * 获取未发送的短信
+	 * @param service:接口服务商
+	 * @return
+	 */
+	public List<Sms> getNotSendSms(String service);
+	
+	
 
 }
