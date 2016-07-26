@@ -10,12 +10,15 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-
+/**
+ * 
+ * @author DONGYA
+ *
+ */
 public class HttpClientUtil {
 
 	/**
 	 * 使用GetMethod
-	 * 
 	 * @param url
 	 * @return
 	 */
@@ -43,6 +46,12 @@ public class HttpClientUtil {
 		}
 	}
 
+	/**
+	 * 使用post访问http链接
+	 * @param url
+	 * @param parmp
+	 * @return
+	 */
 	public static String callPost(String url, Map<String, String> parmp) {
 		PostMethod post = null;
 		try {
