@@ -74,6 +74,7 @@ public class HttpClientUtil {
 
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static List<NameValuePair> getParamsList(Map paramsMap) {
 		if (paramsMap == null || paramsMap.size() == 0) {
 			return null;
