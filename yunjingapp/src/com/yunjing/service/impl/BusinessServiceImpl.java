@@ -19,6 +19,7 @@ import com.yunjing.service.BusinessService;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.CheckUtil;
 import com.yunjing.util.DateUtil;
+import com.yunjing.util.SmsSender;
 import com.yunjing.util.Utils;
 @Service(value = "businessService")
 public class BusinessServiceImpl implements BusinessService {
@@ -297,6 +298,25 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public void saveOperatorLog(OperatorLog log) {
 		businessDao.addOperatorLog(log);
+	}
+
+	@Override
+	@Transactional
+	public void updateSms(SmsSender sender) {
+		if (sender.getItype() == 0){ //提交短信
+			businessDao.updateSmsCommitResult(sender);
+		} else {
+			businessDao.updateSmsSendResult(sender);
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void updateOverTimeSms() {
+		businessDao.updateNotSendSmsToFail();
+		businessDao.updateNotGetReportToSuccess();
+		
 	}
 
 }

@@ -11,6 +11,7 @@ import com.yunjing.model.OperatorLog;
 import com.yunjing.model.Push;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
+import com.yunjing.util.SmsSender;
 import com.yunjing.util.Utils;
 @Repository(value = "businessDao")
 public class BusinessDaoImpl implements BusinessDao {
@@ -120,6 +121,34 @@ public class BusinessDaoImpl implements BusinessDao {
 		Object[] params = new Object[]{log.getId(), log.getMemo(), log.getOperatorType(), log.getIpAddr(), log.getDeviceNo(), log.getZoneNo(), log.getMemberId()};
 		jdbcTemplate.update(sql, params);
 		System.out.println("添加信息到操作日志表成功。。。");
+	}
+
+	@Override
+	public void updateSmsCommitResult(SmsSender sender) {
+		String sql = "update tb_sms set sendDate=now(),flag=?,applyId=?,resultDesc=? where id=?";
+		Object[] params = new Object[]{sender.getDbFlag(), sender.getBatchId(), sender.getErrDesc(), sender.getSmsId()};
+		jdbcTemplate.update(sql, params);
+		
+	}
+
+	@Override
+	public void updateSmsSendResult(SmsSender sender) {
+		String sql = "update tb_sms set updateDate=now(),flag=?,resultDesc=? where applyId=? and mobileNo=?";
+		Object[] params = new Object[]{sender.getDbFlag(), sender.getErrDesc(), sender.getBatchId(), sender.getMobileNo()};
+		jdbcTemplate.update(sql, params);
+	}
+
+	@Override
+	public void updateNotSendSmsToFail() {
+		String sql = "update tb_sms set flag=4,updateDate=now() where flag=0 and addDate < subdate(now(),interval 5 minute) "; //5分钟之前未发送的短信设置为发送失败
+		jdbcTemplate.update(sql);
+		
+	}
+
+	@Override
+	public void updateNotGetReportToSuccess() {
+		String sql = "update tb_sms set flag=5,updateDate=now() where flag=1 and sendDate < subdate(now(),interval 1 day)"; //1天之前仍未获取到发送报告设置为发送成功
+		jdbcTemplate.update(sql);
 	}
 
 

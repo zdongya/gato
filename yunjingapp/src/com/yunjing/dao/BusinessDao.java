@@ -6,6 +6,7 @@ import com.yunjing.model.OperatorLog;
 import com.yunjing.model.Push;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
+import com.yunjing.util.SmsSender;
 
 public interface BusinessDao {
 	public void saveDeviceGroup(DeviceGroup deviceGroup);
@@ -61,5 +62,13 @@ public interface BusinessDao {
 	public void bindDevice(String userId, String deviceNo, int itype);
 	
 	public void addOperatorLog(OperatorLog log);
+
+	public void updateSmsCommitResult(SmsSender sender);
+
+	public void updateSmsSendResult(SmsSender sender);
+
+	public void updateNotSendSmsToFail();
+
+	public void updateNotGetReportToSuccess();
 
 }

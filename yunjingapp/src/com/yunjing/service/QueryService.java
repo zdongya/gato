@@ -83,6 +83,13 @@ public interface QueryService {
 	 * @return
 	 */
 	public List<Sms> getNotSendSms(String service);
+
+	/**
+	 * 获取待获取发送报告的短信
+	 * @param service
+	 * @return
+	 */
+	public List<Sms> getSmsReportList(String service);
 	
 	
 

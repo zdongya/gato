@@ -5,6 +5,7 @@ import com.yunjing.model.OperatorLog;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
 import com.yunjing.util.CallResult;
+import com.yunjing.util.SmsSender;
 
 /**
  * 业务操作service
@@ -43,5 +44,15 @@ public interface BusinessService {
 
 	public void saveOperatorLog(OperatorLog log);
 	
+	/**
+	 * 更新短信发送结果
+	 * @param result
+	 */
+	public void updateSms(SmsSender sender);
+
+	/**
+	 * 更新过期短信
+	 */
+	public void updateOverTimeSms();
 	
 }

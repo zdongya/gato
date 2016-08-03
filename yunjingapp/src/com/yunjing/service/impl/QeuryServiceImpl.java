@@ -101,6 +101,11 @@ public class QeuryServiceImpl implements QueryService{
 		return queryDao.getNotSendSms(service);
 	}
 
+	@Override
+	public List<Sms> getSmsReportList(String service) {
+		return queryDao.getSmsReportList(service);
+	}
+
 	
 	
 	

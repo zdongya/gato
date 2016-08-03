@@ -80,5 +80,7 @@ public interface QueryDao {
 	public Map<String, String> queryIndexData(String userId);
 
 	public List<Sms> getNotSendSms(String service);
+
+	public List<Sms> getSmsReportList(String service);
 	
 }

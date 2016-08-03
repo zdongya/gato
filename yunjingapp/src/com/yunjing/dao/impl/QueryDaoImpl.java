@@ -280,5 +280,16 @@ public class QueryDaoImpl implements QueryDao {
 			return null;
 		}
 	}
+
+
+	@Override
+	public List<Sms> getSmsReportList(String service) {
+		try {
+			String queryString = "select * from tb_sms where flag=1 and service = ? order by addDate asc";
+			return jdbcTemplate.query(queryString,new Object[]{service},new BeanPropertyRowMapper(Sms.class));
+		} catch (DataAccessException e) {
+			return null;
+		}
+	}
 	
 }

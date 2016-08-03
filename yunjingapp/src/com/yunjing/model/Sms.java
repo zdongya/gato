@@ -7,6 +7,13 @@ import java.sql.Timestamp;
  */
 public class Sms {
 	private int id;
+	private String mobileNo;
+	public String getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
 	private String smsContent;
 	private Timestamp addDate;
 	private Timestamp sendDate;
