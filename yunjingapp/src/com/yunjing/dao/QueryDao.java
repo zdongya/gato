@@ -82,5 +82,22 @@ public interface QueryDao {
 	public List<Sms> getNotSendSms(String service);
 
 	public List<Sms> getSmsReportList(String service);
+
+	/**
+	 * 校验是否属于自己管理的防区
+	 * @param userId:用户编号
+	 * @param deviceNo:设备编号
+	 * @return
+	 */
+	public boolean checkOwnManageDevice(String userId, String deviceNo);
+	
+	
+	/**
+	 * 一键布撤防时校验用户密码
+	 * @param deviceNo
+	 * @param pwd
+	 * @return
+	 */
+	public boolean checkDeviceDefencePwd(String deviceNo, String pwd);
 	
 }

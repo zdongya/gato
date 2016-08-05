@@ -137,15 +137,28 @@ public class Utils {
 	public static String wrapPushMsg(PushDto pushDto) {
 		Map<String, String> map = new HashMap<String, String>();
 		String action = "defence"; //默认布撤防
+		if (pushDto.getItype().equals("0") || pushDto.getItype().equals("1")){ //客户端对防区进行 布撤防或消警 操作
+			map.put("zoneNo", pushDto.getZoneNo());
+		} else { //一键消警 一键布撤防要传 设备编号
+			map.put("deviceNo", pushDto.getDeviceNo());
+		}
+		
 		if (pushDto.getItype().equals("0")){ //消警
 			action = "cleanup";
 			map.put("warningId", pushDto.getWarningId());
+		} else if (pushDto.getItype().equals("3")){ //一键布撤防
+			action = "defenceDevice";
+		} else if (pushDto.getItype().equals("4")){ //一键消警
+			action = "cleanupDevice";
 		}
 		map.put("action", action);
 		map.put("time", pushDto.getTime());
 		map.put("msgId", pushDto.getMsgId());
-		map.put("istate", pushDto.getCommandState());
-		map.put("zoneNo", pushDto.getZoneNo());
+		
+		if(!pushDto.getItype().equals("4")){ //一键消警不需要传递 istate
+			map.put("istate", pushDto.getCommandState());
+		}
+		
 		String toSignStr = Utils.getSignStr(map, Utils.INTERKEY);
 		logger.info("tosignStr:" + toSignStr);
 		String serverSign = Utils.getMD5Str(toSignStr);

@@ -71,4 +71,12 @@ public interface BusinessDao {
 
 	public void updateNotGetReportToSuccess();
 
+	/**
+	 * 删除无效的一键布撤防、一键消警消息
+	 * @param topic
+	 * @param itype
+	 */
+	public void deleteNotPushInvalidMsg(String topic, String itype);
+
+	
 }

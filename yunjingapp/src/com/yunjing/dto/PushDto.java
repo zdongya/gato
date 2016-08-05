@@ -3,6 +3,13 @@ package com.yunjing.dto;
 import com.yunjing.model.Push;
 
 public class PushDto extends Push {
+	private String deviceNo; //设备编号
+	public String getDeviceNo() {
+		return deviceNo;
+	}
+	public void setDeviceNo(String deviceNo) {
+		this.deviceNo = deviceNo;
+	}
 	private String time;
 	private String warningId;
 	private String CommandState; //指令状态

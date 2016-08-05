@@ -1,5 +1,7 @@
 package com.yunjing.service.impl;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -317,6 +319,126 @@ public class BusinessServiceImpl implements BusinessService {
 		businessDao.updateNotSendSmsToFail();
 		businessDao.updateNotGetReportToSuccess();
 		
+	}
+
+	@Override
+	@Transactional
+	public CallResult deviceDefence(String userId,String pwd,String deviceNo, String istate, String ipAddr) {
+		CallResult result = new CallResult();
+		if (CheckUtil.isNullString(istate) || "1,2".indexOf(istate) == -1){ //布撤防状态不正确
+			result.setCode("-3000");
+			result.setDesc("布撤防状态不正确");
+			return result;
+		}
+		boolean flag = queryDao.checkOwnManageDevice(userId, deviceNo); //是否是自己管理的防区
+		if (!flag){
+			result.setCode("-1000");
+			result.setDesc("不是自己的防区不允许操作");  
+		} else {
+			//判断密码是否正确
+			flag = queryDao.checkDeviceDefencePwd(deviceNo, pwd);
+			if (!flag){
+				result.setCode("-4000");
+				result.setDesc("密码错误");  
+				return result;
+			}
+			
+			List<?> zones = queryDao.queryZonesByDeviceNo(deviceNo);
+			if (null != zones && zones.size()>0){
+				int num = 0;
+				for (int i=0; i<zones.size(); i++){
+					Zone zone = (Zone)zones.get(i);
+					if ("1,2,3".indexOf(zone.getZoneStyle()) != -1){
+						logger.info("24小时防区，布撤防不需要处理");
+					} else {
+						num ++;
+						businessDao.changeZoneState(zone.getZoneNo(), istate);
+					}
+				}
+				if (num == 0){
+					result.setCode("-6000");
+					result.setDesc("该设备里面的所有防区都是24h防区，本次操作无效");  
+					return result;
+				}
+				
+				//把一键布撤防消息加入MQTT推送表
+				Push push = new Push();
+				push.setMsgId(Utils.getUUID());
+				push.setAddDate(DateUtil.getNowDateTime());
+				push.setPushService("0"); //MQTT推送
+				push.setItype("3"); //消息类型为布撤防
+				push.setTopic(deviceNo); //topic 为设备编号
+				businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效一键布撤防推送消息
+				String pushZoneState = "1"; //推送防区要进行的布撤防操作 默认要一键布防
+				String operatorType = "4"; //默认一键布防
+				if (istate.equals("1")){ //app为撤防中
+					pushZoneState = "0";
+					operatorType = "5"; //一键撤防操作
+				}
+				
+				PushDto dto = new PushDto();
+				BeanUtils.copyProperties(push, dto);
+				dto.setDeviceNo(deviceNo);
+				dto.setTime(System.currentTimeMillis() + "");
+				dto.setCommandState(pushZoneState);
+				push.setMsgText(Utils.wrapPushMsg(dto));
+				logger.info("msgText:" + push.getMsgText());
+				businessDao.savePushMsg(push);
+				logger.info("一键布撤防操作成功，设备编号：" + deviceNo + ";处理后状态为：" + istate);
+				
+				//添加操作日志
+				OperatorLog log = new OperatorLog();
+				log.setDeviceNo(deviceNo);
+				log.setIpAddr(ipAddr);
+				log.setMemberId(userId);
+				log.setMemo("用户进行" + (istate.equals("1")?"一键撤防":"一键布防") + "操作" );
+				log.setOperatorType(operatorType); //操作类型
+				saveOperatorLog(log);
+			} else {
+				result.setCode("-2000");
+				result.setDesc("您的设备还没有防区，请先上传");  ;
+			}
+			
+		}
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr) {
+		CallResult result = new CallResult();
+		boolean flag = queryDao.checkOwnManageDevice(userId, deviceNo); //是否是自己管理的防区
+		if (!flag){
+			result.setCode("-1000");
+			result.setDesc("不是自己的防区不允许修改");  
+		}  else {
+			Push push = new Push();
+			push.setMsgId(Utils.getUUID());
+			push.setAddDate(DateUtil.getNowDateTime());
+			push.setPushService("0"); //MQTT推送
+			push.setItype("4"); //消息类型为一键消警
+			push.setTopic(deviceNo); //topic 为设备编号
+			businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效一键布撤防推送消息
+			
+			PushDto dto = new PushDto();
+			BeanUtils.copyProperties(push, dto);
+			dto.setDeviceNo(deviceNo);
+			dto.setTime(System.currentTimeMillis() + "");
+			push.setMsgText(Utils.wrapPushMsg(dto));
+			logger.info("msgText:" + push.getMsgText());
+			businessDao.savePushMsg(push);
+			logger.info("一键消警操作中，设备编号：" + deviceNo);
+			
+			//添加操作日志
+			OperatorLog log = new OperatorLog();
+			log.setDeviceNo(deviceNo);
+			log.setIpAddr(ipAddr);
+			log.setMemberId(userId);
+			log.setMemo("用户进行一键消警操作" );
+			log.setOperatorType("6"); //操作类型 一键消警
+			saveOperatorLog(log);
+		}
+		return result;
 	}
 
 }

@@ -10,7 +10,14 @@ public class ZoneDto {
 	private String zoneStrain = ""; //张力值
 	private String zoneStrainVpt = ""; //张力阈值
 	private String uploadType = ""; //0添加  1删除  2上报通道布撤防状态
+	private String zoneStyle = "4"; // 1：屏蔽防区  2：24小时有声防区 3：24小时无声防区 4：即时防区  5：布撤防防区  6：延时防区  7：传递延时防区 (若不传或则为空则以即时防区处理)
 	
+	public String getZoneStyle() {
+		return zoneStyle;
+	}
+	public void setZoneStyle(String zoneStyle) {
+		this.zoneStyle = zoneStyle;
+	}
 	private String deviceNo = ""; //设备编号
 	public String getZoneNo() {
 		return zoneNo;

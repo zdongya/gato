@@ -152,4 +152,11 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 
+	@Override
+	public void deleteNotPushInvalidMsg(String topic, String itype) {
+		String sql = "delete from tb_push where topic=? and itype=? and istate=0";
+		Object[] params = new Object[]{topic, itype};
+		jdbcTemplate.update(sql, params);
+	}
+
 }

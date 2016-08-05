@@ -190,4 +190,50 @@ public class ServiceController {
 		
 	}
 	
+	
+	/**
+	 * 设备一键布撤防
+	 * @param deviceNo
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/service/deviceDefence")
+	public @ResponseBody CallResult defenceDevice(HttpSession session, @RequestParam(value="userId") String userId,@RequestParam(value="deviceNo") String deviceNo,
+			@RequestParam(value="istate") String istate,@RequestParam(value="pwd") String pwd){
+		CallResult callResult = new CallResult();
+		try {
+			String ipAddr = (String)session.getAttribute("visitIp");
+			callResult = businessService.deviceDefence(userId, pwd, deviceNo, istate, ipAddr);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
+	
+	/**
+	 * 一键消警
+	 * @param session
+	 * @param userId
+	 * @param deviceNo
+	 * @return
+	 */
+	@RequestMapping(value="/service/deviceHandleWaring")
+	public @ResponseBody CallResult deviceHandleWaring(HttpSession session, @RequestParam(value="userId") String userId,@RequestParam(value="deviceNo") String deviceNo){
+		CallResult callResult = new CallResult();
+		try {
+			
+			String ipAddr = (String)session.getAttribute("visitIp");
+			callResult = businessService.deviceHandleWaring(userId, deviceNo,ipAddr);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
+	
+	
+
 }

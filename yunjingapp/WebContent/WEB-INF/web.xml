@@ -74,4 +74,15 @@
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	
+	<!-- 
+	<servlet>
+		<servlet-name>testServlet</servlet-name>
+		<servlet-class>com.yunjing.util.TestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>testServlet</servlet-name>
+		<url-pattern>/uploadTest.go</url-pattern>
+	</servlet-mapping>
+	-->
 </web-app>

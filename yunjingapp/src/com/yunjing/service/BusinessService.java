@@ -54,5 +54,19 @@ public interface BusinessService {
 	 * 更新过期短信
 	 */
 	public void updateOverTimeSms();
+
+	/**
+	 * 设备一键布撤防
+	 * @param userId
+	 * @param pwd
+	 * @param deviceNo
+	 * @param istate
+	 * @param ipAddr
+	 * @return
+	 */
+	public CallResult deviceDefence(String userId, String pwd, String deviceNo, String istate, String ipAddr);
+	
+
+	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr);
 	
 }

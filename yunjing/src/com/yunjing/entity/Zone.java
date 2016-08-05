@@ -29,6 +29,7 @@ public class Zone {
 	private String deviceNum; //deviceNum //ibatis插入时使用
 	
 	private String zoneOnline = "0"; //上下线状态 0未上线 1已上线
+	private String zoneStyle = "4"; // 1：屏蔽防区  2：24小时有声防区 3：24小时无声防区 4：即时防区  5：布撤防防区  6：延时防区  7：传递延时防区 (若不传或则为空则以即时防区处理)
 	
 	public String getZoneNo() {
 		return zoneNo;
@@ -159,6 +160,12 @@ public class Zone {
 		return typeName;
 	}
 	
+	public String getZoneStyle() {
+		return zoneStyle;
+	}
+	public void setZoneStyle(String zoneStyle) {
+		this.zoneStyle = zoneStyle;
+	}
 	public String getStateName(){
 		String zoneState = getZoneState();
 		String stateName = "";

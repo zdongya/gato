@@ -291,5 +291,28 @@ public class QueryDaoImpl implements QueryDao {
 			return null;
 		}
 	}
+
+
+	@Override
+	public boolean checkOwnManageDevice(String userId, String deviceNo) {
+		String sql = "select count(1) from tb_user_device_map where cuserid=? and deviceno=? and istate=1 and itype=0";
+		int count = jdbcTemplate.queryForInt(sql,new Object[]{userId, deviceNo});
+		if (count == 1){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean checkDeviceDefencePwd(String deviceNo, String pwd){
+		String sql = "select count(1) from tb_device where deviceno=? and (devicePwd=? or memberpwd like ?) ";
+		int count = jdbcTemplate.queryForInt(sql,new Object[]{deviceNo, pwd, "%" + pwd + ",%" });
+		if (count == 1){
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 	
 }
