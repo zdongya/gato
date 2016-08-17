@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yunjing.dao.QueryDao;
+import com.yunjing.dto.WarnSearch;
 import com.yunjing.model.Device;
 import com.yunjing.model.Sms;
 import com.yunjing.model.Zone;
@@ -70,8 +71,8 @@ public class QeuryServiceImpl implements QueryService{
 	}
 
 	@Override
-	public List<?> queryDeviceZones(String deviceNo) {
-		return queryDao.queryZonesByDeviceNo(deviceNo);
+	public List<?> queryDeviceZones(String userId, String deviceNo) {
+		return queryDao.queryZonesByDeviceNo(userId, deviceNo);
 	}
 
 	@Override
@@ -79,7 +80,8 @@ public class QeuryServiceImpl implements QueryService{
 		if (pn <= 0){
 			pn = 1;
 		}
-		StringBuilder builder = new StringBuilder("SELECT t.*,d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE cuserid='" + userId + "') ");
+		StringBuilder builder = new StringBuilder("SELECT t.*,(SELECT itype FROM tb_user_device_map where cuserid='" + userId + "' AND deviceno=t.DEVICENO) AS useType,"
+				+ "d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE cuserid='" + userId + "') ");
 		if (!CheckUtil.isNullString(deviceName)){
 			builder.append(" and d.devicename='" + deviceName + "'");
 		}
@@ -106,29 +108,38 @@ public class QeuryServiceImpl implements QueryService{
 		return queryDao.getSmsReportList(service);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public Pagination queryWarns(WarnSearch warnSearch, int pn) {
+		if (pn < 0){
+			pn = 1;
+		}
+		StringBuilder builder = new StringBuilder("select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + warnSearch.getUserId() + "') ");
+		
+		if (warnSearch.getSearchType() == 0){ //按照时间段搜索
+			if (!CheckUtil.isNullString(warnSearch.getBeginDate())){
+				String beginDate = warnSearch.getBeginDate() + " 00:00:00";
+				builder.append(" and t.warnDate>= '").append(beginDate).append("'");
+			}
+			if (!CheckUtil.isNullString(warnSearch.getEndDate())){
+				String endDate = warnSearch.getEndDate() + " 23:59:59";
+				builder.append(" and t.warnDate <= '").append(endDate).append("'");
+			}
+		} else if (warnSearch.getSearchType() == 1){ //按照报警类型搜索
+			if (!CheckUtil.isNullString(warnSearch.getWarnType())){
+				builder.append(" and t.warntype ='").append(warnSearch.getWarnType()).append("'");
+			}
+		} else if (warnSearch.getSearchType() == 2){ //按照设备搜索
+			if (!CheckUtil.isNullString(warnSearch.getDeviceName())){
+				builder.append(" and d.deviceName ='").append(warnSearch.getDeviceName()).append("'");
+			}
+		} else if (warnSearch.getSearchType() == 3){ //按照防区搜索
+			if (!CheckUtil.isNullString(warnSearch.getZoneName())){
+				builder.append(" and z.zoneName ='").append(warnSearch.getZoneName()).append("'");
+			}
+		}
+		builder.append(" order by  t.warndate desc");
+		
+		return pageService.queryForPage(builder.toString(), pn);
+	}
 	
 }

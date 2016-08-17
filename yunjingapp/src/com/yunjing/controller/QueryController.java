@@ -14,11 +14,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yunjing.dto.WarnSearch;
 import com.yunjing.model.Device;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
@@ -211,10 +213,10 @@ public class QueryController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryDeviceZones")
-	public @ResponseBody QueryResult queryDeviceZones(@RequestParam(value="deviceNo") String deviceNo){
+	public @ResponseBody QueryResult queryDeviceZones(@RequestParam(value="deviceNo") String deviceNo, @RequestParam(value="userId") String userId){
 		QueryResult result = new QueryResult();
 		try {
-			List<?> collects = queryService.queryDeviceZones(deviceNo);
+			List<?> collects = queryService.queryDeviceZones(userId, deviceNo);
 			result.setList(collects);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -255,5 +257,25 @@ public class QueryController {
 			logger.error("查询banner统计数据异常");
 		}
 		return object;
+	}
+	
+	
+	/**
+	 * 搜索报警信息分页
+	 * @param deviceNo
+	 * @return
+	 */
+	@RequestMapping(value="/searchWarns")
+	public @ResponseBody QueryResult searchWarns(@ModelAttribute WarnSearch warnSearch, @RequestParam(value="pn") int pn){
+		QueryResult result = new QueryResult();
+		try {
+			Pagination page =  queryService.queryWarns(warnSearch, pn);
+			result.setPage(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-1000");
+			result.setDesc("系统异常");
+		}
+		return result;
 	}
 }

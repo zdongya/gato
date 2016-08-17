@@ -26,9 +26,8 @@
 		</property>
 		<!-- 测试环境
 		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/yunjing?useUnicode=true&amp;characterEncoding=UTF-8" />
-		<property name="jdbcUrl" value="jdbc:mysql://115.159.44.248:3306/yunjingtest?useUnicode=true&amp;characterEncoding=UTF-8" />
 		 -->
-		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/yunjing?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="jdbcUrl" value="jdbc:mysql://115.159.44.248:3306/yunjingtest?useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="user">
 			<value>${jdbc.username}</value>
 		</property>

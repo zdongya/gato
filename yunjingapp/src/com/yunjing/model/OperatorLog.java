@@ -8,7 +8,7 @@ public class OperatorLog {
 	private String operatorType; //1报警处理 2布防操作 3撤防操作  4一键布防  5一键撤防  6一键消警
 	private String ipAddr;
 	private String deviceNo;
-	private String zoneNo = "";
+	private String zoneNo ;
 	private String memberId;
 	public String getId() {
 		return id;

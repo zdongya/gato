@@ -60,7 +60,7 @@ public interface QueryDao {
 
 	public int getCollectCountById(String collectId, String userId, String deviceNo);
 
-	public List<?> queryZonesByDeviceNo(String deviceNo);
+	public List<?> queryZonesByDeviceNo(String userId, String deviceNo);
 
 	public int checkOwnZone(Zone zone);
 	

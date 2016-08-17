@@ -192,9 +192,12 @@ public class QueryDaoImpl implements QueryDao {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<?> queryZonesByDeviceNo(String deviceNo) {
+	public List<?> queryZonesByDeviceNo(String userId, String deviceNo) {
 		try {
 			String sql = "select * from tb_zone where deviceno=? order by adddate desc";
+			if (!CheckUtil.isNullString(userId)){ //查询用户对应防区的管理权限  管理员还是操作员
+				sql = "SELECT t.*,m.itype AS userType FROM tb_zone t,tb_user_device_map m WHERE t.deviceno=? and m.deviceno=t.deviceno AND m.cuserid='" + userId + "'" ;
+			}
 			return jdbcTemplate.query(sql,new Object[]{deviceNo},new BeanPropertyRowMapper(Zone.class));
 		} catch (DataAccessException e) {
 			return null;
@@ -295,7 +298,7 @@ public class QueryDaoImpl implements QueryDao {
 
 	@Override
 	public boolean checkOwnManageDevice(String userId, String deviceNo) {
-		String sql = "select count(1) from tb_user_device_map where cuserid=? and deviceno=? and istate=1 and itype=0";
+		String sql = "select count(1) from tb_user_device_map where cuserid=? and deviceno=? and istate=1";
 		int count = jdbcTemplate.queryForInt(sql,new Object[]{userId, deviceNo});
 		if (count == 1){
 			return true;

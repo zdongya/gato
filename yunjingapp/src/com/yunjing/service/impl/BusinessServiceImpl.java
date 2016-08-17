@@ -217,17 +217,22 @@ public class BusinessServiceImpl implements BusinessService {
 				result.setCode("-3000");
 				result.setDesc("防区未上线");
 			} else {
-				if (CheckUtil.isNullString(zoneDb.getZoneState()) || "1,2".indexOf(zoneDb.getZoneState())!=-1){
-					result.setCode("-4000");
-					result.setDesc("不允许修改该防区的布撤防状态");
+				if("1,2,3".indexOf(zone.getZoneStyle()) !=-1){
+					result.setCode("-1234");
+					result.setDesc("24小时防区不允许布撤防");
 				} else {
-					if (istate.equals("1")&& !zoneDb.getZoneState().equals("4")){
-						result.setCode("-5000");
-						result.setDesc("该防区的状态为已撤防状态不能改为撤防中");
-					} 
-					if (istate.equals("2")&& !zoneDb.getZoneState().equals("3")){
-						result.setCode("-6000");
-						result.setDesc("该防区的状态为已布防状态不能改为布防中");
+					if (CheckUtil.isNullString(zoneDb.getZoneState()) || "1,2".indexOf(zoneDb.getZoneState())!=-1){
+						result.setCode("-4000");
+						result.setDesc("不允许修改该防区的布撤防状态");
+					} else {
+						if (istate.equals("1")&& !zoneDb.getZoneState().equals("4")){
+							result.setCode("-5000");
+							result.setDesc("该防区的状态为已撤防状态不能改为撤防中");
+						} 
+						if (istate.equals("2")&& !zoneDb.getZoneState().equals("3")){
+							result.setCode("-6000");
+							result.setDesc("该防区的状态为已布防状态不能改为布防中");
+						}
 					}
 				}
 			}
@@ -343,13 +348,13 @@ public class BusinessServiceImpl implements BusinessService {
 				return result;
 			}
 			
-			List<?> zones = queryDao.queryZonesByDeviceNo(deviceNo);
+			List<?> zones = queryDao.queryZonesByDeviceNo(null,deviceNo);
 			if (null != zones && zones.size()>0){
 				int num = 0;
 				for (int i=0; i<zones.size(); i++){
 					Zone zone = (Zone)zones.get(i);
-					if ("1,2,3".indexOf(zone.getZoneStyle()) != -1){
-						logger.info("24小时防区，布撤防不需要处理");
+					if ("1,2,3".indexOf(zone.getZoneStyle()) != -1 || zone.getZoneOnline().equals("0")){
+						logger.info("未上线的防区和24小时防区，布撤防不需要处理");
 					} else {
 						num ++;
 						businessDao.changeZoneState(zone.getZoneNo(), istate);

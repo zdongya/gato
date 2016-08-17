@@ -3,6 +3,7 @@ package com.yunjing.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yunjing.dto.WarnSearch;
 import com.yunjing.model.Device;
 import com.yunjing.model.Sms;
 import com.yunjing.model.Zone;
@@ -63,7 +64,7 @@ public interface QueryService {
 	 * @param deviceNo
 	 * @return
 	 */
-	public List<?> queryDeviceZones(String deviceNo);
+	public List<?> queryDeviceZones(String userId, String deviceNo);
 
 
 	public Pagination queryZones(String userId, String deviceName, String zoneName, int pn);
@@ -90,6 +91,9 @@ public interface QueryService {
 	 * @return
 	 */
 	public List<Sms> getSmsReportList(String service);
+
+
+	public Pagination queryWarns(WarnSearch warnSearch, int pn);
 	
 	
 

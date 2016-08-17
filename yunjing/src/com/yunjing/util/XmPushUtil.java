@@ -7,7 +7,7 @@ import com.yunjing.entity.Push;
 
 public class XmPushUtil {
 	public static final String packageName = "com.gato.security";
-	public static final String appSecret = "xks8BxoLm2kJmqr3YGYU3Q==";
+	public static final String appSecret = "VCeEWiCc1z2WnzcDJfEYWQ==";
 	public static boolean sendMessage(Push push){
 		 try {
 			Constants.useOfficial();
