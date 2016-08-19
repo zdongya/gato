@@ -5,11 +5,9 @@ import java.util.Map;
 
 import com.yunjing.dto.DeviceDto;
 import com.yunjing.dto.ZoneDto;
-import com.yunjing.entity.Device;
 import com.yunjing.entity.DevicePing;
 import com.yunjing.entity.Push;
 import com.yunjing.entity.WarningInfo;
-import com.yunjing.entity.Zone;
 
 /**
  * 双方通道接口
@@ -54,4 +52,10 @@ public interface ChannelInterDao {
 	public void saveOrUploadDevicePing(DevicePing devicePing);
 	public DeviceDto getDeviceByNo(String deviceNo);
 	public List<String> getDeviceZones(String deviceNo);
+	
+	/**
+	 * 修改管理员的密码校验状态
+	 * @param deviceDto
+	 */
+	public void updateAdminCheckPwdFlag(String deviceNo);
 }

@@ -41,15 +41,15 @@ public class BusinessDaoImpl implements BusinessDao {
 	}
 
 	@Override
-	public void saveUserDevice(String userId, String deviceNo, int itype) {
-		String sql = "insert into tb_user_device_map (cuserid,deviceno,binddate,istate,itype) values(?,?,now(),1,?)";
-		Object[] params = new Object[] {userId, deviceNo, itype};
+	public void saveUserDevice(String userId, String deviceNo, int itype, String pwd) {
+		String sql = "insert into tb_user_device_map (cuserid,deviceno,binddate,istate,itype,bindPwd,checkPwdFlag) values(?,?,now(),1,?,?,0)";
+		Object[] params = new Object[] {userId, deviceNo, itype, pwd};
 		jdbcTemplate.update(sql, params);
 	}
 	
-	public void bindDevice(String userId, String deviceNo, int itype){
-		String sql = "update tb_user_device_map set istate=1,binddate=now(), itype=? where cuserid=? and deviceno=?";
-		Object[] params = new Object[] {itype, userId, deviceNo};
+	public void bindDevice(String userId, String deviceNo, int itype, String pwd){
+		String sql = "update tb_user_device_map set istate=1,binddate=now(), itype=?,bindPwd=?,checkPwdFlag=0 where cuserid=? and deviceno=?";
+		Object[] params = new Object[] {itype, pwd, userId, deviceNo};
 		jdbcTemplate.update(sql, params);
 		
 	}

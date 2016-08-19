@@ -8,7 +8,7 @@
 </head>
 <body>
 	 
-	<form action="<%=request.getContextPath() %>/uploadTest.go" method="post" enctype="multipart/form-data">
+	<form action="http://localhost:8080/loan/uploadIdcardImg.go" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="applyId" value="testa"/>
 		<input type="file" name="file" /> 
 		<input type="submit" value="Submit" />

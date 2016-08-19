@@ -103,11 +103,17 @@
     
      <!-- 查询防区名称 -->
 	<select id="getDeviceByNo" parameterType="java.lang.String" resultType="Device">
-		select deviceno,online from tb_device where deviceno = #{0,jdbcType=VARCHAR}
+		select deviceno,online,devicePwd,memberPwd from tb_device where deviceno = #{0,jdbcType=VARCHAR}
     </select>
     
     <!-- 查询防区关联的用户 -->
 	<select id="getDeviceZones" parameterType="java.lang.String"  resultType="java.lang.String">
 		SELECT zoneno FROM tb_zone WHERE deviceno=#{0,jdbcType=VARCHAR}
     </select>
+    
+    
+    <!-- 修改管理员的校验密码状态 -->
+	<insert id='updateAdminCheckPwdFlag' parameterType='java.lang.String'>
+	    update tb_user_device_map set checkPwdFlag=1 where itype=0 and deviceno=#{0,jdbcType=VARCHAR} and ISTATE =1 
+	</insert>
 </mapper>

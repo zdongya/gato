@@ -235,5 +235,27 @@ public class ServiceController {
 	}
 	
 	
+	/**
+	 * 批量布撤防
+	 * @param deviceNo
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/service/batchDefence")
+	public @ResponseBody CallResult defenceZones(HttpSession session, @RequestParam(value="userId") String userId,@RequestParam(value="deviceNo") String deviceNo,
+			@RequestParam(value="istate") String istate,@RequestParam(value="pwd") String pwd, @RequestParam(value="zoneNos") String zoneNos){
+		CallResult callResult = new CallResult();
+		try {
+			String ipAddr = (String)session.getAttribute("visitIp");
+			String[] zoneStr = zoneNos.split(",");
+			callResult = businessService.defenceZones(userId, pwd,deviceNo, zoneStr, istate, ipAddr);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
+	
 
 }

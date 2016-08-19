@@ -68,5 +68,17 @@ public interface BusinessService {
 	
 
 	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr);
+
+	/**
+	 * 批量布撤防
+	 * @param userId
+	 * @param pwd
+	 * @param deviceNo
+	 * @param zoneNos
+	 * @param istate
+	 * @param ipAddr
+	 * @return
+	 */
+	public CallResult defenceZones(String userId, String pwd,String deviceNo, String[] zoneNos, String istate, String ipAddr);
 	
 }

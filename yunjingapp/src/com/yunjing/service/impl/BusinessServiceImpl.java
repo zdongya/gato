@@ -135,9 +135,9 @@ public class BusinessServiceImpl implements BusinessService {
 							itype = "0";
 						}
 						if (queryDao.haveBindDataCheck(device.getUserId(), device.getDeviceNo())){ //曾经绑定过
-							businessDao.bindDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype));
+							businessDao.bindDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), device.getDevicePwd());
 						} else { //未绑定过
-							businessDao.saveUserDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype));
+							businessDao.saveUserDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), device.getDevicePwd());
 						}
 						if (!CheckUtil.isNullString(device.getDeviceName())){
 							businessDao.editDeviceName(device.getDeviceNo(), device.getDeviceName());
@@ -445,5 +445,90 @@ public class BusinessServiceImpl implements BusinessService {
 		}
 		return result;
 	}
+
+	@Override
+	public CallResult defenceZones(String userId, String pwd,String deviceNo, String[] zoneNos, String istate, String ipAddr) {
+		CallResult result = new CallResult();
+		if (CheckUtil.isNullString(istate) || "1,2".indexOf(istate) == -1){ //布撤防状态不正确
+			result.setCode("-3000");
+			result.setDesc("布撤防状态不正确");
+			return result;
+		}
+		boolean flag = queryDao.checkOwnManageDevice(userId, deviceNo); //是否是自己管理的防区
+		if (!flag){
+			result.setCode("-1000");
+			result.setDesc("不是自己的防区不允许操作");  
+		} else {
+			//判断密码是否正确
+			flag = queryDao.checkDeviceDefencePwd(deviceNo, pwd);
+			if (!flag){
+				result.setCode("-4000");
+				result.setDesc("密码错误");  
+				return result;
+			}
+			if (null != zoneNos && zoneNos.length>0){
+				int num = 0;
+				String zoneList = "";
+				for (int i=0; i<zoneNos.length; i++){
+					Zone zone = queryDao.queryZoneById(zoneNos[i]);
+					if ("1,2,3".indexOf(zone.getZoneStyle()) != -1 || zone.getZoneOnline().equals("0")){
+						logger.info("未上线的防区和24小时防区，布撤防不需要处理");
+					} else {
+						num ++;
+						zoneList += zoneNos[i] + ",";
+						businessDao.changeZoneState(zone.getZoneNo(), istate);
+					}
+				}
+				if (num == 0){
+					result.setCode("-6000");
+					result.setDesc("该设备里面的所有防区都是24h防区，本次操作无效");  
+					return result;
+				}
+				
+				zoneList = zoneList.substring(0, zoneList.length() -1);
+				
+				//把一键布撤防消息加入MQTT推送表
+				Push push = new Push();
+				push.setMsgId(Utils.getUUID());
+				push.setAddDate(DateUtil.getNowDateTime());
+				push.setPushService("0"); //MQTT推送
+				push.setItype("5"); //消息类型为批量布撤防
+				push.setZoneList(zoneList);
+				push.setTopic(deviceNo); //topic 为设备编号
+				businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效批量布撤防推送消息
+				String pushZoneState = "1"; //推送防区要进行的布撤防操作 默认要批量布防
+				String operatorType = "7"; //默认批量布防
+				if (istate.equals("1")){ //app为撤防中
+					pushZoneState = "0";
+					operatorType = "8"; //批量撤防
+				}
+				
+				PushDto dto = new PushDto();
+				BeanUtils.copyProperties(push, dto);
+				dto.setDeviceNo(deviceNo);
+				dto.setTime(System.currentTimeMillis() + "");
+				dto.setCommandState(pushZoneState);
+				push.setMsgText(Utils.wrapPushMsg(dto));
+				logger.info("msgText:" + push.getMsgText());
+				businessDao.savePushMsg(push);
+				logger.info("批量布撤防操作成功，设备编号：" + deviceNo + ",防区编号：" + push.getZoneList() + ";处理后状态为：" + istate);
+				
+				//添加操作日志
+				OperatorLog log = new OperatorLog();
+				log.setDeviceNo(deviceNo);
+				log.setIpAddr(ipAddr);
+				log.setMemberId(userId);
+				log.setMemo("用户进行" + (istate.equals("1")?"批量撤防":"批量布防") + "操作" );
+				log.setOperatorType(operatorType); //操作类型
+				saveOperatorLog(log);
+			} else {
+				result.setCode("-2000");
+				result.setDesc("您的设备还没有防区，请先上传");  ;
+			}
+			
+		}
+		return result;
+	}
+
 
 }

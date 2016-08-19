@@ -39,9 +39,22 @@ public class ChannelInterService {
 				session = MyBatisFactory.getInstance().openSession();
 				ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
 				int count = channelInterDao.getCountByDeviceNo(deviceDto.getDeviceNo());
+				
 				if (count ==  0){ //设备未激活
 					channelInterDao.saveDevice(deviceDto);
-				} else {
+				} else { //已激活判断密码是否有改变
+					DeviceDto dbDevice = channelInterDao.getDeviceByNo(deviceDto.getDeviceNo());
+					if (!dbDevice.getDevicePwd().equals(deviceDto.getDevicePwd())){ //修改了管理员密码  更新tb_user_device_map 密码校验逻辑
+						channelInterDao.updateAdminCheckPwdFlag(deviceDto.getDeviceNo());
+					}
+					if (CheckUtil.isNullString(deviceDto.getMemberPwd())){ //兼容老版本
+						deviceDto.setMemberPwd(dbDevice.getMemberPwd());
+					} else { //上传了操作员密码
+						
+						
+					}
+					
+					
 					channelInterDao.updateDevice(deviceDto);
 				}
 				session.commit();

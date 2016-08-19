@@ -2,6 +2,8 @@ package com.yunjing.model;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.alibaba.fastjson.JSONArray;
+
 /**
  * 推送
  * @author DONGYA
@@ -16,8 +18,15 @@ public class Push {
 	private String pushDate; //推送时间
 	private String handleState; //处理状态 0 未处理 1处理成功  2处理失败
 	private String pushService; //推送接口
-	private String itype; //推送类型  0消警  1布撤防  2报警(客户端)  3一键布撤防   4一键消警
+	private String itype; //推送类型  0消警  1布撤防  2报警(客户端)  3一键布撤防   4一键消警  5批量布撤防
 	private String zoneNo; //防区编号
+	private String zoneList;
+	public String getZoneList() {
+		return zoneList;
+	}
+	public void setZoneList(String zoneList) {
+		this.zoneList = zoneList;
+	}
 	public String getMsgId() {
 		return msgId;
 	}

@@ -139,7 +139,7 @@ public class Utils {
 		String action = "defence"; //默认布撤防
 		if (pushDto.getItype().equals("0") || pushDto.getItype().equals("1")){ //客户端对防区进行 布撤防或消警 操作
 			map.put("zoneNo", pushDto.getZoneNo());
-		} else { //一键消警 一键布撤防要传 设备编号
+		} else { //一键消警 一键布撤防  批量布撤防要传 设备编号
 			map.put("deviceNo", pushDto.getDeviceNo());
 		}
 		
@@ -150,6 +150,9 @@ public class Utils {
 			action = "defenceDevice";
 		} else if (pushDto.getItype().equals("4")){ //一键消警
 			action = "cleanupDevice";
+		} else if (pushDto.getItype().equals("5")){ //批量布撤防
+			action = "batchDefence";
+			map.put("zoneList", pushDto.getZoneList());
 		}
 		map.put("action", action);
 		map.put("time", pushDto.getTime());
