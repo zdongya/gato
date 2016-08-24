@@ -115,11 +115,12 @@ public class BusinessServiceImpl implements BusinessService {
 	@Transactional
 	public CallResult bindDevice(Device device) {
 		CallResult result = new CallResult();
+		String rightPwd = device.getDevicePwd();
 		if (CheckUtil.isNullString(device.getDeviceNo()) || CheckUtil.isNullString(device.getDevicePwd())){
 			result.setCode("-1000");
 			result.setDesc("参数错误。");
 		} else {
-			if (queryDao.queryUserBindDeviceFlag(device.getDeviceNo(), device.getUserId())){
+			if (queryDao.queryUserBindDeviceFlag(device.getDeviceNo(), device.getUserId())){ //判断是否添加过该设备(如果需要校验密码则认为未添加)
 				result.setCode("-2000");
 				result.setDesc("您已经添加过本设备不能重复添加。");
 			} else {
@@ -128,16 +129,18 @@ public class BusinessServiceImpl implements BusinessService {
 					result.setCode("-3000");
 					result.setDesc("设备不存在");
 				} else {
+					String itype = device.getUserType();
+					if (CheckUtil.isNullString(itype)){
+						itype = "0";
+					}
+					
 					boolean bindCheck = queryDao.bindDeviceCheck(device); //信息正确
 					if (bindCheck){
-						String itype = device.getUserType();
-						if (CheckUtil.isNullString(itype)){
-							itype = "0";
-						}
+						
 						if (queryDao.haveBindDataCheck(device.getUserId(), device.getDeviceNo())){ //曾经绑定过
-							businessDao.bindDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), device.getDevicePwd());
+							businessDao.bindDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), rightPwd);
 						} else { //未绑定过
-							businessDao.saveUserDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), device.getDevicePwd());
+							businessDao.saveUserDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), rightPwd);
 						}
 						if (!CheckUtil.isNullString(device.getDeviceName())){
 							businessDao.editDeviceName(device.getDeviceNo(), device.getDeviceName());
@@ -145,7 +148,7 @@ public class BusinessServiceImpl implements BusinessService {
 						result.setDesc("绑定设备成功");
 					} else {
 						result.setCode("-4000");
-						result.setDesc("设备信息不正确");
+						result.setDesc("设备不存在或密码错误");
 					}
 				}
 			}
@@ -217,7 +220,7 @@ public class BusinessServiceImpl implements BusinessService {
 				result.setCode("-3000");
 				result.setDesc("防区未上线");
 			} else {
-				if("1,2,3".indexOf(zone.getZoneStyle()) !=-1){
+				if("1,2,3".indexOf(zoneDb.getZoneStyle()) !=-1){
 					result.setCode("-1234");
 					result.setDesc("24小时防区不允许布撤防");
 				} else {
@@ -530,5 +533,11 @@ public class BusinessServiceImpl implements BusinessService {
 		return result;
 	}
 
-
+	public static void main(String[] args) {
+		Zone zone = new Zone();
+		zone.setZoneStyle("");
+		if("1,2,3".indexOf(zone.getZoneStyle()) !=-1){
+			System.out.println("24小时防区不允许布撤防");
+		} 
+	}
 }

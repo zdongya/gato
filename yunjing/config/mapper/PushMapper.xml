@@ -15,6 +15,6 @@
 	
 	<!-- 小米推送 -->
 	<select id="getXmToPushMsgs"  resultType="Push">
-		select t.*,u.xmappid as xmAppId from tb_push  t,tb_user u where t.topic=u.userid and t.pushservice=2 and t.istate=0
+		select t.*,u.xmappid as xmAppId,u.apptype as appType from tb_push  t,tb_user u where t.topic=u.userid and t.pushservice=2 and t.istate=0
     </select>
 </mapper>

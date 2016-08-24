@@ -50,8 +50,13 @@ public class ChannelInterService {
 					if (CheckUtil.isNullString(deviceDto.getMemberPwd())){ //兼容老版本
 						deviceDto.setMemberPwd(dbDevice.getMemberPwd());
 					} else { //上传了操作员密码
-						
-						
+						String memberPwd = deviceDto.getMemberPwd();
+						memberPwd = memberPwd.substring(0, memberPwd.length()-1);
+						String[] memberPwds = memberPwd.split(",");
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("deviceNo", deviceDto.getDeviceNo());
+						param.put("memberPwds", memberPwds);
+						channelInterDao.updateMemberCheckPwdFlag(param);
 					}
 					
 					
@@ -156,24 +161,16 @@ public class ChannelInterService {
 	public static void main(String[] args)  throws Exception{
 //		SqlSession session = MyBatisFactory.getInstance().openSession();
 //		ChannelInterDao channelInterDao = session.getMapper(ChannelInterDao.class);
-//		Map<String,Object> map = new HashMap<String, Object>(2);
-//		map.put("deviceNo", "Mk2008");
-//		List<String> zoneNos = new ArrayList<String>();
-//		zoneNos.add("zone1");
-//		zoneNos.add("zone3");
-//		zoneNos.add("zone9");
-//		zoneNos.add("zone5");
-//		zoneNos.add("zone7");
 		
-//		map.put("zones", zoneNos);
-//		?List<String> deleteZones = channelInterDao.getDeviceZones("Mk2008");
-		String zoneNo = "20006d78b181c002";
-
-			
-		zoneNo = zoneNo.substring(zoneNo.length()-3, zoneNo.length());
-
-		System.out.println(zoneNo);
-			
+		ChannelInterService service = new ChannelInterService();
+		DeviceDto dto = new DeviceDto();
+		dto.setDeviceNo("200afe6b30e38240");
+		dto.setDevicePwd("admin1");
+		dto.setDeviceUserName("admin");
+		dto.setMemberPwd("111,222,333,");
+		dto.setDeviceVersion("1.0");
+		dto.setOnline("1");
+		service.deviceActive(dto);
 	}
 
 

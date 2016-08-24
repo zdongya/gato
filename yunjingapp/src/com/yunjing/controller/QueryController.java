@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -28,7 +26,6 @@ import com.yunjing.service.QueryService;
 import com.yunjing.util.BannerImg;
 import com.yunjing.util.Pagination;
 import com.yunjing.util.QueryResult;
-import com.yunjing.util.UploadUtil;
 import com.yunjing.util.Utils;
 
 /**
@@ -278,4 +275,24 @@ public class QueryController {
 		}
 		return result;
 	}
+	
+	
+	/**
+	 * 查询需要校验密码的设备
+	 * @param deviceNo
+	 * @return
+	 */
+	@RequestMapping(value="/queryCheckPwdDevices")
+	public @ResponseBody QueryResult queryCheckPwdDevices(@RequestParam(value="userId") String userId){
+		QueryResult result = new QueryResult();
+		try {
+			List<?> deviceNos = queryService.queryCheckPwdDevices(userId);
+			result.setList(deviceNos);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-1000");
+			result.setDesc("系统异常");
+		}
+		return result;
+	}	
 }

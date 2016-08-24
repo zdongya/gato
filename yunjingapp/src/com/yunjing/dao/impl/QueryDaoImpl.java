@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.yunjing.dao.QueryDao;
+import com.yunjing.dto.DeviceCheckDto;
 import com.yunjing.model.Collect;
 import com.yunjing.model.Device;
 import com.yunjing.model.DeviceGroup;
@@ -54,7 +55,7 @@ public class QueryDaoImpl implements QueryDao {
 	public List<?> queryUserDevices(String userId) {
 //		String sql = "select * from tb_device where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1)";
 //		String sql = "select t.*,c.collectid as collectId from (select * from tb_device  where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1) )t left join tb_collect c on c.deviceNo=t.deviceNo and c.userid=?";
-		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.*,a.itype as userType FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo)  "
+		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.*,a.itype as userType,checkPwdFlag FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo)  "
 				+ " t LEFT JOIN tb_collect c ON c.deviceNo=t.deviceNo AND c.userid=?";
 		return jdbcTemplate.query(sql, new Object[]{userId, userId},new BeanPropertyRowMapper(Device.class));
 	}
@@ -134,7 +135,7 @@ public class QueryDaoImpl implements QueryDao {
 
 	@Override
 	public boolean queryUserBindDeviceFlag(String deviceNo, String userId) {
-		String sql = "select count(1) from tb_user_device_map where cuserid=? and deviceno=? and istate=1";
+		String sql = "select count(1) from tb_user_device_map where cuserid=? and deviceno=? and istate=1 and CHECKPWDFLAG=0";
 		int count = jdbcTemplate.queryForInt(sql,new Object[]{userId, deviceNo});
 		if (count > 0){
 			return true;
@@ -147,7 +148,7 @@ public class QueryDaoImpl implements QueryDao {
 	public boolean bindDeviceCheck(Device device) {
 		String type = device.getUserType();
 		boolean newVersion = true;
-		String sql = "select count(1) from tb_device where deviceno=? and deviceusername=? and devicepwd=?";
+		String sql = "select count(1) from tb_device where deviceno=? and devicepwd=?";
 		if (type.equals("0")){ //新版管理员
 			sql = "select count(1) from tb_device where deviceno=? and devicepwd=?";
 		} else if (type.equals("1")){ //新版操作员
@@ -159,9 +160,8 @@ public class QueryDaoImpl implements QueryDao {
 		int count;
 		if (newVersion){
 			count = jdbcTemplate.queryForInt(sql,new Object[]{device.getDeviceNo(), device.getDevicePwd()});
-			
 		} else {
-			count = jdbcTemplate.queryForInt(sql,new Object[]{device.getDeviceNo(), device.getDeviceUserName(), device.getDevicePwd()});
+			count = jdbcTemplate.queryForInt(sql,new Object[]{device.getDeviceNo(), device.getDevicePwd()});
 		}
 		
 		if (count > 0){
@@ -169,7 +169,6 @@ public class QueryDaoImpl implements QueryDao {
 		} 
 		return false;
 	}
-
 
 	@Override
 	public boolean checkDeviceByNo(String deviceNo) {
@@ -316,6 +315,19 @@ public class QueryDaoImpl implements QueryDao {
 			return false;
 		}
 		
+	}
+
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public List<?> queryCheckPwdDevices(String userId) {
+		try {
+			String queryString = "SELECT t.deviceNo,d.deviceName,t.ITYPE AS userType FROM tb_user_device_map t,tb_device d WHERE d.deviceNo=t.deviceno AND t.cuserid=? AND t.istate=1 AND t.checkPwdFlag=1 ";
+			return jdbcTemplate.query(queryString, new Object[]{userId},new BeanPropertyRowMapper(DeviceCheckDto.class));
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 }

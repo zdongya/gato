@@ -58,4 +58,10 @@ public interface ChannelInterDao {
 	 * @param deviceDto
 	 */
 	public void updateAdminCheckPwdFlag(String deviceNo);
+	
+	/**
+	 * 更新操作员密码的校验状态
+	 * @param param
+	 */
+	public void updateMemberCheckPwdFlag(Map<String, Object> param);
 }

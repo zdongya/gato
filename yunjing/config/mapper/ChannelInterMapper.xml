@@ -116,4 +116,12 @@
 	<insert id='updateAdminCheckPwdFlag' parameterType='java.lang.String'>
 	    update tb_user_device_map set checkPwdFlag=1 where itype=0 and deviceno=#{0,jdbcType=VARCHAR} and ISTATE =1 
 	</insert>
+	
+	<!-- 修改管理员的校验密码状态 -->
+	<insert id='updateMemberCheckPwdFlag' parameterType='java.util.Map'>
+	    update tb_user_device_map set checkPwdFlag=1 where itype=1 and deviceno=#{deviceNo,jdbcType=VARCHAR} and ISTATE =1 and bindpwd not in 
+	    <foreach item="item" index="index" collection="memberPwds" open="(" separator="," close=")">  
+  			#{item}  
+ 		</foreach>  
+	</insert>
 </mapper>

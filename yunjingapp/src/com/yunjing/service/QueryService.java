@@ -94,6 +94,9 @@ public interface QueryService {
 
 
 	public Pagination queryWarns(WarnSearch warnSearch, int pn);
+
+
+	public List<?> queryCheckPwdDevices(String userId);
 	
 	
 

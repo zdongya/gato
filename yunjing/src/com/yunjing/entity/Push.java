@@ -19,7 +19,14 @@ public class Push {
 	private String itype; //推送类型  0消警  1布撤防  2报警(客户端)
 	private String zoneNo; //防区编号
 	private String xmAppId; //小米推送ID
+	private int appType; //0android  1ios
 	
+	public int getAppType() {
+		return appType;
+	}
+	public void setAppType(int appType) {
+		this.appType = appType;
+	}
 	public String getMsgId() {
 		return msgId;
 	}

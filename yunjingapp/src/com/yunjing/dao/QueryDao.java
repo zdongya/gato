@@ -99,5 +99,7 @@ public interface QueryDao {
 	 * @return
 	 */
 	public boolean checkDeviceDefencePwd(String deviceNo, String pwd);
+
+	public List<?> queryCheckPwdDevices(String userId);
 	
 }
