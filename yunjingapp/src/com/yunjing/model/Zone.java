@@ -25,7 +25,6 @@ public class Zone extends BaseModel{
 	private String operator; //操作人
 	private String deviceNo; //设备编号
 	private String zoneStyle = ""; //1：屏蔽防区  2：24小时有声防区 3：24小时无声防区 4：即时防区  5：布撤防防区  6：延时防区  7：传递延时防区 (若不传或则为空则以即时防区处理)
-	
 	private String userType;
 	public String getUserType() {
 		return userType;

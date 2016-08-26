@@ -101,5 +101,9 @@ public interface QueryDao {
 	public boolean checkDeviceDefencePwd(String deviceNo, String pwd);
 
 	public List<?> queryCheckPwdDevices(String userId);
+
+	public int countPushConfig(String userId);
+
+	public Map<String, Object> queryPushConfig(String userId);
 	
 }

@@ -159,4 +159,26 @@ public class BusinessDaoImpl implements BusinessDao {
 		jdbcTemplate.update(sql, params);
 	}
 
+	@Override
+	public void editZoneStrainVpt(String zoneNo, String zoneStrainVpt) {
+		String sql = "update tb_zone set ZONESTRAINVPT=? where zoneno=?";
+		Object[] params = new Object[] {zoneStrainVpt, zoneNo};
+		jdbcTemplate.update(sql, params);
+	}
+
+	@Override
+	public void updatePushConfig(String userId, int itype) {
+		String sql = "update tb_push_config set itype=? where userId=?";
+		Object[] params = new Object[] {itype, userId};
+		jdbcTemplate.update(sql, params);
+	}
+
+	@Override
+	public void savePushConfig(String userId, int itype) {
+		String sql = "insert into tb_push_config(userId, itype) values(?, ?)";
+		Object[] params = new Object[] {userId, itype};
+		jdbcTemplate.update(sql, params);
+		
+	}
+
 }

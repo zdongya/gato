@@ -78,5 +78,11 @@ public interface BusinessDao {
 	 */
 	public void deleteNotPushInvalidMsg(String topic, String itype);
 
+	public void editZoneStrainVpt(String zoneNo, String zoneStrainVpt);
+
+	public void updatePushConfig(String userId, int itype);
+
+	public void savePushConfig(String userId, int itype);
+
 	
 }

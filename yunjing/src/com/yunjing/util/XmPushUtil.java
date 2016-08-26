@@ -12,7 +12,7 @@ public class XmPushUtil {
 	private static final String appSecret = "VCeEWiCc1z2WnzcDJfEYWQ==";
 	private static final String appSecret_ios = "ujwOLL9mRr1C/JgBC2WsKg==";
 	private static final boolean ios_env = false; //是否是正式环境
-	
+
 	public static boolean sendMessage(Push push, int appType){
 		if (appType == 0){
 			return sendMessageAndroid(push);

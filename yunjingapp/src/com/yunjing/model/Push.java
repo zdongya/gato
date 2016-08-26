@@ -18,9 +18,16 @@ public class Push {
 	private String pushDate; //推送时间
 	private String handleState; //处理状态 0 未处理 1处理成功  2处理失败
 	private String pushService; //推送接口
-	private String itype; //推送类型  0消警  1布撤防  2报警(客户端)  3一键布撤防   4一键消警  5批量布撤防
+	private String itype; //推送类型  0消警  1布撤防  2报警(客户端)  3一键布撤防   4一键消警  5批量布撤防  6更新防区阈值
 	private String zoneNo; //防区编号
 	private String zoneList;
+	private String zoneStrainVpt; //防区阈值
+	public String getZoneStrainVpt() {
+		return zoneStrainVpt;
+	}
+	public void setZoneStrainVpt(String zoneStrainVpt) {
+		this.zoneStrainVpt = zoneStrainVpt;
+	}
 	public String getZoneList() {
 		return zoneList;
 	}

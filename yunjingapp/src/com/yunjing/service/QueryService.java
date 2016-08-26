@@ -97,6 +97,9 @@ public interface QueryService {
 
 
 	public List<?> queryCheckPwdDevices(String userId);
+
+
+	public Map<String, Object> queryPushConfig(String userId);
 	
 	
 

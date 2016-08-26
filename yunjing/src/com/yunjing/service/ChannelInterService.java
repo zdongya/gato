@@ -17,6 +17,7 @@ import com.yunjing.dto.ZoneDto;
 import com.yunjing.entity.DevicePing;
 import com.yunjing.entity.Push;
 import com.yunjing.entity.WarningInfo;
+import com.yunjing.entity.Zone;
 import com.yunjing.util.CallResult;
 import com.yunjing.util.CheckUtil;
 import com.yunjing.util.DateUtil;
@@ -164,13 +165,15 @@ public class ChannelInterService {
 		
 		ChannelInterService service = new ChannelInterService();
 		DeviceDto dto = new DeviceDto();
-		dto.setDeviceNo("200afe6b30e38240");
-		dto.setDevicePwd("admin1");
+		dto.setDeviceNo("200bccce356d0240");
+		dto.setDevicePwd("admin");
 		dto.setDeviceUserName("admin");
-		dto.setMemberPwd("111,222,333,");
+		dto.setMemberPwd("111111,222,333,");
 		dto.setDeviceVersion("1.0");
 		dto.setOnline("1");
 		service.deviceActive(dto);
+//		Zone zone = new Zone();
+//		zone.setZoneNo("200bccce356d0019");
 	}
 
 

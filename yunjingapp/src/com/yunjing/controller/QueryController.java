@@ -295,4 +295,20 @@ public class QueryController {
 		}
 		return result;
 	}	
+	
+	
+	@RequestMapping(value="/queryPushConfig")
+	public @ResponseBody Map<String,Object> queryPushConfig(@RequestParam(value="userId") String userId){
+		Map<String,Object> object = new HashMap<String,Object>();
+		try {
+			object = queryService.queryPushConfig(userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			object.put("code", "-1");
+			object.put("desc", "查询推送配置异常");
+			logger.error("查询推送配置异常");
+		}
+		return object;
+	}
+	
 }

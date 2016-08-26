@@ -193,9 +193,9 @@ public class QueryDaoImpl implements QueryDao {
 	@Override
 	public List<?> queryZonesByDeviceNo(String userId, String deviceNo) {
 		try {
-			String sql = "select * from tb_zone where deviceno=? order by adddate desc";
+			String sql = "select t.*,d.deviceName from tb_zone t,tb_device d  where t.deviceno=? and d.deviceno=t.deviceno order by adddate desc";
 			if (!CheckUtil.isNullString(userId)){ //查询用户对应防区的管理权限  管理员还是操作员
-				sql = "SELECT t.*,m.itype AS userType FROM tb_zone t,tb_user_device_map m WHERE t.deviceno=? and m.deviceno=t.deviceno AND m.cuserid='" + userId + "'" ;
+				sql = "SELECT t.*,m.itype AS userType,d.deviceName FROM tb_zone t,tb_user_device_map m,tb_device d WHERE t.deviceno=? and m.deviceno=t.deviceno and d.deviceno=t.deviceno AND m.cuserid='" + userId + "'" ;
 			}
 			return jdbcTemplate.query(sql,new Object[]{deviceNo},new BeanPropertyRowMapper(Zone.class));
 		} catch (DataAccessException e) {
@@ -328,6 +328,32 @@ public class QueryDaoImpl implements QueryDao {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+
+	@Override
+	public int countPushConfig(String userId) {
+		String sql = "select count(*) from tb_push_config where userId=?";
+		return jdbcTemplate.queryForInt(sql,userId);
+	}
+
+
+	@Override
+	public Map<String, Object> queryPushConfig(String userId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("code", "10000");
+		map.put("desc", "查询成功");
+		int count = countPushConfig(userId);
+		if (count == 0){
+			map.put("itype", 2);
+		} else {
+			String querySql = "select itype from tb_push_config where userId=?";
+			int itype = jdbcTemplate.queryForInt(querySql,new Object[]{userId});
+			map.put("itype", itype);
+		}
+		
+		
+		return map;
 	}
 	
 }

@@ -147,5 +147,10 @@ public class QeuryServiceImpl implements QueryService{
 	public List<?> queryCheckPwdDevices(String userId) {
 		return queryDao.queryCheckPwdDevices(userId);
 	}
+
+	@Override
+	public Map<String, Object> queryPushConfig(String userId) {
+		return queryDao.queryPushConfig(userId);
+	}
 	
 }

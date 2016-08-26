@@ -5,7 +5,7 @@ import com.yunjing.util.Utils;
 public class OperatorLog {
 	private String id = Utils.getUUID();
 	private String memo;
-	private String operatorType; //1报警处理 2布防操作 3撤防操作  4一键布防  5一键撤防  6一键消警  7批量布防  8批量撤防
+	private String operatorType; //1报警处理 2布防操作 3撤防操作  4一键布防  5一键撤防  6一键消警  7批量布防  8批量撤防  9更新张力阈值
 	private String ipAddr;
 	private String deviceNo;
 	private String zoneNo ;

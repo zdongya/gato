@@ -540,4 +540,67 @@ public class BusinessServiceImpl implements BusinessService {
 			System.out.println("24小时防区不允许布撤防");
 		} 
 	}
+
+	@Override
+	@Transactional
+	public CallResult editZoneStrainVpt(String userId, String zoneNo, String zoneStrainVpt, String ipAddr) {
+		CallResult result = new CallResult();
+		Zone zone = new Zone();
+		zone.setZoneNo(zoneNo);
+		zone.setUserId(userId);
+		int count = queryDao.checkOwnZone(zone);
+		if (count != 1){
+			result.setCode("-1000");
+			result.setDesc("该防区不属于您管理，您无权修改");
+		} else {
+			//通过mqtt修改防区阈值
+//			businessDao.editZoneStrainVpt(zoneNo, zoneStrainVpt);
+			//插入消息推送表
+			
+			Zone zoneDb = queryDao.queryZoneById(zoneNo);
+			
+			Push push = new Push();
+			push.setZoneNo(zoneNo);
+			push.setMsgId(Utils.getUUID());
+			push.setAddDate(DateUtil.getNowDateTime());
+			push.setPushService("0"); //MQTT推送
+			push.setItype("6"); //消息类型为更新防区阈值
+			push.setZoneStrainVpt(zoneStrainVpt);
+			push.setTopic(zoneDb.getDeviceNo()); //topic 为设备编号
+			businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效批量布撤防推送消息
+			String operatorType = "9"; //默认批量布防
+			
+			PushDto dto = new PushDto();
+			BeanUtils.copyProperties(push, dto);
+			dto.setDeviceNo(zoneDb.getDeviceNo());
+			dto.setTime(System.currentTimeMillis() + "");
+			push.setMsgText(Utils.wrapPushMsg(dto));
+			logger.info("msgText:" + push.getMsgText());
+			businessDao.savePushMsg(push);
+			
+			//添加操作日志
+			OperatorLog log = new OperatorLog();
+			log.setZoneNo(zoneNo);
+			log.setDeviceNo(zoneDb.getDeviceNo());
+			log.setIpAddr(ipAddr);
+			log.setMemberId(userId);
+			log.setMemo("用户进行更新防区张力阈值操作" );
+			log.setOperatorType(operatorType); //操作类型
+			saveOperatorLog(log);
+		}
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public CallResult pushConfig(String userId, int itype) {
+		CallResult result = new CallResult();
+		int count = queryDao.countPushConfig(userId);
+		if (count != 0){
+			businessDao.updatePushConfig(userId, itype);
+		} else {
+			businessDao.savePushConfig(userId, itype);
+		}
+		return result;
+	}
 }

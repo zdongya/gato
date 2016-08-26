@@ -80,5 +80,9 @@ public interface BusinessService {
 	 * @return
 	 */
 	public CallResult defenceZones(String userId, String pwd,String deviceNo, String[] zoneNos, String istate, String ipAddr);
+
+	public CallResult editZoneStrainVpt(String userId, String zoneNo, String zoneStrainVpt, String ipAddr);
+
+	public CallResult pushConfig(String userId, int itype);
 	
 }

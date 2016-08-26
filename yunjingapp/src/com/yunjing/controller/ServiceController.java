@@ -258,4 +258,43 @@ public class ServiceController {
 	}
 	
 
+	/**
+	 * 更新防区的阈值
+	 * @param deviceNo
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/service/editZoneStrainVpt")
+	public @ResponseBody CallResult editZoneStrainVpt(HttpSession session, @RequestParam(value="userId") String userId, @RequestParam(value="zoneNo") String zoneNo, @RequestParam(value="zoneStrainVpt") String zoneStrainVpt){
+		CallResult callResult = new CallResult();
+		try {
+			String ipAddr = (String)session.getAttribute("visitIp");
+			callResult = businessService.editZoneStrainVpt(userId, zoneNo, zoneStrainVpt, ipAddr);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
+	
+	
+	/**
+	 * 客户端推送设置
+	 * @param userId
+	 * @param itype   0不推送  1只在白天推送  2所有时间段推送
+	 * @return
+	 */
+	@RequestMapping(value="/service/pushConfig")
+	public @ResponseBody CallResult editZoneStrainVpt(@RequestParam(value="userId") String userId, @RequestParam(value="itype") int itype){
+		CallResult callResult = new CallResult();
+		try {
+			callResult = businessService.pushConfig(userId, itype);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
 }
