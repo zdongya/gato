@@ -1,5 +1,6 @@
 package com.yunjing.task;
 
+import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
 
@@ -60,24 +61,38 @@ public class PushTask extends TimerTask{
 		if (null != msgs && msgs.size()>0){
 			log.info("【小米推送】待推送消息条数:" + msgs.size());
 			for (Push pushMsg:msgs){
-				String istate = "-1";
-				boolean flag = false;
-				if(null != pushMsg.getXmAppId() && pushMsg.getXmAppId().length() > 0){
-					flag = XmPushUtil.sendMessage(pushMsg, pushMsg.getAppType());
+				if (pushMsg.getPushConfigType().equals("0")){
+					log.info("用户设置不推送");
+				} else {
+					if (pushMsg.getPushConfigType().equals("1")){ //22点到 10点不推送
+						int hour = new Date().getHours();
+						if (hour>=22 || hour<=10){
+							continue;
+						}
+					}
+					String istate = "-1";
+					boolean flag = false;
+					if(null != pushMsg.getXmAppId() && pushMsg.getXmAppId().length() > 0){
+						flag = XmPushUtil.sendMessage(pushMsg, pushMsg.getAppType());
+					}
+					
+					if (flag){ //推送成功
+						istate = "1";
+						log.info("【小米推送】推送消息成功。。。，msgId:" + pushMsg.getMsgId());
+					} else {
+						log.error("【小米推送】推送消息失败。。。，msgId:" + pushMsg.getMsgId());
+					}
+					CallResult result = pushService.updatePushResult(pushMsg.getMsgId(), istate);
+					if (result.getCode().equals("0000")){
+						log.info("【小米推送】更新推送结果成功");
+					} else {
+						log.error("【小米推送】更新推送结果失败");
+					}
+					
 				}
 				
-				if (flag){ //推送成功
-					istate = "1";
-					log.info("【小米推送】推送消息成功。。。，msgId:" + pushMsg.getMsgId());
-				} else {
-					log.error("【小米推送】推送消息失败。。。，msgId:" + pushMsg.getMsgId());
-				}
-				CallResult result = pushService.updatePushResult(pushMsg.getMsgId(), istate);
-				if (result.getCode().equals("0000")){
-					log.info("【小米推送】更新推送结果成功");
-				} else {
-					log.error("【小米推送】更新推送结果失败");
-				}
+				
+				
 			}
 			
 		}

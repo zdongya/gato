@@ -76,8 +76,8 @@ public class XmPushUtil {
 	public static void main(String[] args) throws Exception{
 		Push push = new Push();
 		push.setMsgText("测试消息推送bbb");
-		push.setXmAppId("98JlTpmzXNvRuLViuhDRsM9PfjzwxUV8teuWfC9D3HQ=");
-		sendMessage(push, 1);
+		push.setXmAppId("4JNCrZcYtkD/A6qsV7qOoE/WQe9fgbCgKP+Io4X3ZHY=");
+		sendMessage(push, 0);
 //		Constants.useSandbox();
 //		 String description = "测试推送66";
 //	     Message message = new Message.IOSBuilder()

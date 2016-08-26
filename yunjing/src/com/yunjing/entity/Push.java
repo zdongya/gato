@@ -2,6 +2,8 @@ package com.yunjing.entity;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.yunjing.util.CheckUtil;
+
 /**
  * 推送
  * @author DONGYA
@@ -20,7 +22,17 @@ public class Push {
 	private String zoneNo; //防区编号
 	private String xmAppId; //小米推送ID
 	private int appType; //0android  1ios
+	private String pushConfigType; //推送设置
 	
+	public String getPushConfigType() {
+		if (CheckUtil.isNullString(pushConfigType)){
+			return "2";
+		}
+		return pushConfigType;
+	}
+	public void setPushConfigType(String pushConfigType) {
+		this.pushConfigType = pushConfigType;
+	}
 	public int getAppType() {
 		return appType;
 	}
