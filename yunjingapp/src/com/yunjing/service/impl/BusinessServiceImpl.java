@@ -223,25 +223,31 @@ public class BusinessServiceImpl implements BusinessService {
 				if("1,2,3".indexOf(zoneDb.getZoneStyle()) !=-1){
 					result.setCode("-1234");
 					result.setDesc("24小时防区不允许布撤防");
-				} else {
-					if (CheckUtil.isNullString(zoneDb.getZoneState()) || "1,2".indexOf(zoneDb.getZoneState())!=-1){
-						result.setCode("-4000");
-						result.setDesc("不允许修改该防区的布撤防状态");
-					} else {
-						if (istate.equals("1")&& !zoneDb.getZoneState().equals("4")){
-							result.setCode("-5000");
-							result.setDesc("该防区的状态为已撤防状态不能改为撤防中");
-						} 
-						if (istate.equals("2")&& !zoneDb.getZoneState().equals("3")){
-							result.setCode("-6000");
-							result.setDesc("该防区的状态为已布防状态不能改为布防中");
-						}
-					}
-				}
+				} 
+				
+//				else {
+//					if (CheckUtil.isNullString(zoneDb.getZoneState()) || "1,2".indexOf(zoneDb.getZoneState())!=-1){
+//						result.setCode("-4000");
+//						result.setDesc("不允许修改该防区的布撤防状态");
+//					} else {
+//						if (istate.equals("1")&& !zoneDb.getZoneState().equals("4")){
+//							result.setCode("-5000");
+//							result.setDesc("该防区的状态为已撤防状态不能改为撤防中");
+//						} 
+//						if (istate.equals("2")&& !zoneDb.getZoneState().equals("3")){
+//							result.setCode("-6000");
+//							result.setDesc("该防区的状态为已布防状态不能改为布防中");
+//						}
+//					}
+//				}
+				
 			}
 			
 			if (result.getCode().equals("10000")){ //正确
-				businessDao.changeZoneState(zoneNo, istate);
+				
+				//不更新状态
+//				businessDao.changeZoneState(zoneNo, istate);
+				
 				Push push = new Push();
 				push.setMsgId(Utils.getUUID());
 				push.setAddDate(DateUtil.getNowDateTime());
@@ -360,7 +366,8 @@ public class BusinessServiceImpl implements BusinessService {
 						logger.info("未上线的防区和24小时防区，布撤防不需要处理");
 					} else {
 						num ++;
-						businessDao.changeZoneState(zone.getZoneNo(), istate);
+						//不更新状态
+//						businessDao.changeZoneState(zone.getZoneNo(), istate);
 					}
 				}
 				if (num == 0){
@@ -479,7 +486,8 @@ public class BusinessServiceImpl implements BusinessService {
 					} else {
 						num ++;
 						zoneList += zoneNos[i] + ",";
-						businessDao.changeZoneState(zone.getZoneNo(), istate);
+						//不更新状态
+//						businessDao.changeZoneState(zone.getZoneNo(), istate);
 					}
 				}
 				if (num == 0){

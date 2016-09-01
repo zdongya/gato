@@ -229,7 +229,7 @@ public class QueryController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryZones")
-	public @ResponseBody QueryResult queryZones(@RequestParam(value="userId") String userId, @RequestParam(value="pn", required=false) int pn,@RequestParam(value="zoneName", required=false) String zoneName,@RequestParam(value="deviceName", required=false) String deviceName){
+	public @ResponseBody QueryResult queryZones(@RequestParam(value="userId") String userId, @RequestParam(value="pn") int pn,@RequestParam(value="zoneName", required=false) String zoneName,@RequestParam(value="deviceName", required=false) String deviceName){
 		QueryResult result = new QueryResult();
 		try {
 			Pagination page = queryService.queryZones(userId, deviceName, zoneName, pn);
