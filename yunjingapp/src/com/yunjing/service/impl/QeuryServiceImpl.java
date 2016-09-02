@@ -82,7 +82,7 @@ public class QeuryServiceImpl implements QueryService{
 		}
 		//修改过密码未重新绑定的设备防区不显示
 		StringBuilder builder = new StringBuilder("SELECT t.*,(SELECT itype FROM tb_user_device_map where cuserid='" + userId + "' AND deviceno=t.DEVICENO) AS useType,"
-				+ "d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE CHECKPWDFLAG=0 AND cuserid='" + userId + "') ");
+				+ "d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno and d.online=1 AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE CHECKPWDFLAG=0 AND cuserid='" + userId + "') ");
 		if (!CheckUtil.isNullString(deviceName)){
 			builder.append(" and d.devicename='" + deviceName + "'");
 		}

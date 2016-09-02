@@ -213,19 +213,19 @@ public class ServiceController {
 	}
 	
 	/**
-	 * 一键消警
+	 * 一键消警(用户所有在线的设备进行消警)
 	 * @param session
 	 * @param userId
 	 * @param deviceNo
 	 * @return
 	 */
 	@RequestMapping(value="/service/deviceHandleWaring")
-	public @ResponseBody CallResult deviceHandleWaring(HttpSession session, @RequestParam(value="userId") String userId,@RequestParam(value="deviceNo") String deviceNo){
+	public @ResponseBody CallResult deviceHandleWaring(HttpSession session, @RequestParam(value="userId") String userId){
 		CallResult callResult = new CallResult();
 		try {
 			
 			String ipAddr = (String)session.getAttribute("visitIp");
-			callResult = businessService.deviceHandleWaring(userId, deviceNo,ipAddr);
+			callResult = businessService.deviceHandleWaring(userId,ipAddr);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			callResult.setCode("-10000");

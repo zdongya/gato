@@ -68,7 +68,7 @@ public class PushTask extends TimerTask{
 				} else {
 					if (pushMsg.getPushConfigType().equals("1")){ //22点到 10点不推送
 						int hour = new Date().getHours();
-						if (hour>=22 || hour<=10){
+						if (hour>=22 || hour<10){
 							continue;
 						}
 					}

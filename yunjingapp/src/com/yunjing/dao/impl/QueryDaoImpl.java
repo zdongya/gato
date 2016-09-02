@@ -55,7 +55,7 @@ public class QueryDaoImpl implements QueryDao {
 	public List<?> queryUserDevices(String userId) {
 //		String sql = "select * from tb_device where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1)";
 //		String sql = "select t.*,c.collectid as collectId from (select * from tb_device  where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1) )t left join tb_collect c on c.deviceNo=t.deviceNo and c.userid=?";
-		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.*,a.itype as userType,checkPwdFlag FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo)  "
+		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.*,a.itype as userType,checkPwdFlag FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo and t.online=1)  "
 				+ " t LEFT JOIN tb_collect c ON c.deviceNo=t.deviceNo AND c.userid=?";
 		return jdbcTemplate.query(sql, new Object[]{userId, userId},new BeanPropertyRowMapper(Device.class));
 	}
@@ -256,8 +256,8 @@ public class QueryDaoImpl implements QueryDao {
 	@Override
 	public Map<String, String> queryIndexData(String userId) {
 		Map<String, String> map = new HashMap<String, String>();
-		String userDeviceCountSql = "select count(1) from tb_user_device_map where cuserid=? and istate=1";
-		String userZoneCountSql = "select count(1) from tb_zone where deviceno in (select deviceno from tb_user_device_map where cuserid=? AND istate=1)";
+		String userDeviceCountSql = "SELECT COUNT(1) FROM tb_user_device_map t,tb_device d WHERE t.cuserid=? AND d.deviceNo=t.deviceNo AND t.istate=1 AND d.online=1";
+		String userZoneCountSql = "select count(1) from tb_zone where deviceno in (select t.deviceno from tb_user_device_map t, tb_device d where t.cuserid=? AND t.istate=1 and d.deviceNo=t.deviceNo AND d.online=1)";
 		String queryImgSql = "select icoin as headImg from tb_user where userid=?";
 		int userDeviceCount = jdbcTemplate.queryForInt(userDeviceCountSql,new Object[]{userId});
 		int userZoneCount = jdbcTemplate.queryForInt(userZoneCountSql,new Object[]{userId});

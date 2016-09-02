@@ -420,38 +420,39 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	@Transactional
-	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr) {
+	public CallResult deviceHandleWaring(String userId, String ipAddr) {
 		CallResult result = new CallResult();
-		boolean flag = queryDao.checkOwnManageDevice(userId, deviceNo); //是否是自己管理的防区
-		if (!flag){
-			result.setCode("-1000");
-			result.setDesc("不是自己的防区不允许修改");  
-		}  else {
-			Push push = new Push();
-			push.setMsgId(Utils.getUUID());
-			push.setAddDate(DateUtil.getNowDateTime());
-			push.setPushService("0"); //MQTT推送
-			push.setItype("4"); //消息类型为一键消警
-			push.setTopic(deviceNo); //topic 为设备编号
-			businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效一键布撤防推送消息
-			
-			PushDto dto = new PushDto();
-			BeanUtils.copyProperties(push, dto);
-			dto.setDeviceNo(deviceNo);
-			dto.setTime(System.currentTimeMillis() + "");
-			push.setMsgText(Utils.wrapPushMsg(dto));
-			logger.info("msgText:" + push.getMsgText());
-			businessDao.savePushMsg(push);
-			logger.info("一键消警操作中，设备编号：" + deviceNo);
-			
-			//添加操作日志
-			OperatorLog log = new OperatorLog();
-			log.setDeviceNo(deviceNo);
-			log.setIpAddr(ipAddr);
-			log.setMemberId(userId);
-			log.setMemo("用户进行一键消警操作" );
-			log.setOperatorType("6"); //操作类型 一键消警
-			saveOperatorLog(log);
+		List<?> deviceList = queryDao.queryUserDevices(userId);
+		if (null != deviceList && deviceList.size() > 0){
+			for(Object obj:deviceList){
+				Device device = (Device)obj;
+				String deviceNo = device.getDeviceNo();
+				Push push = new Push();
+				push.setMsgId(Utils.getUUID());
+				push.setAddDate(DateUtil.getNowDateTime());
+				push.setPushService("0"); //MQTT推送
+				push.setItype("4"); //消息类型为一键消警
+				push.setTopic(deviceNo); //topic 为设备编号
+				businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效一键消警推送消息
+				
+				PushDto dto = new PushDto();
+				BeanUtils.copyProperties(push, dto);
+				dto.setDeviceNo(deviceNo);
+				dto.setTime(System.currentTimeMillis() + "");
+				push.setMsgText(Utils.wrapPushMsg(dto));
+				logger.info("msgText:" + push.getMsgText());
+				businessDao.savePushMsg(push);
+				logger.info("一键消警操作中，设备编号：" + deviceNo);
+				
+				//添加操作日志
+				OperatorLog log = new OperatorLog();
+				log.setDeviceNo(deviceNo);
+				log.setIpAddr(ipAddr);
+				log.setMemberId(userId);
+				log.setMemo("用户进行一键消警操作" );
+				log.setOperatorType("6"); //操作类型 一键消警
+				saveOperatorLog(log);
+			}
 		}
 		return result;
 	}
