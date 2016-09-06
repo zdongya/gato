@@ -46,6 +46,10 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
+	<bean id="bannerImgDao" class="com.yunjing.dao.impl.BannerImgDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
 	<bean id="deviceService" class="com.yunjing.service.impl.DeviceServiceImpl">	
 		<property name="deviceDao" ref="deviceDao" />
 	</bean>
@@ -72,6 +76,10 @@
 	
 	<bean id="customerService" class="com.yunjing.service.impl.CustomerServiceImpl">	
 		<property name="customerDao" ref="customerDao" />
+	</bean>
+	
+	<bean id="bannerImgService" class="com.yunjing.service.impl.BannerImgServiceImpl">	
+		<property name="bannerImgDao" ref="bannerImgDao" />
 	</bean>
 	
 </beans>

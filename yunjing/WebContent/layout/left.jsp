@@ -121,7 +121,9 @@ background:url(<%=request.getContextPath()%>/images/file.gif) no-repeat left cen
 	<h3 class="acc_trigger"><a href="#">用户管理</a></h3> 
 	<div class="acc_container"> 
 		<ul class="block">	
-			<li><a href="<%=request.getContextPath()%>/member/member_index.html" target="mainFrame" onclick="change_bg(this)">用户列表</a></li>        
+			<li><a href="<%=request.getContextPath()%>/member/member_index.html" target="mainFrame" onclick="change_bg(this)">用户列表</a></li>
+			
+			<li><a href="<%=request.getContextPath()%>/member/banner_index.html" target="mainFrame" onclick="change_banner(this)">app首页图片</a></li>         
 		</ul> 
 	</div>
 	<h3 class="acc_trigger"><a href="#">设备管理</a></h3> 

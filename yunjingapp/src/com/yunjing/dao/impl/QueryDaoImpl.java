@@ -18,6 +18,7 @@ import com.yunjing.model.DeviceGroup;
 import com.yunjing.model.Sms;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
+import com.yunjing.util.BannerImgDb;
 import com.yunjing.util.CheckUtil;
 
 @Repository(value="queryDao")
@@ -55,7 +56,8 @@ public class QueryDaoImpl implements QueryDao {
 	public List<?> queryUserDevices(String userId) {
 //		String sql = "select * from tb_device where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1)";
 //		String sql = "select t.*,c.collectid as collectId from (select * from tb_device  where deviceno in (select deviceno from tb_user_device_map where cuserid=? and istate=1) )t left join tb_collect c on c.deviceNo=t.deviceNo and c.userid=?";
-		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.*,a.itype as userType,checkPwdFlag FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo and t.online=1)  "
+		String sql = "SELECT t.*,c.collectid,(SELECT COUNT(1) FROM tb_zone WHERE deviceno=t.deviceno) AS zoneCount FROM (SELECT t.deviceNo,t.deviceName,"
+				+ "t.deviceLocal,t.version,t.contactPerson,t.cellphone,t.address,t.deviceUsername,t.addDate,t.groupId,t.updateDate,t.online,a.itype as userType,checkPwdFlag FROM (SELECT * FROM tb_user_device_map m WHERE m.CUSERID=? AND m.ISTATE=1 ) a,tb_device t WHERE t.deviceNo=a.deviceNo)  "
 				+ " t LEFT JOIN tb_collect c ON c.deviceNo=t.deviceNo AND c.userid=?";
 		return jdbcTemplate.query(sql, new Object[]{userId, userId},new BeanPropertyRowMapper(Device.class));
 	}
@@ -354,6 +356,18 @@ public class QueryDaoImpl implements QueryDao {
 		
 		
 		return map;
+	}
+
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public List<BannerImgDb> getBannerImgs() {
+		try {
+			String queryString = "select * from tb_banner_img order by id asc";
+			return jdbcTemplate.query(queryString, new BeanPropertyRowMapper(BannerImgDb.class));
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 	
 }

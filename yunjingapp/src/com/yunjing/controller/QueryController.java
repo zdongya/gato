@@ -24,6 +24,7 @@ import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
 import com.yunjing.service.QueryService;
 import com.yunjing.util.BannerImg;
+import com.yunjing.util.BannerImgDb;
 import com.yunjing.util.Pagination;
 import com.yunjing.util.QueryResult;
 import com.yunjing.util.Utils;
@@ -39,7 +40,7 @@ public class QueryController {
 	
 	@Autowired
 	private QueryService queryService;
-	
+	private static final String IMGPATH = "http://115.159.44.248:8085/";
 	
 	/**
 	 * 启动接口
@@ -52,7 +53,7 @@ public class QueryController {
 		return startApp(appType, appVersion);
 	}
 
-	private static JSONObject startApp(Integer appType, String appVersion) {
+	private JSONObject startApp(Integer appType, String appVersion) {
 		JSONObject object = new JSONObject();
 		try {
 			logger.info("appType:" + appType + ";appVersion:" + appVersion);
@@ -81,7 +82,7 @@ public class QueryController {
 				object.put("desc", "无需升级");
 			}
 			
-			wrapBannerImg(object);
+			wrapBannerImgFromDb(object);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,6 +92,21 @@ public class QueryController {
 			
 		}
 		return object;
+	}
+
+	private void wrapBannerImgFromDb(JSONObject object) {
+		
+		List<BannerImgDb> bannerImgDbs = queryService.getBannerImgs();
+		List<BannerImg> bannerImgs = null;
+		if (!bannerImgDbs.isEmpty()){
+			String bversion = bannerImgDbs.get(0).getIversion();
+			object.put("bverison", bversion);
+			bannerImgs = new ArrayList<BannerImg>();
+			for (BannerImgDb bannerImgDb:bannerImgDbs){
+				bannerImgs.add(new BannerImg(IMGPATH + bannerImgDb.getImgName(), bannerImgDb.getImgHref()));
+			}
+			object.put("banners", bannerImgs);
+		}
 	}
 
 	private static void wrapBannerImg(JSONObject object) throws Exception{

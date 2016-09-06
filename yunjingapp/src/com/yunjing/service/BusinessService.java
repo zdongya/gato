@@ -67,6 +67,7 @@ public interface BusinessService {
 	public CallResult deviceDefence(String userId, String pwd, String deviceNo, String istate, String ipAddr);
 	
 
+	//对用户所属防区全部消警
 	public CallResult deviceHandleWaring(String userId, String ipAddr);
 
 	/**
@@ -84,5 +85,8 @@ public interface BusinessService {
 	public CallResult editZoneStrainVpt(String userId, String zoneNo, String zoneStrainVpt, String ipAddr);
 
 	public CallResult pushConfig(String userId, int itype);
+	
+	//消除用户某防区的报警
+	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr);
 	
 }

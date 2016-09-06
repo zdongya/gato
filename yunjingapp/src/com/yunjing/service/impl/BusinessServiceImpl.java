@@ -53,38 +53,43 @@ public class BusinessServiceImpl implements BusinessService {
 					result.setCode("-2000");
 					result.setDesc("防区报警状态未修改");
 				} else {
-					businessDao.hanleWarnings(warningInfo);
 					Zone zoneDb = queryDao.queryZoneById(warningInfo.getZoneNo());
-					Push push = new Push();
-					push.setMsgId(Utils.getUUID());
-					push.setAddDate(DateUtil.getNowDateTime());
-					push.setPushService("0"); //MQTT推送
-					push.setItype("0"); //消息类型为消警
-					push.setTopic(zoneDb.getDeviceNo()); //topic 为设备编号
-					push.setZoneNo(warningInfo.getZoneNo());
-					businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getZoneNo(), push.getItype()); //删除无效信息
+					Device deviceDb = queryDao.queryDeviceById(zoneDb.getDeviceNo());
+					if (deviceDb.getOnline().equals("0")){
+						result.setCode("-3000");
+						result.setDesc("离线防区不能操作");
+					} else {
+						businessDao.hanleWarnings(warningInfo);
+						Push push = new Push();
+						push.setMsgId(Utils.getUUID());
+						push.setAddDate(DateUtil.getNowDateTime());
+						push.setPushService("0"); //MQTT推送
+						push.setItype("0"); //消息类型为消警
+						push.setTopic(zoneDb.getDeviceNo()); //topic 为设备编号
+						push.setZoneNo(warningInfo.getZoneNo());
+						businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getZoneNo(), push.getItype()); //删除无效信息
+						
+						PushDto dto = new PushDto();
+						BeanUtils.copyProperties(push, dto);
+						dto.setWarningId(warningInfo.getWarningId());
+						dto.setTime(System.currentTimeMillis() + "");
+						dto.setCommandState(String.valueOf(warningInfo.getIstate()));
+						push.setMsgText(Utils.wrapPushMsg(dto));
+						logger.info("msgText:" + push.getMsgText());
+						
+						businessDao.savePushMsg(push);
+						logger.info("修改报警状态成功，防区编号：" + warningInfo.getZoneNo() + ";处理后状态为：" + warningInfo.getIstate());
 					
-					PushDto dto = new PushDto();
-					BeanUtils.copyProperties(push, dto);
-					dto.setWarningId(warningInfo.getWarningId());
-					dto.setTime(System.currentTimeMillis() + "");
-					dto.setCommandState(String.valueOf(warningInfo.getIstate()));
-					push.setMsgText(Utils.wrapPushMsg(dto));
-					logger.info("msgText:" + push.getMsgText());
-					
-					businessDao.savePushMsg(push);
-					logger.info("修改报警状态成功，防区编号：" + warningInfo.getZoneNo() + ";处理后状态为：" + warningInfo.getIstate());
-				
-					//添加操作日志
-					OperatorLog log = new OperatorLog();
-					log.setDeviceNo(zoneDb.getDeviceNo());
-					log.setIpAddr(warningInfo.getIpAddr());
-					log.setMemberId(warningInfo.getUserId());
-					log.setMemo("报警编号:" + warningInfo.getWarningId() + "被处理，处理后的状态为:" + (warningInfo.getIstate().intValue()==1?"已解决":"误报"));
-					log.setOperatorType("1"); //报警处理
-					log.setZoneNo(warningInfo.getZoneNo());
-					saveOperatorLog(log);
-					
+						//添加操作日志
+						OperatorLog log = new OperatorLog();
+						log.setDeviceNo(zoneDb.getDeviceNo());
+						log.setIpAddr(warningInfo.getIpAddr());
+						log.setMemberId(warningInfo.getUserId());
+						log.setMemo("报警编号:" + warningInfo.getWarningId() + "被处理，处理后的状态为:" + (warningInfo.getIstate().intValue()==1?"已解决":"误报"));
+						log.setOperatorType("1"); //报警处理
+						log.setZoneNo(warningInfo.getZoneNo());
+						saveOperatorLog(log);
+					}
 				}
 			}
 		}
@@ -611,5 +616,44 @@ public class BusinessServiceImpl implements BusinessService {
 			businessDao.savePushConfig(userId, itype);
 		}
 		return result;
+	}
+
+	@Override
+	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr) {
+		CallResult result = new CallResult();
+		boolean flag = queryDao.checkOwnManageDevice(userId, deviceNo);
+		if (flag){
+			Push push = new Push();
+			push.setMsgId(Utils.getUUID());
+			push.setAddDate(DateUtil.getNowDateTime());
+			push.setPushService("0"); //MQTT推送
+			push.setItype("4"); //消息类型为一键消警
+			push.setTopic(deviceNo); //topic 为设备编号
+			businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效一键消警推送消息
+			
+			PushDto dto = new PushDto();
+			BeanUtils.copyProperties(push, dto);
+			dto.setDeviceNo(deviceNo);
+			dto.setTime(System.currentTimeMillis() + "");
+			push.setMsgText(Utils.wrapPushMsg(dto));
+			logger.info("msgText:" + push.getMsgText());
+			businessDao.savePushMsg(push);
+			logger.info("一键消警操作中，设备编号：" + deviceNo);
+			
+			//添加操作日志
+			OperatorLog log = new OperatorLog();
+			log.setDeviceNo(deviceNo);
+			log.setIpAddr(ipAddr);
+			log.setMemberId(userId);
+			log.setMemo("用户进行一键消警操作" );
+			log.setOperatorType("6"); //操作类型 一键消警
+			saveOperatorLog(log);
+		} else {
+			result.setCode("-1002");
+			result.setDesc("您无权操作本设备");
+		}
+		
+		return result;
+		
 	}
 }

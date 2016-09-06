@@ -13,6 +13,7 @@ import com.yunjing.model.Sms;
 import com.yunjing.model.Zone;
 import com.yunjing.service.PageService;
 import com.yunjing.service.QueryService;
+import com.yunjing.util.BannerImgDb;
 import com.yunjing.util.CheckUtil;
 import com.yunjing.util.Pagination;
 
@@ -58,9 +59,9 @@ public class QeuryServiceImpl implements QueryService{
 		if (pn < 0){
 			pn = 1;
 		}
-		String queryString = "select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by  t.warndate desc";
+		String queryString = "select t.*,z.zonename,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by  t.warndate desc";
 		if (null != istate){
-			queryString = "select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where t.istate=" + istate.intValue() + " and z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by t.istate asc, t.warndate desc";
+			queryString = "select t.*,z.zonename,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where t.istate=" + istate.intValue() + " and z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by t.istate asc, t.warndate desc";
 		}
 		return pageService.queryForPage(queryString, pn);
 	}
@@ -84,10 +85,10 @@ public class QeuryServiceImpl implements QueryService{
 		StringBuilder builder = new StringBuilder("SELECT t.*,(SELECT itype FROM tb_user_device_map where cuserid='" + userId + "' AND deviceno=t.DEVICENO) AS useType,"
 				+ "d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno and d.online=1 AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE CHECKPWDFLAG=0 AND cuserid='" + userId + "') ");
 		if (!CheckUtil.isNullString(deviceName)){
-			builder.append(" and d.devicename='" + deviceName + "'");
+			builder.append(" and d.devicename like '%" + deviceName + "%'");
 		}
 		if (!CheckUtil.isNullString(zoneName)){
-			builder.append(" and t.zonename='" + zoneName + "'");
+			builder.append(" and t.zonename like '%" + zoneName + "%'");
 		}
 		
 		builder.append(" order by t.adddate desc");
@@ -131,11 +132,11 @@ public class QeuryServiceImpl implements QueryService{
 			}
 		} else if (warnSearch.getSearchType() == 2){ //按照设备搜索
 			if (!CheckUtil.isNullString(warnSearch.getDeviceName())){
-				builder.append(" and d.deviceName ='").append(warnSearch.getDeviceName()).append("'");
+				builder.append(" and d.deviceName like '%").append(warnSearch.getDeviceName()).append("%'");
 			}
 		} else if (warnSearch.getSearchType() == 3){ //按照防区搜索
 			if (!CheckUtil.isNullString(warnSearch.getZoneName())){
-				builder.append(" and z.zoneName ='").append(warnSearch.getZoneName()).append("'");
+				builder.append(" and z.zoneName like '%").append(warnSearch.getZoneName()).append("%'");
 			}
 		}
 		builder.append(" order by  t.warndate desc");
@@ -151,6 +152,11 @@ public class QeuryServiceImpl implements QueryService{
 	@Override
 	public Map<String, Object> queryPushConfig(String userId) {
 		return queryDao.queryPushConfig(userId);
+	}
+
+	@Override
+	public List<BannerImgDb> getBannerImgs() {
+		return queryDao.getBannerImgs();
 	}
 	
 }

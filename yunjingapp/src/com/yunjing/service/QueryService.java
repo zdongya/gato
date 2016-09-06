@@ -7,6 +7,7 @@ import com.yunjing.dto.WarnSearch;
 import com.yunjing.model.Device;
 import com.yunjing.model.Sms;
 import com.yunjing.model.Zone;
+import com.yunjing.util.BannerImgDb;
 import com.yunjing.util.Pagination;
 /**
  * 查询service
@@ -101,6 +102,6 @@ public interface QueryService {
 
 	public Map<String, Object> queryPushConfig(String userId);
 	
-	
+	public List<BannerImgDb> getBannerImgs();
 
 }

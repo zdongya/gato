@@ -9,6 +9,7 @@ import com.yunjing.model.DeviceGroup;
 import com.yunjing.model.Sms;
 import com.yunjing.model.WarningInfo;
 import com.yunjing.model.Zone;
+import com.yunjing.util.BannerImgDb;
 
 /**
  * 查询dao
@@ -105,5 +106,7 @@ public interface QueryDao {
 	public int countPushConfig(String userId);
 
 	public Map<String, Object> queryPushConfig(String userId);
+	
+	public List<BannerImgDb> getBannerImgs();
 	
 }
