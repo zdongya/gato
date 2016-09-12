@@ -38,4 +38,9 @@ public class BannerImgDaoImpl extends HibernateTemplate implements BannerImgDao{
 		super.bulkUpdate(updateSql, new Object[]{version});
 	}
 
+	@Override
+	public void add(BannerImg bannerImg) {
+		super.save(bannerImg);
+	}
+
 }

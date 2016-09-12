@@ -34,4 +34,15 @@ public class BannerImgServiceImpl implements BannerImgService {
 		this.bannerImgDao = bannerImgDao;
 	}
 
+	@Override
+	@Transactional
+	public void addBannerImg(String imgName, String imgHref) {
+		BannerImg bannerImg = new BannerImg();
+		String iversion = System.currentTimeMillis() + "";
+		bannerImg.setIversion(iversion);
+		bannerImgDao.add(bannerImg);
+		bannerImgDao.updateVersion(iversion);
+		
+	}
+
 }

@@ -12,5 +12,7 @@ public interface BannerImgService {
 	 * @param bannerImg
 	 */
 	public void update(BannerImg bannerImg);
+	
+	public void addBannerImg(String imgName, String imgHref);
 
 }

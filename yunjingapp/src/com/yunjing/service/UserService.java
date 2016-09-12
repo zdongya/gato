@@ -86,6 +86,15 @@ public interface UserService {
 	 * @return
 	 */
 	public CallResult forgetSetPwd(String mobileNo, String yzm, String password, String[] appIds);
+
+
+	/**
+	 * 设置昵称
+	 * @param userId:用户ID
+	 * @param nickName:用户昵称
+	 * @return
+	 */
+	public CallResult updateNickName(String userId, String nickName);
 	
 	
 	

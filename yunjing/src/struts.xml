@@ -139,6 +139,7 @@
         </action>
     </package>
     
+    
     <package name="upload" extends="Mydefault" namespace="/upload">  
         <action name="upload_*" method="{1}" class="uploadAction">  
             <result name="index">
@@ -147,6 +148,11 @@
             <result name="toEdit">
                 /WEB-INF/jsp/upload/toEditBannerImg.jsp
             </result>
+            <result name="toAdd">
+                /WEB-INF/jsp/upload/toAddBannerImg.jsp
+            </result>
         </action>  
     </package>  
+    
+    
 </struts>

@@ -193,4 +193,21 @@ public class UserController {
 		return result;
 	}
 	
+	
+	/**
+	 * @param 设置昵称接口
+	 * @return
+	 */
+	@RequestMapping(value = "/user/setNickName")
+	public @ResponseBody CallResult setNickName(@RequestParam(value="userId") String userId, @RequestParam (value = "nickName") String nickName) {
+		CallResult result = new CallResult();
+		try {
+			result = userService.updateNickName(userId, nickName);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			result.setCode("-10000");
+			result.setDesc("系统异常");
+		}
+		return result;
+	}
 }

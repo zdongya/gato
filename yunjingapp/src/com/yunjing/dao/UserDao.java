@@ -107,6 +107,8 @@ public interface UserDao {
 	 * @param pwd
 	 */
 	public void updatePwd(String mobileNo,String oldPwd, String pwd);
+
+	public void updateNickName(String userId, String nickName);
 	
 
 }

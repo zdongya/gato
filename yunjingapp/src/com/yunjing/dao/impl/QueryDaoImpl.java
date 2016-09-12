@@ -261,14 +261,19 @@ public class QueryDaoImpl implements QueryDao {
 		String userDeviceCountSql = "SELECT COUNT(1) FROM tb_user_device_map t,tb_device d WHERE t.cuserid=? AND d.deviceNo=t.deviceNo AND t.istate=1 AND d.online=1";
 		String userZoneCountSql = "select count(1) from tb_zone where deviceno in (select t.deviceno from tb_user_device_map t, tb_device d where t.cuserid=? AND t.istate=1 and d.deviceNo=t.deviceNo AND d.online=1)";
 		String queryImgSql = "select icoin as headImg from tb_user where userid=?";
+		String userAllDeviceCountSql = "SELECT COUNT(1) FROM tb_user_device_map t,tb_device d WHERE t.cuserid=? AND d.deviceNo=t.deviceNo AND t.istate=1";
+		String queryNickNameSql = "select nickName from tb_user where userid=?";
 		int userDeviceCount = jdbcTemplate.queryForInt(userDeviceCountSql,new Object[]{userId});
 		int userZoneCount = jdbcTemplate.queryForInt(userZoneCountSql,new Object[]{userId});
-		@SuppressWarnings("unchecked")
+		int userAllDeviceCount = jdbcTemplate.queryForInt(userAllDeviceCountSql,new Object[]{userId});
 		String headImg = (String)jdbcTemplate.queryForObject(queryImgSql, new Object[]{userId}, String.class);
+		String nickName = (String)jdbcTemplate.queryForObject(queryNickNameSql, new Object[]{userId}, String.class);
 		map.put("deviceCount", String.valueOf(userDeviceCount));
 		map.put("zoneCount", String.valueOf(userZoneCount));
-		map.put("code", "10000");
+		map.put("allDeviceCount", String.valueOf(userAllDeviceCount));
 		map.put("headImg", headImg);
+		map.put("nickName", nickName);
+		map.put("code", "10000");
 		map.put("desc", "查询成功");
 		return map;
 	}

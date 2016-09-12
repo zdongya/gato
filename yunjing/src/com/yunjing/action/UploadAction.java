@@ -19,6 +19,32 @@ public class UploadAction extends BaseAction {
 	private File uploadFile;
 	private List<?> bannerImgs;
 	private BannerImg bannerImg;
+	private String imgName;
+	private String imgHref;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getImgName() {
+		return imgName;
+	}
+
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+
+	public String getImgHref() {
+		return imgHref;
+	}
+
+	public void setImgHref(String imgHref) {
+		this.imgHref = imgHref;
+	}
 
 	/**
 	 * 查询所有banner图片信息
@@ -67,6 +93,27 @@ public class UploadAction extends BaseAction {
 		}
 	}
 	
+	public String toAdd() {
+		return "toAdd";
+	}
+	
+	/**
+	 * 添加banner图
+	 */
+	public void add() {
+		CallResult result = new CallResult();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		try {
+			bannerImgService.addBannerImg(imgName, imgHref);
+			result.setDesc("修改banner图片成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setCode("-1000");
+			result.setDesc("修改banner图片失败，系统错误");
+		} finally {
+			Utils.writerJsonResult(response, result);
+		}
+	}
 
 	public void setBannerImgService(BannerImgService bannerImgService) {
 		this.bannerImgService = bannerImgService;

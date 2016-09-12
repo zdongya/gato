@@ -164,4 +164,10 @@ public class UserDaoImpl implements UserDao {
 		jdbcTemplate.update(sqlStr, new Object[]{pwd, mobileNo, oldPwd});
 	}
 
+	@Override
+	public void updateNickName(String userId, String nickName) {
+		String sqlStr = "update tb_user set nickname=? where userid=?";
+		jdbcTemplate.update(sqlStr, new Object[]{nickName, userId});
+	}
+
 }

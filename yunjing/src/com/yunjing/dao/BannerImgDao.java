@@ -11,5 +11,6 @@ public interface BannerImgDao {
 	public BannerImg getById(int id);
 	public void update(BannerImg bannerImg);
 	public void updateVersion(String version);
+	public void add(BannerImg bannerImg);
 
 }

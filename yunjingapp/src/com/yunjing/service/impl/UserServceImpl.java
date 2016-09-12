@@ -193,6 +193,7 @@ public class UserServceImpl implements UserService {
 			user.setPassword(passWord);
 			user.setXmAppId(appIds[0]);
 			user.setAppType(appType);
+			user.setNickName(mobileNo); //手机号作为昵称
 			result = register(user);
 			if (result.getCode().equals("10000")){ //注册成功
 				result = loginByMobile(mobileNo, passWord, appIds);
@@ -217,6 +218,15 @@ public class UserServceImpl implements UserService {
 			result.setCode("-1000");
 			result.setDesc("验证码不正确");
 		}
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public CallResult updateNickName(String userId, String nickName) {
+		CallResult result = new CallResult();
+		userDao.updateNickName(userId, nickName);
+		result.setDesc("更新昵称成功");
 		return result;
 	}
 	

@@ -11,19 +11,10 @@
 <script language="javascript" type="text/javascript" src="<%=request.getContextPath()%>/My97DatePicker/WdatePicker.js"></script>
 <title>page</title>
 <script>
-	function search(){
-		$("#searchForm").submit();
+	function toAddBanner(){
+		window.location.href="<%=request.getContextPath()%>/upload/upload_toAdd.html";
 	}
-	
-	function exportExcel(){
-		var action = $("#searchForm").attr("action");
-		var exportAction = "<%=request.getContextPath()%>/fk/fk_exportExcel.html";
-		$("#searchForm").attr("action", exportAction);
-		$("#searchForm").submit();
-		$("#searchForm").attr("action", action);
-	}
-	
-	function addMemoDilog(id){
+	function deleteBanner(id){
 		var memo = window.prompt("请输入备注","");
 		if (null != memo && ''!=memo){
 			memo = encodeURI(encodeURI(memo));
@@ -55,48 +46,42 @@
 
 
 <body>
-<form action="<%=request.getContextPath()%>/fk/fk_index.html" method="post" id="searchForm">
+<form action="<%=request.getContextPath()%>/upload/upload_index.html" method="post" id="searchForm">
 <table class="searchTable">
      <tbody>
      	<tr>
-		     <td> <input type="button" value="导出excel" onclick="javascript:exportExcel();" ></input></td>
+		     <td> <input type="button" value="上传客户端banner图" onclick="javascript:toAddBanner();" ></input></td>
 	     </tr>
      </tbody>
 </table>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="6">
+    <th colspan="4">
     <em>客户端banner图片列表</em>
     
     </th>
   </tr>
   <tr class="title">
 
-	<td>用户昵称 </td>
-	<td>反馈时间</td>
-    <td>反馈内容</td>
-    <td>联系方式</td>
-    <td>备注</td>
+	<td>序号</td>
+	<td>图片名称</td>
+    <td>网页地址</td>
     <td>操作</td>
   </tr>
 	 
- <s:if test="null!=retroactions&&retroactions.size()>0">
- <s:iterator value="retroactions" id="retroaction">
+ <s:if test="null!=bannerImgs&&bannerImgs.size()>0">
+ <s:iterator value="bannerImgs" id="bannerImg">
   <tr>
-    <td>${retroaction.user.nickName}</td>
-    <td>${retroaction.addDate}</td>
-    <td>${retroaction.contents}</td>
-    <td>${retroaction.contact}</td>
-    <td>${retroaction.memo}</td>
-    <td><a href="javascript:addMemoDilog('${retroaction.id}');">修改备注</a></td>
+    <td>${bannerImg.id}</td>
+    <td>${bannerImg.imgName}</td>
+    <td>${bannerImg.imgHref}</td>
+    <td>
+	    <a href="javascript:deleteBanner('${bannerImg.id}');">删除</a>
+    </td>
   </tr>
   </s:iterator>
   </s:if>
-
-  <tr class="page">
-    <td colspan="6">&nbsp;</td>
-  </tr>
 </table>
 </form>
  <odb:pageController/>

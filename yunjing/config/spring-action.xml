@@ -43,7 +43,7 @@
 		<property name="retroactionService" ref="retroactionService" />
 	</bean>
 	
-	<bean id="uplaodAction" class="com.yunjing.action.UploadAction"  scope="prototype">
+	<bean id="uploadAction" class="com.yunjing.action.UploadAction"  scope="prototype">
 		<property name="bannerImgService" ref="bannerImgService" />
 	</bean>
 
