@@ -60,7 +60,7 @@
     
 	<!-- 查询防区关联的用户 -->
 	<select id="getZoneUsers"  resultType="java.lang.String">
-		select cuserid from tb_user_device_map where istate=1 and deviceno=(select deviceno from tb_zone where zoneno=#{0,jdbcType=VARCHAR})
+		select cuserid from tb_user_device_map where istate=1 and CHECKPWDFLAG=0 and deviceno=(select deviceno from tb_zone where zoneno=#{0,jdbcType=VARCHAR})
     </select>
     
 	<insert id="savePushMsg" parameterType="Push" >

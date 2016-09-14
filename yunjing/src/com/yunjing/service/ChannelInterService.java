@@ -165,10 +165,10 @@ public class ChannelInterService {
 		
 		ChannelInterService service = new ChannelInterService();
 		DeviceDto dto = new DeviceDto();
-		dto.setDeviceNo("200bccce356d0240");
-		dto.setDevicePwd("admin");
+		dto.setDeviceNo("2006c574edfa9240");
+		dto.setDevicePwd("admin11");
 		dto.setDeviceUserName("admin");
-		dto.setMemberPwd("111111,222,333,");
+		dto.setMemberPwd("111111,22aa,33bb,");
 		dto.setDeviceVersion("1.0");
 		dto.setOnline("1");
 		service.deviceActive(dto);

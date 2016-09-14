@@ -22,8 +22,15 @@ public class WarningInfo extends BaseModel{
 	private String zoneContactor;
 	private String zonePhone;
 	private String warnType = ""; //报警类型
+	private String deviceNo = "";
 	
 	
+	public String getDeviceNo() {
+		return deviceNo;
+	}
+	public void setDeviceNo(String deviceNo) {
+		this.deviceNo = deviceNo;
+	}
 	private Zone zone;
 	
 	public String getWarningId() {

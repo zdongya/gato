@@ -59,9 +59,9 @@ public class QeuryServiceImpl implements QueryService{
 		if (pn < 0){
 			pn = 1;
 		}
-		String queryString = "select t.*,z.zonename,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by  t.warndate desc";
+		String queryString = "select t.*,z.zonename,d.deviceno,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by  t.warndate desc";
 		if (null != istate){
-			queryString = "select t.*,z.zonename,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where t.istate=" + istate.intValue() + " and z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by t.istate asc, t.warndate desc";
+			queryString = "select t.*,z.zonename,d.deviceno,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where t.istate=" + istate.intValue() + " and z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + userId + "' and istate=1 and CHECKPWDFLAG=0) order by t.istate asc, t.warndate desc";
 		}
 		return pageService.queryForPage(queryString, pn);
 	}
@@ -83,7 +83,7 @@ public class QeuryServiceImpl implements QueryService{
 		}
 		//修改过密码未重新绑定的设备防区不显示
 		StringBuilder builder = new StringBuilder("SELECT t.*,(SELECT itype FROM tb_user_device_map where cuserid='" + userId + "' AND deviceno=t.DEVICENO) AS useType,"
-				+ "d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno and d.online=1 AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE CHECKPWDFLAG=0 AND cuserid='" + userId + "') ");
+				+ "d.devicename FROM tb_zone t,tb_device d WHERE d.deviceno=t.deviceno and d.online=1 AND d.deviceno IN (SELECT deviceno FROM tb_user_device_map WHERE istate=1 and CHECKPWDFLAG=0 AND cuserid='" + userId + "') ");
 		if (!CheckUtil.isNullString(deviceName)){
 			builder.append(" and d.devicename like '%" + deviceName + "%'");
 		}
@@ -115,7 +115,7 @@ public class QeuryServiceImpl implements QueryService{
 		if (pn < 0){
 			pn = 1;
 		}
-		StringBuilder builder = new StringBuilder("select t.*,z.zonename,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + warnSearch.getUserId() + "') ");
+		StringBuilder builder = new StringBuilder("select t.*,z.zonename,d.deviceno,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map where cuserid='" + warnSearch.getUserId() + "') ");
 		
 		if (warnSearch.getSearchType() == 0){ //按照时间段搜索
 			if (!CheckUtil.isNullString(warnSearch.getBeginDate())){
