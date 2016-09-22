@@ -30,6 +30,7 @@ public class Zone {
 	
 	private String zoneOnline = "0"; //上下线状态 0未上线 1已上线
 	private String zoneStyle = "4"; // 1：屏蔽防区  2：24小时有声防区 3：24小时无声防区 4：即时防区  5：布撤防防区  6：延时防区  7：传递延时防区 (若不传或则为空则以即时防区处理)
+	private String zoneParam = ""; //脉冲防区参数设置
 	
 	public String getZoneNo() {
 		return zoneNo;
@@ -45,6 +46,12 @@ public class Zone {
 	}
 	public Timestamp getAddDate() {
 		return addDate;
+	}
+	public String getZoneParam() {
+		return zoneParam;
+	}
+	public void setZoneParam(String zoneParam) {
+		this.zoneParam = zoneParam;
 	}
 	public void setAddDate(Timestamp addDate) {
 		this.addDate = addDate;

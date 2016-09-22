@@ -260,7 +260,7 @@ public class ServiceController {
 
 	/**
 	 * 更新防区的阈值
-	 * @param deviceNo
+	 * @param zoneNo
 	 * @param userId
 	 * @return
 	 */
@@ -321,4 +321,32 @@ public class ServiceController {
 		}
 		return callResult;
 	}
+	
+	/**
+	 * 更新脉冲防区的参数
+	 * @param zoneNo
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/service/editZoneParam")
+	public @ResponseBody CallResult editZoneParam(HttpSession session, @RequestParam(value="userId") String userId, @RequestParam(value="zoneNo") String zoneNo, @RequestParam(value="zoneParam") String zoneParam){
+		CallResult callResult = new CallResult();
+		try {
+			int length = zoneParam.split(",").length;
+			if (length == 3){
+				String ipAddr = (String)session.getAttribute("visitIp");
+				callResult = businessService.editZoneParam(userId, zoneNo, zoneParam, ipAddr);
+			} else {
+				callResult.setCode("-1001");
+				callResult.setDesc("防区参数有误");
+			}
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
+	
 }

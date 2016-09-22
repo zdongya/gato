@@ -88,5 +88,7 @@ public interface BusinessService {
 	
 	//消除用户某防区的报警
 	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr);
+
+	public CallResult editZoneParam(String userId, String zoneNo, String zoneParam, String ipAddr);
 	
 }

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
+import com.yunjing.util.CheckUtil;
 import com.yunjing.util.DateUtil;
 
 public class Zone extends BaseModel{
@@ -26,6 +27,53 @@ public class Zone extends BaseModel{
 	private String deviceNo; //设备编号
 	private String zoneStyle = ""; //1：屏蔽防区  2：24小时有声防区 3：24小时无声防区 4：即时防区  5：布撤防防区  6：延时防区  7：传递延时防区 (若不传或则为空则以即时防区处理)
 	private String userType;
+	private String voltlev = ""; //电压等级 0则不显示
+	private String senslev = ""; //灵敏度 0则不显示
+	private String workmod = ""; //工作模式 0则不显示
+	private String zoneParam = ""; //脉冲防区参数设置  电压,灵敏度,工作模式
+	public String getZoneParam() {
+		return zoneParam;
+	}
+	public void setZoneParam(String zoneParam) {
+		if (!CheckUtil.isNullString(zoneParam)){
+			String[] zoneParams = zoneParam.split(",");
+			if (zoneParams.length == 3){
+				setVoltlev(zoneParams[0]);
+				setSenslev(zoneParams[1]);
+				setWorkmod(zoneParams[2]);
+			}
+		}
+		
+		this.zoneParam = zoneParam;
+	}
+	public String getVoltlev() {
+		if (voltlev.equals("0")){
+			voltlev = "";
+		}
+		return voltlev;
+	}
+	public void setVoltlev(String voltlev) {
+		this.voltlev = voltlev;
+	}
+	public String getSenslev() {
+		if (senslev.equals("0")){
+			senslev = "";
+		}
+		return senslev;
+	}
+	public void setSenslev(String senslev) {
+		this.senslev = senslev;
+	}
+	public String getWorkmod() {
+		if (workmod.equals("0")){
+			workmod = "";
+		}
+		return workmod;
+	}
+	public void setWorkmod(String workmod) {
+		this.workmod = workmod;
+	}
+	
 	public String getUserType() {
 		return userType;
 	}

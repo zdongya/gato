@@ -13,13 +13,13 @@
 	</insert>     
 	
     <insert id="saveZone" parameterType="Zone" >
-	    insert into tb_zone (ZONENO,ZONENAME,ZONETYPE,ZONEONLINE,ZONESTATE,ZONEVMP,ZONESTRAIN,ZONESTRAINVPT,ADDDATE, DEVICENO,zoneStyle)
-	    values (#{zoneNo},#{zoneName},#{zoneType},#{zoneOnline},#{zoneState},#{zoneVmp}, #{zoneStrain},#{zoneStrainVpt}, now(), #{deviceNo},#{zoneStyle})
+	    insert into tb_zone (ZONENO,ZONENAME,ZONETYPE,ZONEONLINE,ZONESTATE,ZONEVMP,ZONESTRAIN,ZONESTRAINVPT,ADDDATE, DEVICENO,zoneStyle,zoneParam)
+	    values (#{zoneNo},#{zoneName},#{zoneType},#{zoneOnline},#{zoneState},#{zoneVmp}, #{zoneStrain},#{zoneStrainVpt}, now(), #{deviceNo},#{zoneStyle},#{zoneParam})
 	</insert>
 	
     <!-- 更新这些字段 -->
 	<insert id='updateZone' parameterType='Zone'>
-	    update tb_zone set ZONETYPE=#{zoneType},ZONEONLINE=#{zoneOnline},ZONESTATE=#{zoneState},ZONEVMP=#{zoneVmp},zoneStrain=#{zoneStrain},zoneStrainVpt=#{zoneStrainVpt},deviceNo=#{deviceNo},zoneStyle=#{zoneStyle} where zoneNo=#{zoneNo}
+	    update tb_zone set ZONETYPE=#{zoneType},ZONEONLINE=#{zoneOnline},ZONESTATE=#{zoneState},ZONEVMP=#{zoneVmp},zoneStrain=#{zoneStrain},zoneStrainVpt=#{zoneStrainVpt},deviceNo=#{deviceNo},zoneStyle=#{zoneStyle},zoneParam=#{zoneParam} where zoneNo=#{zoneNo}
 	</insert>
 	
 	<!-- 修改防区布撤防状态 -->

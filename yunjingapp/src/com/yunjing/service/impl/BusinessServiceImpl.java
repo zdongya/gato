@@ -598,7 +598,7 @@ public class BusinessServiceImpl implements BusinessService {
 			log.setDeviceNo(zoneDb.getDeviceNo());
 			log.setIpAddr(ipAddr);
 			log.setMemberId(userId);
-			log.setMemo("用户进行更新防区张力阈值操作" );
+			log.setMemo("用户进行更新防区张力阈值操作,更新的值为:" + zoneStrainVpt );
 			log.setOperatorType(operatorType); //操作类型
 			saveOperatorLog(log);
 		}
@@ -655,5 +655,58 @@ public class BusinessServiceImpl implements BusinessService {
 		
 		return result;
 		
+	}
+
+	@Override
+	public CallResult editZoneParam(String userId, String zoneNo, String zoneParam, String ipAddr) {
+		CallResult result = new CallResult();
+		Zone zone = new Zone();
+		zone.setZoneNo(zoneNo);
+		zone.setUserId(userId);
+		int count = queryDao.checkOwnZone(zone);
+		if (count != 1){
+			result.setCode("-1000");
+			result.setDesc("该防区不属于您管理，您无权修改");
+		} else {
+			
+			Zone zoneDb = queryDao.queryZoneById(zoneNo);
+			int zoneType = Integer.parseInt(zoneDb.getZoneType());
+			if (!(zoneType == 1 || zoneType == 2)){
+				result.setCode("-1000");
+				result.setDesc("非脉冲防区，本次设置无效");
+			} else {
+				
+				Push push = new Push();
+				push.setZoneNo(zoneNo);
+				push.setMsgId(Utils.getUUID());
+				push.setAddDate(DateUtil.getNowDateTime());
+				push.setPushService("0"); //MQTT推送
+				push.setItype("7"); //消息类型为触网防区参数配置
+				push.setZoneParam(zoneParam);
+				push.setTopic(zoneDb.getDeviceNo()); //topic 为设备编号
+				businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getItype()); //删除无效批量布撤防推送消息
+				String operatorType = "10"; //触网防区配置
+				
+				PushDto dto = new PushDto();
+				BeanUtils.copyProperties(push, dto);
+				dto.setDeviceNo(zoneDb.getDeviceNo());
+				dto.setTime(System.currentTimeMillis() + "");
+				push.setMsgText(Utils.wrapPushMsg(dto));
+				logger.info("msgText:" + push.getMsgText());
+				businessDao.savePushMsg(push);
+				
+				//添加操作日志
+				OperatorLog log = new OperatorLog();
+				log.setZoneNo(zoneNo);
+				log.setDeviceNo(zoneDb.getDeviceNo());
+				log.setIpAddr(ipAddr);
+				log.setMemberId(userId);
+				log.setMemo("用户进行触网防区配置操作,配置的值为:" + zoneParam);
+				log.setOperatorType(operatorType); //操作类型
+				saveOperatorLog(log);
+				
+			}
+		}
+		return result;
 	}
 }

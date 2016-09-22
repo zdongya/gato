@@ -137,7 +137,8 @@ public class Utils {
 	public static String wrapPushMsg(PushDto pushDto) {
 		Map<String, String> map = new HashMap<String, String>();
 		String action = "defence"; //默认布撤防
-		if (pushDto.getItype().equals("0") || pushDto.getItype().equals("1") || pushDto.getItype().equals("6")){ //客户端对防区进行 布撤防或消警 操作
+		if (pushDto.getItype().equals("0") || pushDto.getItype().equals("1") || pushDto.getItype().equals("6") || pushDto.getItype().equals("7")){ 
+			//客户端对防区进行 布撤防或消警 或更新防区张力阈值 或触网防区参数配置 操作 
 			map.put("zoneNo", pushDto.getZoneNo());
 		} else { //一键消警 一键布撤防  批量布撤防要传 设备编号
 			map.put("deviceNo", pushDto.getDeviceNo());
@@ -156,12 +157,15 @@ public class Utils {
 		} else if (pushDto.getItype().equals("6")){
 			action = "updateStrainVpt"; //更新张力阈值
 			map.put("zoneStrainVpt", pushDto.getZoneStrainVpt());
+		} else if (pushDto.getItype().equals("7")){
+			action = "zoneParamSetting"; //触网防区参数配置
+			map.put("zoneParam", pushDto.getZoneParam());
 		}
 		map.put("action", action);
 		map.put("time", pushDto.getTime());
 		map.put("msgId", pushDto.getMsgId());
 		
-		if(!pushDto.getItype().equals("4") && !pushDto.getItype().equals("6")){ //一键消警和更新防区张力阈值不需要传递 istate
+		if(!pushDto.getItype().equals("4") && !pushDto.getItype().equals("6") && !pushDto.getItype().equals("7")){ //一键消警和更新防区张力阈值不需要传递 istate
 			map.put("istate", pushDto.getCommandState());
 		}
 		
