@@ -29,11 +29,11 @@ public class TaskListener implements ServletContextListener {
 			System.out.println("初始化设备心跳时间成功");
 		}
 		
-//		timer = new Timer(true);
-//		timer.schedule(new PushTask(), 10*1000, 1000);
-//		
-//		pingTimer = new Timer(true);
-//		pingTimer.schedule(new DeviceOnlineCheckTask(), 10*1000, 1000*60);
+		timer = new Timer(true);
+		timer.schedule(new PushTask(), 10*1000, 1000);
+		
+		pingTimer = new Timer(true);
+		pingTimer.schedule(new DeviceOnlineCheckTask(), 10*1000, 1000*60);
 		
 	}
 

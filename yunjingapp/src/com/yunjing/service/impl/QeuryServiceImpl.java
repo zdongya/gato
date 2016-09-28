@@ -91,7 +91,7 @@ public class QeuryServiceImpl implements QueryService{
 			builder.append(" and t.zonename like '%" + zoneName + "%'");
 		}
 		
-		builder.append(" order by t.adddate desc");
+		builder.append(" order by t.zonename asc");
 		return pageService.queryForPage(builder.toString(), pn);
 	}
 

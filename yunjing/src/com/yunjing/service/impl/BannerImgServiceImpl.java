@@ -40,9 +40,17 @@ public class BannerImgServiceImpl implements BannerImgService {
 		BannerImg bannerImg = new BannerImg();
 		String iversion = System.currentTimeMillis() + "";
 		bannerImg.setIversion(iversion);
+		bannerImg.setImgName(imgName);
+		bannerImg.setImgHref(imgHref);
 		bannerImgDao.add(bannerImg);
 		bannerImgDao.updateVersion(iversion);
 		
+	}
+
+	@Override
+	@Transactional
+	public void deleteImg(Integer id) {
+		bannerImgDao.deleteById(id);
 	}
 
 }

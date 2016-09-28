@@ -15,31 +15,27 @@
 		window.location.href="<%=request.getContextPath()%>/upload/upload_toAdd.html";
 	}
 	function deleteBanner(id){
-		var memo = window.prompt("请输入备注","");
-		if (null != memo && ''!=memo){
-			memo = encodeURI(encodeURI(memo));
-			var url = "<%=request.getContextPath()%>/fk/fk_updateMemo.html?retroaction.id=" + id + "&retroaction.memo=" + memo  //后台处理程序  
-			$.ajax({  
-				 url : url,
-				 type:"post",    //数据发送方式  
-				 async:false,  
-				 dataType:"json",   //接受数据格式             
-				 error: function(){  
-				 alert("服务器没有返回数据，可能服务器忙，请重试");  
-				 },  
+		var url = "<%=request.getContextPath()%>/upload/upload_deleteBanner.html?id=" + id; //后台处理程序  
+		$.ajax({  
+			 url : url,
+			 type:"post",    //数据发送方式  
+			 async:false,  
+			 dataType:"json",   //接受数据格式             
+			 error: function(){  
+			 alert("服务器没有返回数据，可能服务器忙，请重试");  
+			 },  
 
-				success: function(json){
-					var code = json.code;
-					if (code == '0000'){
-						alert('设置备注成功');
-						window.location.reload();
-					} else {
-						alert(json.desc);
-					}
+			success: function(json){
+				var code = json.code;
+				if (code == '0000'){
+					alert('删除成功');
+					window.location.reload();
+				} else {
+					alert(json.desc);
 				}
-				});          
+			}
+			});          
 
-		}
 	}
 </script>
 </head>
@@ -88,3 +84,6 @@
 </body>
 
 </html>
+<script type="text/javascript">
+	var errDesc ="${sessionScope.errDesc}" 
+</script>

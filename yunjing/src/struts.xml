@@ -151,6 +151,13 @@
             <result name="toAdd">
                 /WEB-INF/jsp/upload/toAddBannerImg.jsp
             </result>
+            <result name="uploadSuc" type="redirect">
+          	  /upload/upload_index.html
+            </result>
+            
+             <result name="uploadFail" type="redirect">
+            	/upload/upload_index.html?errDesc=${errDesc}
+            </result>
         </action>  
     </package>  
     

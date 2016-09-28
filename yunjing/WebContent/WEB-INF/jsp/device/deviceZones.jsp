@@ -30,6 +30,7 @@
     <td>布撤防状态</td>
     <td>电压值</td>
     <td>张力值</td>
+    <td>防区</td>
 
   </tr>
  <s:if test="null!=zones&&zones.size()>0">

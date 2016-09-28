@@ -17,7 +17,7 @@ function saveBanner(){
 </head>
 
 <body>
-<form action="<%=request.getContextPath()%>/upload/upload_add.html" method="post">
+<form action="<%=request.getContextPath()%>/upload/upload_add.html" method="post" enctype="multipart/form-data">
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
@@ -30,12 +30,12 @@ function saveBanner(){
     </th>
   </tr>
   <tr>
-    <td>链接地址：</td>
+    <td nowrap="nowrap">链接地址：</td>
     <td><input name="imgHref" id="imgHref" type="text" size="200" class="ipt"  /></td>
   </tr>
   <tr>
-    <td>选择图片：</td>
-    <td><input type="file" name="uploadFile" /></td>
+    <td nowrap="nowrap">选择图片：</td>
+    <td><input type="file" name="upload" id="uploadFile" /></td>
   </tr>
   
 </table>

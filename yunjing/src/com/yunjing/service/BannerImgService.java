@@ -14,5 +14,7 @@ public interface BannerImgService {
 	public void update(BannerImg bannerImg);
 	
 	public void addBannerImg(String imgName, String imgHref);
+	
+	public void deleteImg(Integer id);
 
 }

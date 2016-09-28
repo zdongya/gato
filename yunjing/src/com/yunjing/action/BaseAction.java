@@ -23,7 +23,14 @@ public class BaseAction extends ActionSupport implements ServletRequestAware,Ser
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private Map<String ,Object> sessionMap;
-	
+	private String errDesc = "";
+	public String getErrDesc() {
+		return errDesc;
+	}
+
+	public void setErrDesc(String errDesc) {
+		this.errDesc = errDesc;
+	}
 	public static Object getBean(String beanName){
 		ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(ServletActionContext.getServletContext());
 		return applicationContext.getBean(beanName);
