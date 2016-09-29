@@ -195,5 +195,35 @@ public class Zone {
 		return stateName;
 			
 	}
+	public String getStyleName(){
+		String style = getZoneStyle();
+		String zoneStyleName = "";
+		switch (style) {
+		case "1":
+			zoneStyleName = "屏蔽防区";
+			break;
+		case "2":
+			zoneStyleName = "24小时有声防区";
+			break;
+		case "3":
+			zoneStyleName = "24小时无声防区";
+			break;
+		case "4":
+			zoneStyleName = "即时防区";
+			break;
+		case "5":
+			zoneStyleName = "布撤防防区";
+			break;
+		case "6":
+			zoneStyleName = "延时防区";
+			break;
+		case "7":
+			zoneStyleName = "传递延时防区";
+			break;
+		default:
+			break;
+		}
+		return zoneStyleName;
+	}
 
 }

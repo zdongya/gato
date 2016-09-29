@@ -73,23 +73,23 @@
   </tr>
   <tr class="title">
 
-	<td>用户昵称 </td>
-	<td>反馈时间</td>
-    <td>反馈内容</td>
-    <td>联系方式</td>
-    <td>备注</td>
-    <td>操作</td>
+	<td nowrap="nowrap">用户昵称 </td>
+	<td nowrap="nowrap">反馈时间</td>
+    <td nowrap="nowrap">反馈内容</td>
+    <td nowrap="nowrap">联系方式</td>
+    <td nowrap="nowrap">备注</td>
+    <td nowrap="nowrap">操作</td>
   </tr>
 	 
  <s:if test="null!=retroactions&&retroactions.size()>0">
  <s:iterator value="retroactions" id="retroaction">
   <tr>
-    <td>${retroaction.user.nickName}</td>
-    <td>${retroaction.addDate}</td>
-    <td>${retroaction.contents}</td>
-    <td>${retroaction.contact}</td>
-    <td>${retroaction.memo}</td>
-    <td><a href="javascript:addMemoDilog('${retroaction.id}');">添加备注</a></td>
+    <td nowrap="nowrap">${retroaction.user.nickName}</td>
+    <td nowrap="nowrap">${retroaction.addDate}</td>
+    <td nowrap="nowrap">${retroaction.contents}</td>
+    <td nowrap="nowrap">${retroaction.contact}</td>
+    <td nowrap="nowrap">${retroaction.memo}</td>
+    <td nowrap="nowrap"><a href="javascript:addMemoDilog('${retroaction.id}');">添加备注</a></td>
   </tr>
   </s:iterator>
   </s:if>

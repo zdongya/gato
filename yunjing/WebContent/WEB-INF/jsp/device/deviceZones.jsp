@@ -15,7 +15,7 @@
 <form>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="10">
+    <th colspan="13">
     <em>设备通道列表(<s:property value="#request.deviceName" />)</em>
     </th>
   </tr>
@@ -30,7 +30,9 @@
     <td>布撤防状态</td>
     <td>电压值</td>
     <td>张力值</td>
-    <td>防区</td>
+    <td>阈值</td>
+    <td>防区style</td>
+    <td>脉冲防区参数</td>
 
   </tr>
  <s:if test="null!=zones&&zones.size()>0">
@@ -47,6 +49,9 @@
     
     <td>${zone.zoneVmp}</td>
     <td>${zone.zoneStrain}</td>
+    <td>${zone.zoneStrainVpt}</td>
+    <td>${zone.styleName}</td>
+    <td>${zone.zoneParam}</td>
   </tr>
   </s:iterator>
   </s:if>
