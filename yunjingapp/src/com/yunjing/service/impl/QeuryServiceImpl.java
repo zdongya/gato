@@ -116,7 +116,7 @@ public class QeuryServiceImpl implements QueryService{
 			pn = 1;
 		}
 		StringBuilder builder = 
-				new StringBuilder("select t.*,z.zonename,d.deviceno,d.devicename,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,"
+				new StringBuilder("select t.*,z.zonename,d.deviceno,d.devicename,d.online,z.zonecontactor,zonephone,z.zoneLoc from tb_warning_info t,tb_zone z,"
 						+ "tb_device d where z.zoneno=t.zoneno and d.deviceno=z.deviceno and z.deviceno in (select deviceno from tb_user_device_map "
 						+ "where cuserid='" + warnSearch.getUserId() + "' and istate=1 ) ");
 		

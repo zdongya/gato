@@ -90,5 +90,7 @@ public interface BusinessService {
 	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr);
 
 	public CallResult editZoneParam(String userId, String zoneNo, String zoneParam, String ipAddr);
+
+	public CallResult batchHandleWaring(String userId, String warnIds, int istate, String memo, String ipAddr);
 	
 }

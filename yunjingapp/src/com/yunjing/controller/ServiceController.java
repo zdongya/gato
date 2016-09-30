@@ -349,4 +349,25 @@ public class ServiceController {
 		return callResult;
 	}
 	
+	
+	/**
+	 * 批处理报警
+	 * @param session
+	 * @param userId
+	 * @param deviceNo
+	 * @return
+	 */
+	@RequestMapping(value="/service/deviceHandleWaring")
+	public @ResponseBody CallResult batchHandleWaring(HttpSession session, @RequestParam(value="userId") String userId,@RequestParam(value="warnIds") String warnIds,@RequestParam(value="istate") int istate, @RequestParam(value="memo") String memo){
+		CallResult callResult = new CallResult();
+		try {
+			String ipAddr = (String)session.getAttribute("visitIp");
+			callResult = businessService.batchHandleWaring(userId, warnIds, istate, memo, ipAddr);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
 }

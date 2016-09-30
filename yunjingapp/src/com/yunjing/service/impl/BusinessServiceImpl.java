@@ -713,4 +713,9 @@ public class BusinessServiceImpl implements BusinessService {
 		}
 		return result;
 	}
+
+	@Override
+	public CallResult batchHandleWaring(String userId, String warnIds, int istate, String memo, String ipAddr) {
+		return null;
+	}
 }
