@@ -16,7 +16,9 @@
 	<!-- 小米推送 -->
 	<select id="getXmToPushMsgs"  resultType="Push">
 		SELECT t.*,c.itype as pushConfigType FROM (
-		SELECT t.*,u.xmappid AS xmAppId,u.apptype AS appType,u.USERID FROM tb_push  t,tb_user u WHERE t.topic=u.userid AND t.pushservice=2 AND t.istate=0 ) t
+		SELECT t.*,z.zoneName,d.deviceName,u.xmappid AS xmAppId,u.apptype AS appType,u.USERID FROM tb_push  t,tb_user u,
+		tb_zone z,tb_device d 
+		 WHERE t.topic=u.userid AND z.zoneno=t.zoneno AND d.deviceNo=z.deviceNo AND t.pushservice=2 AND t.istate=0 ) t
 		LEFT JOIN tb_push_config c ON c.userId = t.userid
     </select>
 </mapper>

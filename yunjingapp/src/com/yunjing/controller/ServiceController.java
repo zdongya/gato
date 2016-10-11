@@ -357,7 +357,7 @@ public class ServiceController {
 	 * @param deviceNo
 	 * @return
 	 */
-	@RequestMapping(value="/service/deviceHandleWaring")
+	@RequestMapping(value="/service/batchHandleWaring")
 	public @ResponseBody CallResult batchHandleWaring(HttpSession session, @RequestParam(value="userId") String userId,@RequestParam(value="warnIds") String warnIds,@RequestParam(value="istate") int istate, @RequestParam(value="memo") String memo){
 		CallResult callResult = new CallResult();
 		try {

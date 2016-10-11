@@ -23,7 +23,20 @@ public class Push {
 	private String xmAppId; //小米推送ID
 	private int appType; //0android  1ios
 	private String pushConfigType; //推送设置
-	
+	private String zoneName;
+	private String deviceName;
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+	public String getZoneName() {
+		return zoneName;
+	}
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
+	}
 	public String getPushConfigType() {
 		if (CheckUtil.isNullString(pushConfigType)){
 			return "2";

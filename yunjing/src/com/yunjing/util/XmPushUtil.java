@@ -1,5 +1,6 @@
 package com.yunjing.util;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xiaomi.push.sdk.ErrorCode;
 import com.xiaomi.xmpush.server.Constants;
 import com.xiaomi.xmpush.server.Message;
@@ -28,7 +29,7 @@ public class XmPushUtil {
 			} else {
 				Constants.useSandbox();
 			}
-			String description = "收到防区报警信息";
+			 String description = wrapPushDescription(push);
 		     Message message = new Message.IOSBuilder()
 		             .description(description)
 		             .soundURL("default")    // 消息铃声
@@ -53,7 +54,7 @@ public class XmPushUtil {
 			Constants.useOfficial();
 			 Sender sender = new Sender(appSecret);
 			 String title = "广拓云周界";
-			 String description = "收到防区报警信息";
+			 String description = wrapPushDescription(push);
 			 Message message = new Message.Builder()
 			            .title(title)
 			            .description(description).payload(push.getMsgText())
@@ -72,10 +73,35 @@ public class XmPushUtil {
 			return false;
 		}
 	}
+	private static String wrapPushDescription(Push push) {
+		String msgText = push.getMsgText();
+		 JSONObject msgObj = JSONObject.parseObject(msgText);
+		 String warnDate = msgObj.getString("warnDate");
+		 String warnType = msgObj.getString("warnType");
+		 String warnTypeName = getWarnTypeName(warnType);
+		 String description = "收到报警:" + push.getDeviceName() + push.getZoneName() + ",报警类型:"+ warnTypeName + ",报警时间:" + warnDate;
+		return description;
+	}
+	
+	
+	private static String getWarnTypeName(String warnType){
+		if ("dev".equals(warnType)){
+			return "主机报警";
+		} else if ("net".equals(warnType)){
+			return "通讯报警";
+		} else if ("fence".equals(warnType)){
+			return "入侵报警";
+		} else {
+			return "未知报警类型";
+		}
+	}
 	
 	public static void main(String[] args) throws Exception{
 		Push push = new Push();
-		push.setMsgText("测试消息推送bbb");
+		String msgText = "{\"action\":\"warn\",\"warnDate\":\"2016-08-30 09:38:56\",\"warnType\":\"net\",\"zoneName\":\"001\",\"zoneNo\":\"200bccce356d0001\"}";
+		push.setZoneName("东门");
+		push.setDeviceName("11F");
+		push.setMsgText(msgText);
 		push.setXmAppId("4JNCrZcYtkD/A6qsV7qOoE/WQe9fgbCgKP+Io4X3ZHY=");
 		sendMessage(push, 0);
 //		Constants.useSandbox();
