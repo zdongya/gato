@@ -716,6 +716,67 @@ public class BusinessServiceImpl implements BusinessService {
 
 	@Override
 	public CallResult batchHandleWaring(String userId, String warnIds, int istate, String memo, String ipAddr) {
-		return null;
+		CallResult result = new CallResult();
+		String[] ids = warnIds.split(",");
+		if (ids.length > 0){
+			for(String id:ids){
+				WarningInfo dbInfo = queryDao.getWarningsById(id);
+				if (null != dbInfo){
+					Zone zone = new Zone();
+					zone.setUserId(userId);
+					zone.setZoneNo(dbInfo.getZoneNo());
+					int count = queryDao.checkOwnZone(zone);
+					if (count != 1){
+						result.setCode("-1000");
+						result.setDesc("您没有修改该防区的报警状态的权限");
+					} else {
+						count = queryDao.checkWarningStateChange(id, String.valueOf(istate));
+						if (count == 1){
+							Zone zoneDb = queryDao.queryZoneById(dbInfo.getZoneNo());
+							Device deviceDb = queryDao.queryDeviceById(zoneDb.getDeviceNo());
+							if (!deviceDb.getOnline().equals("0")){
+								WarningInfo info = new WarningInfo();
+								info.setWarningId(id);
+								info.setUserId(userId);
+								info.setMemo(memo);
+								info.setIstate(istate);
+								
+								businessDao.hanleWarnings(info);
+								Push push = new Push();
+								push.setMsgId(Utils.getUUID());
+								push.setAddDate(DateUtil.getNowDateTime());
+								push.setPushService("0"); //MQTT推送
+								push.setItype("0"); //消息类型为消警
+								push.setTopic(zoneDb.getDeviceNo()); //topic 为设备编号
+								push.setZoneNo(zoneDb.getZoneNo());
+								businessDao.deleteNotPushInvalidMsg(push.getTopic(), push.getZoneNo(), push.getItype()); //删除无效信息
+								
+								PushDto dto = new PushDto();
+								BeanUtils.copyProperties(push, dto);
+								dto.setWarningId(id);
+								dto.setTime(System.currentTimeMillis() + "");
+								dto.setCommandState(String.valueOf(istate));
+								push.setMsgText(Utils.wrapPushMsg(dto));
+								logger.info("msgText:" + push.getMsgText());
+								
+								businessDao.savePushMsg(push);
+								logger.info("修改报警状态成功，防区编号：" + zoneDb.getZoneNo() + ";处理后状态为：" + istate);
+							
+								//添加操作日志
+								OperatorLog log = new OperatorLog();
+								log.setDeviceNo(zoneDb.getDeviceNo());
+								log.setIpAddr(ipAddr);
+								log.setMemberId(userId);
+								log.setMemo("报警编号:" + id + "被处理，处理后的状态为:" + (istate==1?"已解决":"误报"));
+								log.setOperatorType("1"); //报警处理
+								log.setZoneNo(zoneDb.getZoneNo());
+								saveOperatorLog(log);
+							}
+						}
+					}
+				}
+			}
+		}
+		return result;
 	}
 }
