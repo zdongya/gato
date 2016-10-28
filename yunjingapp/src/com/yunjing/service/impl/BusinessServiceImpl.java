@@ -463,6 +463,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
+	@Transactional
 	public CallResult defenceZones(String userId, String pwd,String deviceNo, String[] zoneNos, String istate, String ipAddr) {
 		CallResult result = new CallResult();
 		if (CheckUtil.isNullString(istate) || "1,2".indexOf(istate) == -1){ //布撤防状态不正确
@@ -619,6 +620,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
+	@Transactional
 	public CallResult deviceHandleWaring(String userId, String deviceNo, String ipAddr) {
 		CallResult result = new CallResult();
 		boolean flag = queryDao.checkOwnManageDevice(userId, deviceNo);
@@ -658,6 +660,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
+	@Transactional
 	public CallResult editZoneParam(String userId, String zoneNo, String zoneParam, String ipAddr) {
 		CallResult result = new CallResult();
 		Zone zone = new Zone();
@@ -715,6 +718,7 @@ public class BusinessServiceImpl implements BusinessService {
 	}
 
 	@Override
+	@Transactional
 	public CallResult batchHandleWaring(String userId, String warnIds, int istate, String memo, String ipAddr) {
 		CallResult result = new CallResult();
 		String[] ids = warnIds.split(",");
@@ -779,4 +783,6 @@ public class BusinessServiceImpl implements BusinessService {
 		}
 		return result;
 	}
+
+	
 }

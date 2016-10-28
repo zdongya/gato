@@ -210,4 +210,23 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 更新小米推送id
+	 * @param userId
+	 * @param xmAppId
+	 * @return
+	 */
+	@RequestMapping(value="/user/updateXmAppId")
+	public @ResponseBody CallResult updateXmAppId(@RequestParam(value="userId") String userId, @RequestParam(value="xmAppId") String xmAppId){
+		CallResult callResult = new CallResult();
+		try {
+			callResult = userService.updateXmAppId(userId, xmAppId);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			callResult.setCode("-10000");
+			callResult.setDesc("系统异常");
+		}
+		return callResult;
+	}
 }

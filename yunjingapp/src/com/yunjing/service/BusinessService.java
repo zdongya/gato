@@ -92,5 +92,6 @@ public interface BusinessService {
 	public CallResult editZoneParam(String userId, String zoneNo, String zoneParam, String ipAddr);
 
 	public CallResult batchHandleWaring(String userId, String warnIds, int istate, String memo, String ipAddr);
+
 	
 }

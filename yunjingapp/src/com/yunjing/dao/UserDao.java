@@ -110,5 +110,6 @@ public interface UserDao {
 
 	public void updateNickName(String userId, String nickName);
 	
+	public void updateXmAppId(String userId, String xmAppId);
 
 }

@@ -97,5 +97,11 @@ public interface UserService {
 	public CallResult updateNickName(String userId, String nickName);
 	
 	
-	
+	/**
+	 * 更新小米推送id
+	 * @param userId
+	 * @param xmAppId
+	 * @return
+	 */
+	public CallResult updateXmAppId(String userId, String xmAppId);
 }

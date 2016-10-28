@@ -231,5 +231,12 @@ public class UserServceImpl implements UserService {
 	}
 	
 	
+	@Override
+	@Transactional
+	public CallResult updateXmAppId(String userId, String xmAppId) {
+		CallResult result = new CallResult();
+		userDao.updateXmAppId(userId, xmAppId);
+		return result;
+	}
 	
 }

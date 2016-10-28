@@ -85,4 +85,6 @@ public interface BusinessDao {
 	public void savePushConfig(String userId, int itype);
 
 	
+
+	
 }

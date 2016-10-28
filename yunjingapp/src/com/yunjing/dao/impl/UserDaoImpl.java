@@ -169,5 +169,13 @@ public class UserDaoImpl implements UserDao {
 		String sqlStr = "update tb_user set nickname=? where userid=?";
 		jdbcTemplate.update(sqlStr, new Object[]{nickName, userId});
 	}
+	
+	@Override
+	public void updateXmAppId(String userId, String xmAppId) {
+		String sql = "update tb_user set xmappid=? where userid=?";
+		Object[] params = new Object[] {xmAppId, userId};
+		jdbcTemplate.update(sql, params);
+	}
+
 
 }
