@@ -59,9 +59,10 @@ public class XmPushUtil {
 			            .title(title)
 			            .description(description).payload(push.getMsgText())
 			            .restrictedPackageName(packageName)
-			            .extra(Constants.EXTRA_PARAM_NOTIFY_FOREGROUND, "0")
+//			            .extra(Constants.EXTRA_PARAM_NOTIFY_FOREGROUND, "0")
+			            .extra(Constants.EXTRA_PARAM_NOTIFY_EFFECT, Constants.NOTIFY_LAUNCHER_ACTIVITY)
 			            .notifyType(1)     // 使用默认提示音提示
-			            .build();
+			            .build();	
 			 Result result = sender.send(message, push.getXmAppId(), 0); //根据regID，发送消息到指定设备上，不重试。
 			 System.out.println("andorid push Server response【MessageId: " + result.getMessageId() + ";ErrorCode:" + result.getErrorCode().getDescription() + ";Reason:" + result.getReason());
 			 if (result.getErrorCode().equals(ErrorCode.Success)){
@@ -97,25 +98,26 @@ public class XmPushUtil {
 	}
 	
 	public static void main(String[] args) throws Exception{
-//		Push push = new Push();
-//		String msgText = "{\"action\":\"warn\",\"warnDate\":\"2016-08-30 09:38:56\",\"warnType\":\"net\",\"zoneName\":\"001\",\"zoneNo\":\"200bccce356d0001\"}";
-//		push.setZoneName("东门");
-//		push.setDeviceName("11F");
-//		push.setMsgText(msgText);
-//		push.setXmAppId("4JNCrZcYtkD/A6qsV7qOoE/WQe9fgbCgKP+Io4X3ZHY=");
-//		sendMessage(push, 0);
-		Constants.useOfficial();
-		 String description = "测试推送66";
-	     Message message = new Message.IOSBuilder()
-	             .description(description)
-	             .soundURL("default")    // 消息铃声
-	             .badge(1)               // 数字角标
-	             .category("action")     // 快速回复类别
-	             .extra("key", "value")  // 自定义键值对
-	             .build();
-	     Sender sender = new Sender(appSecret_ios);
-	     Result result = sender.send(message, "jIds/wRtRPLRDWslQ6+qk3D3iBJ8LMOFan3W+OOz+A4=", 0); //根据regID，发送消息到指定设备上，不重试。
-	     System.out.println("Server response【MessageId: " + result.getMessageId() + ";ErrorCode:" + result.getErrorCode().getDescription() + ";Reason:" + result.getReason());
+		Push push = new Push();
+		String msgText = "{\"action\":\"warn\",\"warnDate\":\"2016-08-30 09:38:56\",\"warnType\":\"net\",\"zoneName\":\"001\",\"zoneNo\":\"200bccce356d0001\"}";
+		push.setZoneName("东门");
+		push.setDeviceName("11F");
+		push.setMsgText(msgText);
+		push.setXmAppId("4JNCrZcYtkD/A6qsV7qOoE/WQe9fgbCgKP+Io4X3ZHY=");
+		sendMessage(push, 0);
+		
+//		Constants.useOfficial();
+//		 String description = "测试推送66";
+//	     Message message = new Message.IOSBuilder()
+//	             .description(description)
+//	             .soundURL("default")    // 消息铃声
+//	             .badge(1)               // 数字角标
+//	             .category("action")     // 快速回复类别
+//	             .extra("key", "value")  // 自定义键值对
+//	             .build();
+//	     Sender sender = new Sender(appSecret_ios);
+//	     Result result = sender.send(message, "jIds/wRtRPLRDWslQ6+qk3D3iBJ8LMOFan3W+OOz+A4=", 0); //根据regID，发送消息到指定设备上，不重试。
+//	     System.out.println("Server response【MessageId: " + result.getMessageId() + ";ErrorCode:" + result.getErrorCode().getDescription() + ";Reason:" + result.getReason());
 		
 	}
 

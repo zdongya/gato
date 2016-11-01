@@ -32,9 +32,9 @@ public class SmsTask {
 	@Scheduled(cron = "0/5 * *  * * ?")
 	public void task(){
 		try {
-//			updateOverTimeSms();
-//			sendMsg();
-//			getReport();
+			updateOverTimeSms();
+			sendMsg();
+			getReport();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("短信发送异常。。。");

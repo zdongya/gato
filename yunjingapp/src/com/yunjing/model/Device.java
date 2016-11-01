@@ -26,8 +26,14 @@ public class Device extends BaseModel{
 	private String online = "0";
 	private int zoneCount;
 	private int checkPwdFlag; //0不需校验密码 1需要校验密码
+	private String memberPwd;
 	
-	
+	public String getMemberPwd() {
+		return memberPwd;
+	}
+	public void setMemberPwd(String memberPwd) {
+		this.memberPwd = memberPwd;
+	}
 	public int getCheckPwdFlag() {
 		return checkPwdFlag;
 	}

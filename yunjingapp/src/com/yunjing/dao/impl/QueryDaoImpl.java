@@ -314,14 +314,54 @@ public class QueryDaoImpl implements QueryDao {
 	}
 	
 	public boolean checkDeviceDefencePwd(String deviceNo, String pwd){
-		String sql = "select count(1) from tb_device where deviceno=? and (devicePwd=? or memberpwd like ?) ";
-		int count = jdbcTemplate.queryForInt(sql,new Object[]{deviceNo, pwd, "%" + pwd + ",%" });
-		if (count == 1){
-			return true;
+		boolean flag = false;
+		Device device = queryDeviceById(deviceNo);
+		String devicePwd = device.getDevicePwd();
+		String memberPwd = device.getMemberPwd();
+		if (pwd.equals(devicePwd)){
+			flag = true;
+			System.out.println("checkDeviceDefencePwd匹配到管理员密码。。。");
 		} else {
-			return false;
+			if (!CheckUtil.isNullString(memberPwd)){
+				String[] pwds = memberPwd.split(",");
+				if (null != pwds && pwds.length > 0){
+					for (String mepwd:pwds){
+						if (pwd.equals(mepwd)){
+							flag = true;
+							System.out.println("checkDeviceDefencePwd匹配到操作员密码。。。");
+							break;
+						}
+					}
+				}
+			}
 		}
-		
+		return flag;
+	}
+	
+	
+	public boolean checkDevicePwd(String deviceNo, String pwd){
+		boolean flag = false;
+		Device device = queryDeviceById(deviceNo);
+		String devicePwd = device.getDevicePwd();
+		String memberPwd = device.getMemberPwd();
+		if (pwd.equals(devicePwd)){
+			flag = true;
+			System.out.println("checkDeviceDefencePwd匹配到管理员密码。。。");
+		} else {
+			if (!CheckUtil.isNullString(memberPwd)){
+				String[] pwds = memberPwd.split(",");
+				if (null != pwds && pwds.length > 0){
+					for (String mepwd:pwds){
+						if (pwd.equals(mepwd)){
+							flag = true;
+							System.out.println("checkDeviceDefencePwd匹配到操作员密码。。。");
+							break;
+						}
+					}
+				}
+			}
+		}
+		return flag;
 	}
 
 
