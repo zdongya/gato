@@ -109,4 +109,7 @@ public interface QueryDao {
 	
 	public List<BannerImgDb> getBannerImgs();
 	
+	//校验设备密码
+	public boolean checkDevicePwd(String deviceNo, String pwd);
+	
 }

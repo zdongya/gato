@@ -335,6 +335,7 @@ public class QueryDaoImpl implements QueryDao {
 				}
 			}
 		}
+		
 		return flag;
 	}
 	

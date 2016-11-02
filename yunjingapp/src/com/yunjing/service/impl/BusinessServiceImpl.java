@@ -139,9 +139,9 @@ public class BusinessServiceImpl implements BusinessService {
 						itype = "0";
 					}
 					
-					boolean bindCheck = queryDao.bindDeviceCheck(device); //信息正确
+//					boolean bindCheck = queryDao.bindDeviceCheck(device); //信息正确
+					boolean bindCheck = queryDao.checkDevicePwd(device.getDeviceNo(), device.getDevicePwd());
 					if (bindCheck){
-						
 						if (queryDao.haveBindDataCheck(device.getUserId(), device.getDeviceNo())){ //曾经绑定过
 							businessDao.bindDevice(device.getUserId(), device.getDeviceNo(), Integer.parseInt(itype), rightPwd);
 						} else { //未绑定过
