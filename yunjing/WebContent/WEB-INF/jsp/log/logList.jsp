@@ -58,12 +58,13 @@ function exportExcel(){
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="7">
+    <th colspan="8">
     <em>日志列表</em>
     </th>
   </tr>
   <tr class="title">
 	<td>操作时间</td>
+	<td>操作人id</td>
 	<td>操作用户</td>
 	<td>ip地址</td>
 	<td>设备名称</td>
@@ -75,6 +76,7 @@ function exportExcel(){
  <s:iterator value="operatorLogs" id="model">
   <tr>
   	<td>${model.createTime}</td>
+  	<td>${model.operator.id}</td>
     <td>${model.operator.nickName}</td>
      <td>${model.ipAddr}</td>
      

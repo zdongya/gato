@@ -66,13 +66,13 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="6">
+    <th colspan="7">
     <em>用户反馈列表</em>
     
     </th>
   </tr>
   <tr class="title">
-
+	<td nowrap="nowrap">用户id </td>
 	<td nowrap="nowrap">用户昵称 </td>
 	<td nowrap="nowrap">反馈时间</td>
     <td nowrap="nowrap">反馈内容</td>
@@ -84,6 +84,7 @@
  <s:if test="null!=retroactions&&retroactions.size()>0">
  <s:iterator value="retroactions" id="retroaction">
   <tr>
+  	<td nowrap="nowrap">${retroaction.user.id}</td>
     <td nowrap="nowrap">${retroaction.user.nickName}</td>
     <td nowrap="nowrap">${retroaction.addDate}</td>
     <td nowrap="nowrap">${retroaction.contents}</td>
@@ -95,7 +96,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="6">&nbsp;</td>
+    <td colspan="7">&nbsp;</td>
   </tr>
 </table>
 </form>

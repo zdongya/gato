@@ -23,6 +23,7 @@
         <property name="xmAppId"/>
         <property name="memo"/>
         <property name="loginDate"/>
+        <property name="id"/>
         
     </class>
 </hibernate-mapping>

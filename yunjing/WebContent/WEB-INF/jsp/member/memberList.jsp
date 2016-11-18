@@ -100,12 +100,13 @@
        
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="8">
+    <th colspan="9">
     <em>用户列表</em>
     </th>
     
   </tr>
   <tr class="title">
+  	<td>用户id </td>
 	<td>用户昵称 </td>
 	<td>用户备注</td>
 	<td>用户手机号</td>
@@ -118,6 +119,7 @@
  <s:if test="null!=members&&members.size()>0">
  <s:iterator value="members" id="model">
   <tr>
+    <td>${model.id}</td>
     <td>${model.nickName}</td>
     <td>${model.memo}</td>
     <td>${model.mobileNo}</td>
@@ -136,7 +138,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="8">&nbsp;</td>
+    <td colspan="9">&nbsp;</td>
   </tr>
 </table>
 </form>

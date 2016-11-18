@@ -34,12 +34,12 @@ function search(){
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="4">
+    <th colspan="5">
     <em>日志列表</em>
     </th>
   </tr>
   <tr class="title">
-
+	<td>操作人id</td>
 	<td>操作人</td>
 	<td>操作时间</td>
 	<td>日志内容</td>
@@ -48,6 +48,7 @@ function search(){
  <s:if test="null!=operatorLogs&&operatorLogs.size()>0">
  <s:iterator value="operatorLogs" id="model">
   <tr>
+    <td>${model.operator.id}</td>
     <td>${model.operator.nickName}</td>
     <td>${model.createTime}</td>
     <td>${model.memo}</td>
@@ -57,7 +58,7 @@ function search(){
   </s:if>
 
   <tr class="page">
-    <td colspan="4">&nbsp;</td>
+    <td colspan="5">&nbsp;</td>
   </tr>
 </table>
 </form>

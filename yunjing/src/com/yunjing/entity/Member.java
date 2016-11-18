@@ -24,6 +24,14 @@ public class Member {
 	private String xmAppId; //小米推送id
 	private String memo = ""; //备注 
 	private String loginDate; //登录时间
+	private Integer id;
+	 
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getUserId() {
 		return userId;
 	}

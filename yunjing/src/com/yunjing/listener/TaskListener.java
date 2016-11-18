@@ -6,6 +6,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.yunjing.service.DevicePingService;
+import com.yunjing.task.CacheTask;
 import com.yunjing.task.DeviceOnlineCheckTask;
 import com.yunjing.task.PushTask;
 import com.yunjing.util.CallResult;
@@ -13,6 +14,7 @@ import com.yunjing.util.CallResult;
 public class TaskListener implements ServletContextListener {
 	private Timer timer = null;
 	private Timer pingTimer = null;
+	private Timer cacheTimer = null;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent contextEvent) {
@@ -34,6 +36,9 @@ public class TaskListener implements ServletContextListener {
 		
 		pingTimer = new Timer(true);
 		pingTimer.schedule(new DeviceOnlineCheckTask(), 10*1000, 1000*60);
+		
+//		cacheTimer = new Timer(true);
+//		cacheTimer.schedule(new CacheTask(), 20*1000, 1000*60);
 		
 	}
 

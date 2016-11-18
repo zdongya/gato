@@ -8,6 +8,7 @@
         <typeAlias alias="WarningInfo" type="com.yunjing.entity.WarningInfo"/>
         <typeAlias alias="Push" type="com.yunjing.entity.Push"/>
         <typeAlias alias="DevicePing" type="com.yunjing.entity.DevicePing"/>
+        <typeAlias alias="UserIdMap" type="com.yunjing.entity.UserIdMap"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -33,5 +34,6 @@
         <mapper resource="mapper/ChannelInterMapper.xml"/>
         <mapper resource="mapper/PushMapper.xml"/>
         <mapper resource="mapper/DevicePingMapper.xml"/>
+        <mapper resource="mapper/CacheMapper.xml"/>
     </mappers>
 </configuration>

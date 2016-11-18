@@ -66,7 +66,7 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="10">
+    <th colspan="11">
     <em>报警信息列表</em>
     
     </th>
@@ -80,6 +80,7 @@
 	<td>报警时间</td>
     <td>处理结果</td>
     <td>报警类型</td>
+    <td>处理人id</td>
     <td>处理人</td>
     <td>处理时间</td>
     <td>备注</td>
@@ -95,6 +96,7 @@
     <td>${warn.warnDate}</td>
     <td>${warn.stateName}</td>
     <td>${warn.warnTypeName}</td>
+    <td>${warn.operator.id}</td>
     <td>${warn.operator.nickName}</td>
     <td>${warn.handleDate}</td>
     <td>${warn.memo}</td>
@@ -103,7 +105,7 @@
   </s:if>
 
   <tr class="page">
-    <td colspan="10">&nbsp;</td>
+    <td colspan="11">&nbsp;</td>
   </tr>
 </table>
 </form>

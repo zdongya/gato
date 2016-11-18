@@ -15,11 +15,12 @@
 <form>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="dataList">
   <tr>
-    <th colspan="8">
+    <th colspan="9">
     <em style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width:100%">设备用户列表(<s:property value="#request.deviceName" />)</em>
     </th>
   </tr>
   <tr class="title">
+    <td>用户id </td>
   	<td>用户昵称 </td>
 	<td>用户备注</td>
 	<td>用户手机号</td>
@@ -33,6 +34,7 @@
  <s:if test="null!=members&&members.size()>0">
  <s:iterator value="members" id="member">
   <tr>
+    <td>${member.id}</td>
     <td>${member.nickName}</td>
     <td>${member.memo}</td>
     <td>${member.mobileNo}</td>

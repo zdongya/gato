@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+        'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+<mapper namespace='com.yunjing.dao.CacheDao'>
+    
+    <!-- 查询 用户 userId id map -->
+	<select id="getUserIdMap" parameterType="java.lang.Integer" resultType="UserIdMap">
+		<![CDATA[
+			select id,userId from tb_user  where id>#{id} order by id asc
+		]]>
+    </select>
+	
+</mapper>
