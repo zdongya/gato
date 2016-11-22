@@ -59,7 +59,7 @@ public interface UserDao {
      * @param token
      * @param overTime
      */
-    public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId, String loginDate);
+    public void updateTokenAfterLogin(String userId, String appType, String token, String overTime, String xmAppId, String loginDate);
     
     
     /**
@@ -110,6 +110,6 @@ public interface UserDao {
 
 	public void updateNickName(String userId, String nickName);
 	
-	public void updateXmAppId(String userId, String xmAppId);
+	public void updateXmAppId(String userId, String appType, String xmAppId);
 
 }

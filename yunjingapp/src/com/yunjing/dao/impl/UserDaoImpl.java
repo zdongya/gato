@@ -86,9 +86,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateTokenAfterLogin(String userId, String token, String overTime, String xmAppId, String loginDate) {
-		String sqlStr = "update tb_user set token=?,overtime=?,xmappid=?,logindate=? where userid=?";
-		Object[] params = new Object[] {token, DateUtil.getTimestampByString(overTime), xmAppId, loginDate, userId};
+	public void updateTokenAfterLogin(String userId,String appType, String token, String overTime, String xmAppId, String loginDate) {
+		String sqlStr = "update tb_user set NOWAPPTYPE=?, token=?,overtime=?,xmappid=?,logindate=? where userid=?";
+		Object[] params = new Object[] {appType, token, DateUtil.getTimestampByString(overTime), xmAppId, loginDate, userId};
 		jdbcTemplate.update(sqlStr, params);
 	}
 
@@ -171,9 +171,9 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public void updateXmAppId(String userId, String xmAppId) {
-		String sql = "update tb_user set xmappid=? where userid=?";
-		Object[] params = new Object[] {xmAppId, userId};
+	public void updateXmAppId(String userId,String appType, String xmAppId) {
+		String sql = "update tb_user set nowapptype=?, xmappid=? where userid=?";
+		Object[] params = new Object[] {appType, xmAppId, userId};
 		jdbcTemplate.update(sql, params);
 	}
 

@@ -113,7 +113,7 @@ public class UserServceImpl implements UserService {
 			String token = Utils.createToken(user.getAppId(), user.getUserId());
 			String overTime = Utils.getTokenOverTime();
 			String xmAppId = wechatUser.getXmAppId();
-			userDao.updateTokenAfterLogin(user.getUserId(), token, overTime, xmAppId, loginDate);
+			userDao.updateTokenAfterLogin(user.getUserId(), wechatUser.getAppType(), token, overTime, xmAppId, loginDate);
 			result.setToken(token);
 			result.setUserId(user.getUserId());
 			logger.info("微信用户【userid:" + user.getUserId() + ",nickname:" + user.getNickName() + "】登录成功" );
@@ -137,7 +137,7 @@ public class UserServceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public CallResult loginByMobile(String mobileNo, String password, String ... appIds) {
+	public CallResult loginByMobile(String appType, String mobileNo, String password, String ... appIds) {
 		String loginDate = DateUtil.getNowDateTime();
 		CallResult result = new CallResult();
 		boolean flag = userDao.checkUserMobile(mobileNo);
@@ -151,7 +151,7 @@ public class UserServceImpl implements UserService {
 				String token = Utils.createToken(user.getAppId(), user.getUserId());
 				String overTime = Utils.getTokenOverTime();
 				String xmAppId = appIds[0];
-				userDao.updateTokenAfterLogin(user.getUserId(), token, overTime, xmAppId, loginDate);
+				userDao.updateTokenAfterLogin(user.getUserId(), appType, token, overTime, xmAppId, loginDate);
 				result.setToken(token);
 				result.setUserId(user.getUserId());
 				logger.info("手机用户【mobileNo:" + mobileNo + "】登录成功" );
@@ -196,7 +196,7 @@ public class UserServceImpl implements UserService {
 			user.setNickName(mobileNo); //手机号作为昵称
 			result = register(user);
 			if (result.getCode().equals("10000")){ //注册成功
-				result = loginByMobile(mobileNo, passWord, appIds);
+				result = loginByMobile(appType, mobileNo, passWord, appIds);
 			}
 		} else {
 			result.setCode("-1001");
@@ -207,13 +207,13 @@ public class UserServceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public CallResult forgetSetPwd(String mobileNo, String yzm, String password, String[] appIds) {
+	public CallResult forgetSetPwd(String mobileNo, String yzm, String password, String appType, String[] appIds) {
 		CallResult result = new CallResult();
 		boolean isRightYzm = userDao.checkYzm(mobileNo, yzm, 1);
 		if (isRightYzm){ //验证码正确
 			String pwd = Md5Util.getMD5Str(password + Constants.md5Key); //密码加密
 			userDao.updatePwd(mobileNo,pwd);
-			result = loginByMobile(mobileNo, pwd, appIds);
+			result = loginByMobile(appType, mobileNo, pwd, appIds);
 		} else {
 			result.setCode("-1000");
 			result.setDesc("验证码不正确");
@@ -233,9 +233,9 @@ public class UserServceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public CallResult updateXmAppId(String userId, String xmAppId) {
+	public CallResult updateXmAppId(String userId, String appType, String xmAppId) {
 		CallResult result = new CallResult();
-		userDao.updateXmAppId(userId, xmAppId);
+		userDao.updateXmAppId(userId, appType, xmAppId);
 		return result;
 	}
 	

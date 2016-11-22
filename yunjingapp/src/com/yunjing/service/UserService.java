@@ -50,12 +50,13 @@ public interface UserService {
 	
 	/**
 	 * 使用手机号登录
+	 * @param appType
 	 * @param mobileNo
 	 * @param password
 	 * @param appId:推送id  0：小米推送ID
 	 * @return
 	 */
-	public CallResult loginByMobile(String mobileNo,String password, String ... appIds); //可变长参数
+	public CallResult loginByMobile(String appType,String mobileNo,String password, String ... appIds); //可变长参数
 
 
 	/**
@@ -85,7 +86,7 @@ public interface UserService {
 	 * @param password
 	 * @return
 	 */
-	public CallResult forgetSetPwd(String mobileNo, String yzm, String password, String[] appIds);
+	public CallResult forgetSetPwd(String mobileNo, String yzm, String password,String appType, String[] appIds);
 
 
 	/**
@@ -100,8 +101,9 @@ public interface UserService {
 	/**
 	 * 更新小米推送id
 	 * @param userId
+	 * @param appType
 	 * @param xmAppId
 	 * @return
 	 */
-	public CallResult updateXmAppId(String userId, String xmAppId);
+	public CallResult updateXmAppId(String userId, String appType, String xmAppId);
 }

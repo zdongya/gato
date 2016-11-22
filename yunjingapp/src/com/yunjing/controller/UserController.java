@@ -96,7 +96,7 @@ public class UserController {
 	//手机号登录接口
 	@RequestMapping(value = "/user/mobLogin")
 	public @ResponseBody CallResult mobLogin(@RequestParam(value = "mobileNo") String mobileNo, @RequestParam(value = "password") String password, 
-			@RequestParam(value = "xmAppId", required=false ) String xmAppId) {
+			@RequestParam(value = "xmAppId", required=false ) String xmAppId,@RequestParam(value = "appType") String appType) {
 		CallResult result = new CallResult();
 		try{
 			logger.info("手机用户:" + mobileNo + "正在登录。。。");
@@ -105,7 +105,7 @@ public class UserController {
 			}
 			String[] appIds = new String[]{xmAppId};
 			String passWord = Md5Util.getMD5Str(password + Constants.md5Key); //加密结果
-			result = userService.loginByMobile(mobileNo, passWord, appIds);
+			result = userService.loginByMobile(appType,mobileNo, passWord, appIds);
 		} catch (Exception e){
 			logger.error(e.getMessage(), e);
 			result.setCode("-10000");
@@ -182,7 +182,7 @@ public class UserController {
 					user.setXmAppId("");
 				}
 				String[] appIds = new String[]{user.getXmAppId()};
-				result = userService.forgetSetPwd(user.getMobileNo(), yzm, user.getPassword(), appIds);
+				result = userService.forgetSetPwd(user.getMobileNo(), yzm, user.getPassword(),user.getAppType(), appIds);
 			}
 			
 		} catch (Exception e) {
@@ -218,10 +218,10 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/user/updateXmAppId")
-	public @ResponseBody CallResult updateXmAppId(@RequestParam(value="userId") String userId, @RequestParam(value="xmAppId") String xmAppId){
+	public @ResponseBody CallResult updateXmAppId(@RequestParam(value="userId") String userId, @RequestParam(value="xmAppId") String xmAppId,@RequestParam(value = "appType") String appType){
 		CallResult callResult = new CallResult();
 		try {
-			callResult = userService.updateXmAppId(userId, xmAppId);
+			callResult = userService.updateXmAppId(userId, appType, xmAppId);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			callResult.setCode("-10000");
