@@ -75,7 +75,7 @@ public class PushTask extends TimerTask{
 					
 					boolean flag = false;
 					if(null != pushMsg.getXmAppId() && pushMsg.getXmAppId().length() > 0){
-						flag = XmPushUtil.sendMessage(pushMsg, pushMsg.getAppType());
+						flag = XmPushUtil.sendMessage(pushMsg, pushMsg.getNowAppType());
 					}
 					
 					if (flag){ //推送成功

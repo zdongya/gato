@@ -16,12 +16,12 @@ class PageControllerImpl implements PageController {
 
 	//默认pageSize=10
 	public PageControllerImpl() {
-		this.pageSize = 10;
+		this.pageSize = 30;
 	}
 	
 	//设置当前索引和pageSize
 	public PageControllerImpl(int currentIndex) {
-		this(10, currentIndex);
+		this(30, currentIndex);
 	}
 
 	public PageControllerImpl(int pageSize, int currentIndex) {

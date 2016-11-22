@@ -25,6 +25,14 @@ public class Push {
 	private String pushConfigType; //推送设置
 	private String zoneName;
 	private String deviceName;
+	private int nowAppType; //新的推送id
+	
+	public int getNowAppType() {
+		return nowAppType;
+	}
+	public void setNowAppType(int nowAppType) {
+		this.nowAppType = nowAppType;
+	}
 	public String getDeviceName() {
 		return deviceName;
 	}
