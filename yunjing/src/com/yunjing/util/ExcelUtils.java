@@ -37,6 +37,7 @@ public class ExcelUtils {
 				ws.addCell(new Label(4, 0, "用户类型"));
 				ws.addCell(new Label(5, 0, "用户邮箱"));
 				ws.addCell(new Label(6, 0, "用户注册时间"));
+				ws.addCell(new Label(7, 0, "用户编号"));
 				for (int i = 0; i < datas.size(); i++){
 					Member memberDto = (Member)datas.get(i);
 					if (i < 65535) {
@@ -47,6 +48,7 @@ public class ExcelUtils {
 						ws.addCell(new Label(4, i + 1, memberDto.getTypeName()));
 						ws.addCell(new Label(5, i + 1, memberDto.getEmail()));
 						ws.addCell(new Label(6, i + 1, DateUtil.sqlTimeStatmpToString(memberDto.getRegisterDate())));
+						ws.addCell(new Label(7, i + 1, String.valueOf(memberDto.getId())));
 					}
 				}
 			} else if (type == 1){ //导出设备信息
@@ -82,11 +84,12 @@ public class ExcelUtils {
 				ws.addCell(new Label(2, 0, "报警时间"));
 				ws.addCell(new Label(3, 0, "处理结果"));
 				ws.addCell(new Label(4, 0, "报警类型"));
-				ws.addCell(new Label(5, 0, "解决人"));
+				ws.addCell(new Label(5, 0, "处理人昵称"));
 				ws.addCell(new Label(6, 0, "解决时间"));
 				ws.addCell(new Label(7, 0, "备注"));
 				ws.addCell(new Label(8, 0, "设备名称"));
 				ws.addCell(new Label(9, 0, "设备版本信息"));
+				ws.addCell(new Label(10, 0, "处理人id"));
 				for (int i = 0; i < datas.size(); i++){
 					WarningInfo warningInfo = (WarningInfo)datas.get(i);
 					if (i < 65535) {
@@ -112,6 +115,7 @@ public class ExcelUtils {
 						ws.addCell(new Label(7, i + 1, warningInfo.getMemo()));
 						ws.addCell(new Label(8, i + 1, deviceName));
 						ws.addCell(new Label(9, i + 1, deviceVersion));
+						ws.addCell(new Label(10, i + 1, warningInfo.getOperator().getId() + ""));
 					}
 				}
 				
@@ -123,6 +127,7 @@ public class ExcelUtils {
 				ws.addCell(new Label(4, 0, "防区名称"));
 				ws.addCell(new Label(5, 0, "操作描述"));
 				ws.addCell(new Label(6, 0, "操作项"));
+				ws.addCell(new Label(7, 0, "操作人id"));
 				for (int i = 0; i < datas.size(); i++){
 					OperatorLog log = (OperatorLog)datas.get(i);
 					if (i < 65535) {
@@ -137,6 +142,7 @@ public class ExcelUtils {
 						ws.addCell(new Label(4, i + 1, zoneName));
 						ws.addCell(new Label(5, i + 1, log.getMemo()));
 						ws.addCell(new Label(6, i + 1, log.getTypeName()));
+						ws.addCell(new Label(7, i + 1, log.getOperator().getId() + ""));
 					}
 				}
 				
@@ -147,6 +153,7 @@ public class ExcelUtils {
 				ws.addCell(new Label(3, 0, "反馈内容"));
 				ws.addCell(new Label(4, 0, "联系方式"));
 				ws.addCell(new Label(5, 0, "备注"));
+				ws.addCell(new Label(6, 0, "用户id"));
 				for (int i = 0; i < datas.size(); i++){
 					Retroaction retroaction = (Retroaction)datas.get(i);
 					if (i < 65535) {
@@ -156,6 +163,7 @@ public class ExcelUtils {
 						ws.addCell(new Label(3, i + 1, retroaction.getContents()));
 						ws.addCell(new Label(4, i + 1, retroaction.getContact()));
 						ws.addCell(new Label(5, i + 1, retroaction.getMemo()));
+						ws.addCell(new Label(6, i + 1, retroaction.getUser().getId() + ""));
 					}
 				}
 			}

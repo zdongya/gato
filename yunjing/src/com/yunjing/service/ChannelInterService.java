@@ -313,6 +313,8 @@ public class ChannelInterService {
 				callResult.setCode("-2000");
 				callResult.setDesc("错误的防区编号:" + devicePing.getDeviceNo());
 			} else {
+				//更新设备为上线状态
+				channelInterDao.updateDeviceOnline(devicePing.getDeviceNo());
 				channelInterDao.saveOrUploadDevicePing(devicePing);
 			}
 			

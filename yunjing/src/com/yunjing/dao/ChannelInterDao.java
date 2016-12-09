@@ -64,4 +64,5 @@ public interface ChannelInterDao {
 	 * @param param
 	 */
 	public void updateMemberCheckPwdFlag(Map<String, Object> param);
+	public void updateDeviceOnline(String deviceNo);
 }

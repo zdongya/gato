@@ -124,4 +124,9 @@
   			#{item}  
  		</foreach>  
 	</insert>
+	
+	
+	<update id="updateDeviceOnline" parameterType='java.lang.String' >
+		update tb_device set online=1 where deviceNo=#{0,jdbcType=VARCHAR} and online = 0
+	</update>
 </mapper>

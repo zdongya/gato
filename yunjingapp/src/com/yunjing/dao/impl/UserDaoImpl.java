@@ -18,9 +18,18 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+//	@Override
+//	public void saveUser(User user) {
+//		String sqlStr = "insert into tb_user(userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid,logindate,apptype) values(?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?,?)";
+//		Object[] params = new Object[] {user.getUserId(), user.getPassword(), user.getMobileNo(), user.getWechatId(),user.getEmail(),user.getItype(),user.getIstate(),user.getToken(), DateUtil.getTimestampByString(user.getOverTime()),user.getUserName(),user.getIcoin(),user.getNickName(),user.getXmAppId(), user.getLoginDate(),user.getAppType()};
+//		jdbcTemplate.update(sqlStr, params);
+//	}
+	
+	
 	@Override
 	public void saveUser(User user) {
-		String sqlStr = "insert into tb_user(userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid,logindate,apptype) values(?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?,?)";
+		String sqlStr = "insert into tb_user(id,userid,password,mobileno,wechatid,email,itype,istate,registerdate,token,overtime,username,icoin,nickname,xmappid,logindate,apptype) "
+				+ "select (select max(id)+1 from tb_user),?,?,?,?,?,?,?,now(),?,?,?,?,?,?,?,? from dual";
 		Object[] params = new Object[] {user.getUserId(), user.getPassword(), user.getMobileNo(), user.getWechatId(),user.getEmail(),user.getItype(),user.getIstate(),user.getToken(), DateUtil.getTimestampByString(user.getOverTime()),user.getUserName(),user.getIcoin(),user.getNickName(),user.getXmAppId(), user.getLoginDate(),user.getAppType()};
 		jdbcTemplate.update(sqlStr, params);
 	}

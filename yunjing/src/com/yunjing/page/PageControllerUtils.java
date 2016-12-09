@@ -21,7 +21,7 @@ public class PageControllerUtils {
 	
 	//使用指定类创建
 	public static PageController init(HttpServletRequest request){
-		return PageControllerUtils.init(request, null, 10);
+		return PageControllerUtils.init(request, null, 30);
 	}
 	
 	//使用指定类创建并设置分页大小
@@ -32,7 +32,7 @@ public class PageControllerUtils {
 	//使用默认类创建
 	public static PageController init(HttpServletRequest request,Class pageController)
 	{
-		return PageControllerUtils.init(request, pageController, 10);
+		return PageControllerUtils.init(request, pageController, 30);
 	}
 	
 	//使用默认类创建并设置分页大小
